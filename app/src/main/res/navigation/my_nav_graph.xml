@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/articlesFragment"
-        android:name="com.example.newsappusingkotlin.ArticlesFragment"
+        android:name="com.example.newsappusingkotlin.ui.fragments.ArticlesFragment"
         android:label="fragment_articles"
         tools:layout="@layout/fragment_articles" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.newsappusingkotlin.HomeFragment"
+        android:name="com.example.newsappusingkotlin.ui.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/liveFragment"
-        android:name="com.example.newsappusingkotlin.LiveFragment"
+        android:name="com.example.newsappusingkotlin.ui.fragments.LiveFragment"
         android:label="fragment_live"
         tools:layout="@layout/fragment_live" />
     <fragment
         android:id="@+id/myCityFragment"
-        android:name="com.example.newsappusingkotlin.MyCityFragment"
+        android:name="com.example.newsappusingkotlin.ui.fragments.MyCityFragment"
         android:label="fragment_my_city"
         tools:layout="@layout/fragment_my_city" />
 </navigation>
