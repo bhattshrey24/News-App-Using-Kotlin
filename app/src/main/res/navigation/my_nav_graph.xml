@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav_graph"
+    app:startDestination="@id/articlesFragment">
+
+    <fragment
+        android:id="@+id/articlesFragment"
+        android:name="com.example.newsappusingkotlin.ArticlesFragment"
+        android:label="fragment_articles"
+        tools:layout="@layout/fragment_articles" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.newsappusingkotlin.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/liveFragment"
+        android:name="com.example.newsappusingkotlin.LiveFragment"
+        android:label="fragment_live"
+        tools:layout="@layout/fragment_live" />
+    <fragment
+        android:id="@+id/myCityFragment"
+        android:name="com.example.newsappusingkotlin.MyCityFragment"
+        android:label="fragment_my_city"
+        tools:layout="@layout/fragment_my_city" />
+</navigation>
