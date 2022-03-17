@@ -10,13 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsAppUsingKotlin">
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
+            android:name=".AuthenticationActivity"
+            android:exported="true" >
+            <intent-filter> <!--this tells which activity will start when user opens the app-->
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
         </activity>
     </application>
 

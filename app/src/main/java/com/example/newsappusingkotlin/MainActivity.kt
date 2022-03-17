@@ -21,11 +21,16 @@ class MainActivity : AppCompatActivity() {
   // add drawer
   // add search feature
   // add "share with" feature
-
+  // Authentication :-
+  //  add create new user functionality
+  //  add Custom Login
+  //  add google and facebook login
+  //  add forgot password functionality
 
     private val binding: ActivityMainBinding by lazy {//this is lazy initialization
         ActivityMainBinding.inflate(layoutInflater, null, false)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -33,5 +38,6 @@ class MainActivity : AppCompatActivity() {
         val myBottomNav=findViewById<BottomNavigationView>(R.id.my_bottom_nav)
         val navController=findNavController(R.id.my_nav_host_fragment)
         myBottomNav.setupWithNavController(navController)
+
     }
 }
