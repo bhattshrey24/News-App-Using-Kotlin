@@ -99,18 +99,24 @@ class SignUpFragment(myFragmentContainer: FrameLayout) : Fragment() {
         mAuth.createUserWithEmailAndPassword(emailET, createPasswordEt)
             .addOnCompleteListener(parentActivityReference) { task ->
                 if (task.isSuccessful) {
+                    binding.signUpPageCircularProgressBar.visibility = View.GONE
                     Toast.makeText(
-                        context, "Authentication successful",
+                        context, "Sign up successful",
                         Toast.LENGTH_LONG
                     ).show()
-                    binding.signUpPageCircularProgressBar.visibility = View.GONE
                     val user = mAuth.currentUser
                     // save the user to the database (remote and local)
-                    startActivity(Intent(parentActivityReference, MainActivity::class.java)) // navigating to main activity
+                    var intent=Intent(parentActivityReference,MainActivity::class.java)
+                    intent.addFlags(
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                                Intent.FLAG_ACTIVITY_NEW_TASK
+                    )// this makes sure that user cannot go back to the Log In activity when back button is pressed
+                    startActivity(intent) // navigating to main activity
                     //updateUI(user)
                 } else {
                     Toast.makeText(
-                        context, "Authentication failed ${task.exception?.message} ",
+                        context, "Sign Up failed ${task.exception?.message} ",
                         Toast.LENGTH_LONG
                     ).show()
                     //updateUI(null)
