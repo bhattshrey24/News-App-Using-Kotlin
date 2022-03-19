@@ -17,17 +17,13 @@ import com.example.newsappusingkotlin.databinding.ActivityMainBinding
 import com.example.newsappusingkotlin.databinding.FragmentLoginBinding
 
 
-class LoginFragment(myFragmentContainer:FrameLayout?) : Fragment(){
-
+class LoginFragment(myFragmentContainer:FrameLayout ) : Fragment(){
     private val binding: FragmentLoginBinding by lazy {
         FragmentLoginBinding.inflate(layoutInflater, null, false)
     }
 
-    private var fragmentContainer:FrameLayout?=null // passed fragmentContainer as constructor  which is present in "Authentication activity" because we need it here to replace the fragment when use clicks on "Already Have an Account.."
-
-    init {
-        fragmentContainer=myFragmentContainer // this is how we use values provided as constructor ie we save it in a local variable inside Init
-    }
+    private  var fragmentContainer:FrameLayout =
+        myFragmentContainer // passed fragmentContainer as constructor  which is present in "Authentication activity" because we need it here to replace the fragment when use clicks on "Already Have an Account.."
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,7 +47,7 @@ class LoginFragment(myFragmentContainer:FrameLayout?) : Fragment(){
                 // startActivity(Intent(this@AuthenticationActivity, NextActivity::class.java))
                 val signUpFragment = SignUpFragment(fragmentContainer)
                 parentFragmentManager.beginTransaction().apply {
-                    replace(fragmentContainer!!.id,signUpFragment)
+                    replace(fragmentContainer.id,signUpFragment)
                     commit()
                 }
             }
