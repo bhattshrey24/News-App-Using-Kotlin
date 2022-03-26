@@ -4,8 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/drawable/ic_articles.xml" value="0.1" />
+        <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/drawable/ic_splash_screen_svg.xml" value="0.1145" />
         <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/activity_authentication.xml" value="0.264" />
         <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/activity_main.xml" value="0.24087591240875914" />
+        <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/activity_splash_screen.xml" value="0.16799999999999998" />
         <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/content_authentication.xml" value="0.12360688956433637" />
         <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/fragment_articles.xml" value="0.24087591240875914" />
         <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/fragment_first.xml" value="0.12360688956433637" />
