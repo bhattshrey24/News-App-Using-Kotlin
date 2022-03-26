@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "108437018094",
+    "project_id": "news-app-using-kotlin",
+    "storage_bucket": "news-app-using-kotlin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:108437018094:android:b54f2ffd7529f7f76c6aff",
+        "android_client_info": {
+          "package_name": "com.example.newsappusingkotlin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "108437018094-e3cm2e83hn422t6jjtu2t0guhgbtc5np.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDs9zhOGhT_eHjpkIZPTxiA-qnepenPgqE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "108437018094-e3cm2e83hn422t6jjtu2t0guhgbtc5np.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
