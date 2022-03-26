@@ -11,7 +11,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
   //Todo
-  // add splash screen
   // add firebase login functionality
   // add select language preference feature
   // add room
