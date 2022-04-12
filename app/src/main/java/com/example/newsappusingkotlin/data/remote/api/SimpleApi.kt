@@ -1,9 +1,10 @@
 package com.example.newsappusingkotlin.data.remote.api
 
-import com.example.newsappusingkotlin.data.models.NewsHolderDummy
+import com.example.newsappusingkotlin.data.models.NewsJsonReceiver
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface SimpleApi {
-    @GET("posts/1")
-    suspend fun getPost():NewsHolderDummy // the body will be filled by retrofit
+    @GET("top-headlines")
+    suspend fun getPost(@Query("country")country:String, @Query("apiKey")apiKey:String):NewsJsonReceiver // the body will be filled by retrofit
 }

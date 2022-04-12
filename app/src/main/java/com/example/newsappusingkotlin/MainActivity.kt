@@ -36,19 +36,21 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater, null, false)
     }
     private lateinit var viewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         val repository = MyRepository()
         val viewModelFactory = MainViewModelFactory(repository)
-        viewModel= ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
-        viewModel.getPost()
-        viewModel.myResponse.observe(this, Observer { response->
-            Log.d("Response " , response.userId.toString())
-            Log.d("Response " , response.body)
 
+        viewModel= ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
+        viewModel.getPost("in") // in is the code for "India"
+
+        viewModel.myResponse.observe(this, Observer { response->
+            Log.d("Response " , "Response is : $response")
         })
+
         val myBottomNav = findViewById<BottomNavigationView>(R.id.my_bottom_nav)
         val navController = findNavController(R.id.my_nav_host_fragment)
         myBottomNav.setupWithNavController(navController)
