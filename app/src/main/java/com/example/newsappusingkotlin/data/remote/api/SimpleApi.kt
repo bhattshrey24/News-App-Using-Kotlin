@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface SimpleApi {
     @GET("posts/1")
-    suspend fun getPost():NewsHolderDummy
+    suspend fun getPost():NewsHolderDummy // the body will be filled by retrofit
 }
