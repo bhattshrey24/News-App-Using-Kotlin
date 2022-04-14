@@ -20,10 +20,17 @@ class NewsListRecyclerAdapter(var parentContext: Context) :
     private var totalNumberOfArticles: Int = 0;
     private var articles: List<News>? = listOf()
 
-    fun setNews(articles: List<News>, totalNumberOfArticles: Int) {
+    fun setNews(articles: List<News>) {
         this.articles = articles
-        this.totalNumberOfArticles = totalNumberOfArticles
+        this.totalNumberOfArticles = articles.size
         notifyDataSetChanged()
+    }
+
+    private fun timeZoneToTimeConverter(timeStamp: String?): String { // converts timestamp to normal time
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val outputFormat = SimpleDateFormat("hh:mm a")
+        val parsedDate = inputFormat.parse(timeStamp)
+        return outputFormat.format(parsedDate) // returning the formatted date
     }
 
     override fun onCreateViewHolder(
@@ -35,66 +42,43 @@ class NewsListRecyclerAdapter(var parentContext: Context) :
         return ViewHolder(view);
     }
 
-    private fun timeZoneToTimeConverter(timeStamp: String?): String { // converts timestamp to normal time
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-        val outputFormat = SimpleDateFormat("hh:mm a")
-        val parsedDate = inputFormat.parse(timeStamp)
-        val formattedDate = outputFormat.format(parsedDate)
-        return formattedDate
-    }
 
-    var counter = 0;
     override fun onBindViewHolder(holder: NewsListRecyclerAdapter.ViewHolder, position: Int) {
-//        Log.d("Error" , "total number artile in On Bind: $totalNumberOfArticles")
-//        Log.d("Error" , "position in On Bind: $position")
-//        Log.d("Error" , "arrayListSize in On Bind: ${articles?.size}")
-//        Log.d("Error" , "arrayListSize in On Bind: $articles")
 
-        if (articles?.get(position)?.publishedAt == null || articles?.get(position)?.publishedAt.equals(
-                ""
-            )
-        ) {
+        if (articles?.get(position)?.publishedAt == null) {
             holder.timeTv.text = "no time"
         } else {
             val time = timeZoneToTimeConverter(articles?.get(position)?.publishedAt)
             holder.timeTv.text = time
         }
-
-        if (articles?.get(position)?.urlToArticle == null || articles?.get(position)?.urlToArticle.equals(
-                ""
-            )
-        ) { // ie. if no url if given by api then show not found wali image
-            Log.d("ErrorImage", "Inside and url is =  $articles?.get(position)?.urlToArticle")
+        if (articles?.get(position)?.title == null) {
+            holder.titleTV.text = "No Title"
+        } else {
+            holder.titleTV.text = articles?.get(position)?.title
+        }
+        if (articles?.get(position)?.urlToArticle == null) { // ie. if no url is given by api then show not found wali image
+            Log.d("Error", "Inside NewsListAdapter")
             holder.articleImage.setImageResource(R.drawable.image_not_found)
         } else {
-            Log.d("ErrorImage", "Inside else ${counter++}")
-            holder.articleImage.setImageResource(R.drawable.image_not_found)
-
             try {
                 Glide.with(parentContext)
                     .load(articles!![position].urlToImage)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.articleImage)
             } catch (e: Exception) {
-                Log.d("Error in catch", e.message.toString())
+                Log.d("Error", "inside newsListAdapter" + e.message.toString())
                 holder.articleImage.setImageResource(R.drawable.image_not_found)
             }
         }
     }
 
     override fun getItemCount(): Int {
-        if (articles?.size == 0) {
-            return 0
-        }
-        return articles!!.size // change it later to size of headings or images since every article will have a image or heading
+        return totalNumberOfArticles
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var articleImage: ImageView // add this when u add api properly
-        var timeTv: TextView
-        init {
-            timeTv = itemView.findViewById(R.id.Tv_timeOfArticle)
-            articleImage = itemView.findViewById(R.id.articles_image_view)
-        }
+        var articleImage: ImageView = itemView.findViewById(R.id.articles_image_view)
+        var timeTv: TextView = itemView.findViewById(R.id.Tv_timeOfArticle)
+        var titleTV: TextView = itemView.findViewById(R.id.Tv_title)
     }
 }
