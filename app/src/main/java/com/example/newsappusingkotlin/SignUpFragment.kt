@@ -115,6 +115,8 @@ class SignUpFragment(myFragmentContainer: FrameLayout) : Fragment() {
                     startActivity(intent) // navigating to main activity
                     //updateUI(user)
                 } else {
+                    binding.signUpPageCircularProgressBar.visibility=View.GONE
+
                     Toast.makeText(
                         context, "Sign Up failed ${task.exception?.message} ",
                         Toast.LENGTH_LONG

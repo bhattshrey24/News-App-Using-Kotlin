@@ -56,43 +56,66 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
             binding.editTextUsersEmail.requestFocus()
             return
         }
-        if(usersPassword==""){
-            binding.editTextTextPassword.error="Enter Password"
+        if (usersPassword == "") {
+            binding.editTextTextPassword.error = "Enter Password"
             binding.editTextTextPassword.requestFocus()
             return
         }
 
+ //       binding.facebookLoginBtn.isClickable=true
+        binding.facebookLoginBtn.setOnClickListener {
+            facebookLogin()
+        }
+        binding.gmailLoginBtn.setOnClickListener {
+            gmailLogin()
+        }
 
-        binding.loginPageCircularProgressBar.visibility=View.VISIBLE
-        val parentActivityReference = host as AuthenticationActivity // host simply returns the reference of the host activity , "as" is used to type cast
+        binding.loginPageCircularProgressBar.visibility = View.VISIBLE
+        val parentActivityReference =
+            host as AuthenticationActivity // host simply returns the reference of the host activity , "as" is used to type cast
 
         mAuth.signInWithEmailAndPassword(usersEmail, usersPassword)
             .addOnCompleteListener(parentActivityReference) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    binding.loginPageCircularProgressBar.visibility=View.GONE
+                    binding.loginPageCircularProgressBar.visibility = View.GONE
 
-                    Toast.makeText(context, "Log In successful",
-                        Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        context, "Log In successful",
+                        Toast.LENGTH_LONG
+                    ).show()
                     val user = mAuth.currentUser
 
-                    var intent=Intent(parentActivityReference,MainActivity::class.java)
+                    var intent = Intent(parentActivityReference, MainActivity::class.java)
                     intent.addFlags(
                         Intent.FLAG_ACTIVITY_CLEAR_TOP or
                                 Intent.FLAG_ACTIVITY_CLEAR_TASK or
                                 Intent.FLAG_ACTIVITY_NEW_TASK
                     )// this makes sure that user cannot go back to the Log In activity when back button is pressed
                     startActivity(intent)
-                   // updateUI(user)
+                    // updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
-                  //  Log.w(TAG, "signInWithEmail:failure", task.exception)
-                    Toast.makeText(context, "Log In unsuccessful ${task.exception?.message}",
-                        Toast.LENGTH_LONG).show()
-                  //  updateUI(null)
+                    //  Log.w(TAG, "signInWithEmail:failure", task.exception)
+                    binding.loginPageCircularProgressBar.visibility = View.GONE
+                    Toast.makeText(
+                        context, "Log In unsuccessful ${task.exception?.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    //  updateUI(null)
                 }
             }
 
+    }
+
+    private fun gmailLogin() {
+        TODO("Not yet implemented")
+        Toast.makeText(context, "Under Development", Toast.LENGTH_LONG).show()
+    }
+
+    private fun facebookLogin() {
+        TODO("Not yet implemented")
+        Toast.makeText(context, "Under Development", Toast.LENGTH_LONG).show()
     }
 
     private fun makePartOfTextClickable() {
