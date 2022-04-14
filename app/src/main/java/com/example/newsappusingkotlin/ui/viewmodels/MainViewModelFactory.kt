@@ -10,7 +10,6 @@ class MainViewModelFactory(private val repository: MyRepository) : ViewModelProv
         // But ViewModelProviders can only instantiate ViewModels with no arg constructor.
         //So if I have a ViewModel with multiple arguments, then I need to use a Factory that I can pass to ViewModelProviders to use when an instance of MyViewModel is required.
         // the full article telling why we used factory method https://stackoverflow.com/questions/54419236/why-a-viewmodel-factory-is-needed-in-android
-
         return MainViewModel(repository) as T
     }
 }

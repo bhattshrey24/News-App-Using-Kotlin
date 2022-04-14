@@ -1,6 +1,5 @@
 package com.example.newsappusingkotlin.ui.fragments
 
-import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.newsappusingkotlin.R
 import com.example.newsappusingkotlin.adapters.NewsListRecyclerAdapter
 import com.example.newsappusingkotlin.data.remote.repository.MyRepository
 import com.example.newsappusingkotlin.databinding.FragmentArticlesBinding
@@ -26,38 +24,40 @@ class ArticlesFragment : Fragment() {
         FragmentArticlesBinding.inflate(layoutInflater, null, false)
     }
 
-    private var layoutManager:RecyclerView.LayoutManager?=null
-    private var adapter:RecyclerView.Adapter<NewsListRecyclerAdapter.ViewHolder>?=null
-
+    private var layoutManager: RecyclerView.LayoutManager? = null
+    private var adapter:NewsListRecyclerAdapter?=null
     private lateinit var viewModel: MainViewModel
 
     override fun onCreateView( // Observe It's not OnCreate It's "OnCreateView" , here we bind the layout of the fragment
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
+    ): View {
 
         val repository = MyRepository()
         val viewModelFactory = MainViewModelFactory(repository)
 
-        viewModel= ViewModelProvider(requireActivity(),viewModelFactory).get(MainViewModel::class.java)
+        viewModel =
+            ViewModelProvider(requireActivity(), viewModelFactory).get(MainViewModel::class.java)
         viewModel.getPost("in") // in is the code for "India"
 
-        viewModel.myResponse.observe(viewLifecycleOwner, Observer { response->
-            Log.d("Response " , "Response is : $response")
-        })
+        layoutManager =
+       GridLayoutManager(context, 2) // this 2 is basically number of columns u want
 
-        layoutManager= GridLayoutManager(context,2) // this 2 is basically number of columns u want
-        binding.newsListRecyclerView.layoutManager=layoutManager
-        adapter=NewsListRecyclerAdapter()
-        binding.newsListRecyclerView.adapter=adapter
+        binding.newsListRecyclerView.layoutManager = layoutManager
 
+        adapter = context?.let { NewsListRecyclerAdapter(it) }
 
-
+        binding.newsListRecyclerView.adapter = adapter
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.myResponse.observe(viewLifecycleOwner, Observer { response ->
+            Log.d("Response ", "Response is : $response")
+           adapter?.setNews(response.articles,response.totalResults)
+        })
 
-
-
+    }
 }

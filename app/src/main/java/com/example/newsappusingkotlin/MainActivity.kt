@@ -41,16 +41,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val repository = MyRepository()
-        val viewModelFactory = MainViewModelFactory(repository)
-
-        viewModel= ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
-        viewModel.getPost("in") // in is the code for "India"
-
-        viewModel.myResponse.observe(this, Observer { response->
-            Log.d("Response " , "Response is : $response")
-        })
-
+//        val repository = MyRepository()
+//        val viewModelFactory = MainViewModelFactory(repository)
+//
+//        viewModel= ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
+//        viewModel.getPost("in") // in is the code for "India"
+//
+//        viewModel.myResponse.observe(this, Observer { response->
+//            Log.d("Response " , "Response is : $response")
+//        })
         val myBottomNav = findViewById<BottomNavigationView>(R.id.my_bottom_nav)
         val navController = findNavController(R.id.my_nav_host_fragment)
         myBottomNav.setupWithNavController(navController)

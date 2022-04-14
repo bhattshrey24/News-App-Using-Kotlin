@@ -7,6 +7,7 @@
     android:backgroundTint="@color/Primary1"
     app:cardCornerRadius="15dp"
     android:layout_margin="5dp">
+
     <ImageView
         android:id="@+id/articles_image_view"
         android:layout_width="match_parent"
@@ -17,31 +18,21 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:backgroundTint="@color/design_default_color_error">
+
    <androidx.constraintlayout.widget.ConstraintLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent">
-       <TextView
-           android:id="@+id/Tv_placeOfArticle"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_gravity="left"
-           android:layout_marginTop="2dp"
-           android:layout_marginLeft="10dp"
-           android:text="Delhi"
-           android:textColor="@color/white"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toTopOf="parent" />
        <TextView
            android:id="@+id/Tv_timeOfArticle"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_gravity="left"
-           android:layout_marginTop="3dp"
+           android:layout_marginTop="15dp"
            android:layout_marginLeft="10dp"
            android:text="10:15"
            android:textColor="@color/white"
            app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toBottomOf="@+id/Tv_placeOfArticle"/>
+           app:layout_constraintTop_toTopOf="parent"/>
 
        <ImageView
            android:layout_width="wrap_content"
