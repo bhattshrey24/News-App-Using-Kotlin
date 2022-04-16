@@ -1,7 +1,6 @@
 package com.example.newsappusingkotlin
 
 import android.os.Bundle
-import android.util.Log
 import android.view.ContextMenu
 import android.view.Gravity
 import android.view.MenuItem
@@ -31,11 +30,11 @@ class MainActivity : AppCompatActivity() {
     //  add google and facebook login
     //  add forgot password functionality
     // CURRENT:-
-    //  Fix app bar , add menu and icons in it fix Its UI (Done)
-    //  add drawer
-    //  add room ie. cache your news articles , user details etc
-    //  add user functionality ie. user data stored in firebase having its username , interests , saved/bookmarked news articles
-
+    //  Develop Ui to take inputs from user about users interest,mobile number(maybe later add Otp functionality), age, nationality,language-preference and text size text
+    //  add user functionality ie. user data stored in firebase firestore having its username , interests , saved/bookmarked news articles
+    //  based on user interests show news based on users nationality and interest on home page
+    //  complete the articles tab functionality ie. add swipe left to change tab feature like whatsapp(ie. by using tablayout and view pager I guess)
+    //  add room ie. cache your news articles , user details etc and complete bookmark feature
 
     private val binding: ActivityMainBinding by lazy {//this is lazy initialization
         ActivityMainBinding.inflate(layoutInflater, null, false)
