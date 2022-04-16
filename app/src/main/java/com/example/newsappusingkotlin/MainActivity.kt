@@ -1,15 +1,20 @@
 package com.example.newsappusingkotlin
 
 import android.os.Bundle
+import android.util.Log
 import android.view.ContextMenu
+import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.newsappusingkotlin.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.main_app_bar.*
 
 class MainActivity : AppCompatActivity() {
@@ -36,15 +41,65 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater, null, false)
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
         val myBottomNav = findViewById<BottomNavigationView>(R.id.my_bottom_nav)
         val navController = findNavController(R.id.my_nav_host_fragment)
         myBottomNav.setupWithNavController(navController)
 
         registerForContextMenu(menu_vertical_button) //Right now u have to hold and press the button in order to open the menu ,  this sort of custom menu that opens when u click a view is called ContextMenu , menu_vertical_button is the id of the view on the click of which we want to show the menu
+        navDrawerSetup()
+    }
 
+    private fun navDrawerSetup() {
+        val drawerLayout: DrawerLayout = binding.drawerLayout
+        val navDrawerView: NavigationView = binding.drawerNavigationView.drawer_navigation_view
+
+        binding.mainAppBar.drawerButton.setOnClickListener {// this is how we call methods of 'included' view using binding ie. by simply using dot operator "."
+
+            drawerLayout.openDrawer(Gravity.LEFT)// this opens the drawer when user clicks on drawer icon
+        }
+
+        navDrawerView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.about_us -> {
+                    Toast.makeText(
+                        applicationContext,
+                        "Drawer about us Pressed",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    drawerLayout.closeDrawer(Gravity.LEFT) // this closes the drawer after user clicked on this item
+                }
+                R.id.share_us -> {
+                    Toast.makeText(
+                        applicationContext,
+                        "Drawer share us Pressed",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    drawerLayout.closeDrawer(Gravity.LEFT)
+                }
+                R.id.privacy_policy -> {
+                    Toast.makeText(
+                        applicationContext,
+                        "Drawer privacy policy Pressed",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    drawerLayout.closeDrawer(Gravity.LEFT)
+                }
+                R.id.sign_out -> {
+                    Toast.makeText(
+                        applicationContext,
+                        "Drawer sign out Pressed",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    drawerLayout.closeDrawer(Gravity.LEFT)
+                }
+            }
+            true
+        }
     }
 
     override fun onCreateContextMenu(
