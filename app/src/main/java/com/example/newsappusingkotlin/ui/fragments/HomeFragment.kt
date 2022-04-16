@@ -20,6 +20,9 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // activity?.title="My Home" // U can use this to change actionBar Title from Fragment
         return binding.root
     }
+
+
 }
