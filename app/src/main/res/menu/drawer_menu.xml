@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+ >
+
+    <item
+        android:id="@+id/about_us"
+        android:title="About Us"
+        android:icon="@drawable/ic_about_us"/>
+    <item
+        android:id="@+id/share_us"
+        android:icon="@drawable/ic_share"
+        android:title="Share" />
+
+    <item android:title="Others">
+        <menu>
+            <item
+                android:id="@+id/privacy_policy"
+                android:title="Privacy Policy" />
+        </menu>
+
+    </item>
+
+    <item android:title="Authentication">
+        <menu>
+            <item
+                android:id="@+id/sign_out"
+                android:title="Sign Out" />
+        </menu>
+
+    </item>
+    
+</menu>

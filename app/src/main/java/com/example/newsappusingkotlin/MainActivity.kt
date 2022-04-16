@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     //  add google and facebook login
     //  add forgot password functionality
     // CURRENT:-
-    //  Fix app bar , add menu and icons in it fix Its UI
+    //  Fix app bar , add menu and icons in it fix Its UI (Done)
     //  add drawer
     //  add room ie. cache your news articles , user details etc
     //  add user functionality ie. user data stored in firebase having its username , interests , saved/bookmarked news articles
