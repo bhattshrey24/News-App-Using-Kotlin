@@ -1,6 +1,8 @@
 package com.example.newsappusingkotlin
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
@@ -8,6 +10,7 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +19,7 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.newsappusingkotlin.databinding.FragmentSignUpBinding
+import com.example.newsappusingkotlin.other.Constants
 import com.google.firebase.auth.FirebaseAuth
 import java.util.regex.Pattern
 
@@ -90,6 +94,7 @@ class SignUpFragment(myFragmentContainer: FrameLayout) : Fragment() {
         }
 
 
+
         // If we reached here means user inserted correct email and password following all the norms
 
         // Creating new user
@@ -99,7 +104,20 @@ class SignUpFragment(myFragmentContainer: FrameLayout) : Fragment() {
         mAuth.createUserWithEmailAndPassword(emailET, createPasswordEt)
             .addOnCompleteListener(parentActivityReference) { task ->
                 if (task.isSuccessful) {
+
+                    //saving users details so that user dont have to login again and again
+                    val sharedPreferences: SharedPreferences? =
+                        activity?.getSharedPreferences(Constants.authSharedPrefKey, Context.MODE_PRIVATE)
+
+                    val editor: SharedPreferences.Editor? = sharedPreferences?.edit()
+                    editor?.apply {
+                        putString(Constants.userEmailSharedPrefKey,emailET)
+                        putString(Constants.userPasswordSharedPrefKey,confirmPasswordET)
+                    }?.apply()
+
+
                     binding.signUpPageCircularProgressBar.visibility = View.GONE
+
                     Toast.makeText(
                         context, "Sign up successful",
                         Toast.LENGTH_LONG
