@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.ContextMenu
 import android.view.Gravity
 import android.view.MenuItem
@@ -28,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     // add select language preference feature
     // add search feature
     // add retrofit
-    // add theme colors
+    // add theme properly ,like colors, strings , style , font , textSize etc so that I can change whole look of app from one place only
     // add push notification feature giving notification about of daily news
     // add "share with" feature
     // Authentication :-
@@ -36,17 +35,24 @@ class MainActivity : AppCompatActivity() {
     //  add Custom Login
     //  add google and facebook login
     //  add forgot password functionality
-    // CURRENT:-
+
+    // Todo CURRENT:-
     //  Develop Ui to take inputs from user about users interest,mobile number(maybe later add Otp functionality), age, nationality,language-preference and text size text
     //  add user functionality ie. user data stored in firebase firestore having its username , interests , saved/bookmarked news articles
     //  based on user interests show news based on users nationality and interest on home page
     //  complete the articles tab functionality ie. add swipe left to change tab feature like whatsapp(ie. by using tablayout and view pager I guess)
     //  add room ie. cache your news articles , user details etc and complete bookmark feature
+    //  Today:-
+    //   Add Nationality Page(Recycler View)
+    //   Add Interest Page(Recycler View , when user clicks on one item it remains highlighted , maybe add a checklist or radio button in front)
+    //   Add user Language Preference(Recycler View Again) or maybe make a details input page where user can fill language preference , profile pic , mobile number and nationality in one page by simply opening a drop down menu and selecting
+    //   Add users Mobile Phone text Field in SignUp Page
+    //   Save this data on firestore
 
 
     //Todo(future)
     // save users email and password more securely by using some encryption algo or use EncryptedSharedPreferences
-
+    // update firestore rules to private database from test database within 30 days otherwise it will stop working
     private val binding: ActivityMainBinding by lazy {//this is lazy initialization
         ActivityMainBinding.inflate(layoutInflater, null, false)
     }
@@ -109,11 +115,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showSignOutDialogueBox() {
-        MaterialAlertDialogBuilder(this).
-        setTitle("Log Out")
+        MaterialAlertDialogBuilder(this).setTitle("Log Out")
             .setMessage("Are you sure you want to logout?")
-            .setPositiveButton("Yes"){ _, _ -> signOutUser()}
-            .setNegativeButton("No"){dialogue,_-> dialogue.dismiss() }
+            .setPositiveButton("Yes") { _, _ -> signOutUser() }
+            .setNegativeButton("No") { dialogue, _ -> dialogue.dismiss() }
             .show()
     }
 
@@ -127,7 +132,8 @@ class MainActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().signOut()
 
         // deleting the sharedPreference that contains users password and email so that user can log in again with either same or not account
-        val sharedPreferences: SharedPreferences? =getSharedPreferences(Constants.authSharedPrefKey, Context.MODE_PRIVATE)
+        val sharedPreferences: SharedPreferences? =
+            getSharedPreferences(Constants.authSharedPrefKey, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor? = sharedPreferences?.edit()
         editor?.clear()?.commit() // deletes the data present in sharedPreference
 

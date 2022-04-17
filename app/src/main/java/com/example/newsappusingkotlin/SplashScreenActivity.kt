@@ -23,7 +23,6 @@ class SplashScreenActivity : AppCompatActivity() {
         //todo
         // put here the logic for pre loading stuff in cache(from the web/api) so that user don't have to wait again
 
-
         val sharedPreferences: SharedPreferences =
             getSharedPreferences(Constants.authSharedPrefKey, Context.MODE_PRIVATE)
         val savedEmailString = sharedPreferences.getString(

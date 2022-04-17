@@ -2,4 +2,15 @@
     <string name="app_name">News App Using Kotlin</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="languages">
+        <item>English</item>
+        <item>हिन्दी</item>
+        <item>日本語</item>
+    </string-array>
+    <string-array name="Countries">
+        <item>India</item>
+        <item>Japan</item>
+        <item>Europe</item>
+        <item>United States</item>
+    </string-array>
 </resources>

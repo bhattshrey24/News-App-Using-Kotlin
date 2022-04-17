@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 
 class AuthenticationActivity : AppCompatActivity() {
+
     private val binding: ActivityAuthenticationBinding by lazy {
         ActivityAuthenticationBinding.inflate(layoutInflater, null, false)
     }
