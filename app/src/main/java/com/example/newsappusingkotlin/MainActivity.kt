@@ -1,6 +1,8 @@
 package com.example.newsappusingkotlin
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.ContextMenu
 import android.view.Gravity
 import android.view.MenuItem
@@ -13,6 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.newsappusingkotlin.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.main_app_bar.*
 
@@ -91,10 +94,19 @@ class MainActivity : AppCompatActivity() {
                 R.id.sign_out -> {
                     Toast.makeText(
                         applicationContext,
-                        "Drawer sign out Pressed",
+                        "Success fully Signed Out",
                         Toast.LENGTH_SHORT
                     ).show()
                     drawerLayout.closeDrawer(Gravity.LEFT)
+                    FirebaseAuth.getInstance().signOut()
+
+                    val intent = Intent(this, AuthenticationActivity::class.java)
+                    intent.addFlags(
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                                Intent.FLAG_ACTIVITY_NEW_TASK
+                    )// this makes sure that user cannot go back to the main activity when back button is pressed
+                    startActivity(intent)
                 }
             }
             true
