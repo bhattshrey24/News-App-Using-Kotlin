@@ -1,10 +1,14 @@
 package com.example.newsappusingkotlin
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.example.newsappusingkotlin.databinding.ActivityDetailsInputBinding
+import com.example.newsappusingkotlin.other.Constants
 
 class DetailsInputActivity : AppCompatActivity() {
 
@@ -15,8 +19,8 @@ class DetailsInputActivity : AppCompatActivity() {
     private lateinit var arrayAdapterForCountries: ArrayAdapter<String>
     private lateinit var arrayAdapterForLanguages: ArrayAdapter<String>
 
-    private var selectedLanguage:String?="English"
-    private var selectedCountry:String?="India"
+    private var selectedLanguage: String? = "English"
+    private var selectedCountry: String? = "India"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +29,7 @@ class DetailsInputActivity : AppCompatActivity() {
         setupDropDownMenus()
 
         binding.buttonDetailsInputPage.setOnClickListener {
-            getInput(arrayAdapterForCountries, arrayAdapterForLanguages)
+            getInput()
         }
 
     }
@@ -52,13 +56,27 @@ class DetailsInputActivity : AppCompatActivity() {
         }
     }
 
-    private fun getInput(
-        arrayAdapterForCountries: ArrayAdapter<String>,
-        arrayAdapterForLanguages: ArrayAdapter<String>
-    ) {
-        // pass the selectedCountry and selectedLanguage to next page using bundle
-        val mobileNumber = binding.ETUsersMobileNumber.text
-        Log.d("Drop Down Menu", mobileNumber.toString())
+    private fun getInput() {
+        val mobileNumber = binding.ETUsersMobileNumber.text.toString()
+
+        //currently Im storing details in sharedPreference Later I'll do it in room
+        val sharedPreferences: SharedPreferences? =
+            getSharedPreferences(Constants.userDetailInputPrefKey, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor? = sharedPreferences?.edit()
+
+        editor?.apply {
+            putString(Constants.usersCountryPrefKey, selectedCountry)
+            putString(Constants.usersLanguagePrefKey, selectedLanguage)
+            putString(Constants.usersMobileNumberPrefKey, mobileNumber)
+        }?.apply()
+
         // navigate to next screen
+        val intent = Intent(this, CategorySelectionActivity::class.java)
+        intent.addFlags(
+            Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                    Intent.FLAG_ACTIVITY_NEW_TASK
+        )
+        startActivity(intent)
     }
 }

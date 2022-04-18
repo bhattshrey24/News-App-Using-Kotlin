@@ -101,6 +101,7 @@ class SignUpFragment(myFragmentContainer: FrameLayout) : Fragment() {
         val parentActivityReference = host as AuthenticationActivity // host simply returns the reference of the host activity , "as" is used to type cast
 
         binding.signUpPageCircularProgressBar.visibility = View.VISIBLE
+
         mAuth.createUserWithEmailAndPassword(emailET, createPasswordEt)
             .addOnCompleteListener(parentActivityReference) { task ->
                 if (task.isSuccessful) {
@@ -115,16 +116,24 @@ class SignUpFragment(myFragmentContainer: FrameLayout) : Fragment() {
                         putString(Constants.userPasswordSharedPrefKey,confirmPasswordET)
                     }?.apply()
 
+                    val sharedPreferencesUser: SharedPreferences? =
+                        activity?.getSharedPreferences(Constants.userDetailInputPrefKey, Context.MODE_PRIVATE)
+                    val editorForUser: SharedPreferences.Editor? = sharedPreferencesUser?.edit()
+                    editorForUser?.apply {
+                        putString(Constants.usersNamePrefKey,nameET)
+                        putString(Constants.userEmailSharedPrefKey,emailET)
+                    }?.apply()
+
+
 
                     binding.signUpPageCircularProgressBar.visibility = View.GONE
-
                     Toast.makeText(
                         context, "Sign up successful",
                         Toast.LENGTH_LONG
                     ).show()
                     val user = mAuth.currentUser
                     // save the user to the database (remote and local)
-                    var intent=Intent(parentActivityReference,MainActivity::class.java)
+                    var intent=Intent(parentActivityReference,DetailsInputActivity::class.java)
                     intent.addFlags(
                         Intent.FLAG_ACTIVITY_CLEAR_TOP or
                                 Intent.FLAG_ACTIVITY_CLEAR_TASK or

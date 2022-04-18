@@ -44,7 +44,6 @@ class NewsListRecyclerAdapter(var parentContext: Context) :
 
 
     override fun onBindViewHolder(holder: NewsListRecyclerAdapter.ViewHolder, position: Int) {
-
         if (articles?.get(position)?.publishedAt == null) {
             holder.timeTv.text = "no time"
         } else {

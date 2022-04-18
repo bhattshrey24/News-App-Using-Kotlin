@@ -8,5 +8,11 @@ object Constants {
     const val userEmailSharedPrefKey="users_email"
     const val userPasswordSharedPrefKey="users_password"
 
+    const val userDetailInputPrefKey="user_detail_input"
+    const val usersMobileNumberPrefKey="user_mobile_num"
+    const val usersCountryPrefKey="user_country"
+    const val usersLanguagePrefKey="user_language"
+    const val usersNamePrefKey="users_name"
+
 
 }

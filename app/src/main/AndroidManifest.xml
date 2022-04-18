@@ -10,17 +10,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsAppUsingKotlin">
         <activity
+            android:name=".CategorySelectionActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailsInputActivity"
-            android:exported="true" >
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".SplashScreenActivity"
+            android:exported="true">
             <intent-filter> <!-- this tells which activity will start when user opens the app -->
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".SplashScreenActivity"
-            android:exported="false">
         </activity>
         <activity
             android:name=".AuthenticationActivity"
