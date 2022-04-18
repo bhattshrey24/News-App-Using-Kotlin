@@ -60,15 +60,7 @@ class DetailsInputActivity : AppCompatActivity() {
         val mobileNumber = binding.ETUsersMobileNumber.text.toString()
 
         //currently Im storing details in sharedPreference Later I'll do it in room
-        val sharedPreferences: SharedPreferences? =
-            getSharedPreferences(Constants.userDetailInputPrefKey, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor? = sharedPreferences?.edit()
-
-        editor?.apply {
-            putString(Constants.usersCountryPrefKey, selectedCountry)
-            putString(Constants.usersLanguagePrefKey, selectedLanguage)
-            putString(Constants.usersMobileNumberPrefKey, mobileNumber)
-        }?.apply()
+        storeDataInSharedPref(mobileNumber)
 
         // navigate to next screen
         val intent = Intent(this, CategorySelectionActivity::class.java)
@@ -78,5 +70,17 @@ class DetailsInputActivity : AppCompatActivity() {
                     Intent.FLAG_ACTIVITY_NEW_TASK
         )
         startActivity(intent)
+    }
+
+    private fun storeDataInSharedPref(mobileNumber:String) {
+        val sharedPreferences: SharedPreferences? =
+            getSharedPreferences(Constants.userDetailInputPrefKey, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor? = sharedPreferences?.edit()
+
+        editor?.apply {
+            putString(Constants.usersCountryPrefKey, selectedCountry)
+            putString(Constants.usersLanguagePrefKey, selectedLanguage)
+            putString(Constants.usersMobileNumberPrefKey, mobileNumber)
+        }?.apply()
     }
 }

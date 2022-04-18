@@ -19,6 +19,7 @@ class CategorySelectionActivity : AppCompatActivity() {
     private val binding: ActivityCategorySelectionBinding by lazy {
         ActivityCategorySelectionBinding.inflate(layoutInflater, null, false)
     }
+
     private var layoutManager: RecyclerView.LayoutManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +28,7 @@ class CategorySelectionActivity : AppCompatActivity() {
 
         binding.categorySelectionProgressBar.visibility= View.GONE
 
+        //setting up the recyclerView
         layoutManager = LinearLayoutManager(this)
         binding.categorySelectionRecyclerView.layoutManager = layoutManager
         val adapter = CategorySelectionRecyclerAdapter(applicationContext)
@@ -37,19 +39,14 @@ class CategorySelectionActivity : AppCompatActivity() {
             if (selectedCategoriesList.size == 3) {
                 binding.categorySelectionProgressBar.visibility= View.VISIBLE
                 sendDetailsToFireStore(selectedCategoriesList)
-                // here save the categories etc and do the firestore call and navigate to main activity
             }
         }
     }
 
+
     private fun sendDetailsToFireStore(selectedCategoriesList: MutableList<String>) {
         val sharedPreferences: SharedPreferences? =
             getSharedPreferences(Constants.userDetailInputPrefKey, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor? = sharedPreferences?.edit()
-        editor?.apply {
-            // putString(Constants.userEmailSharedPrefKey,emailET)
-            // putString(Constants.userPasswordSharedPrefKey,confirmPasswordET)
-        }?.apply()
 
         val usersEmail = sharedPreferences?.getString(
             Constants.userEmailSharedPrefKey, ""
@@ -67,7 +64,7 @@ class CategorySelectionActivity : AppCompatActivity() {
 
 
         val db = FirebaseFirestore.getInstance()
-        val user: MutableMap<String, Any> = HashMap()
+        val user: MutableMap<String, Any> = HashMap() // imply creating a hashmap
 
         user["mobile_number"] = usersMobileNumber
         user["users_country"] = usersCountry
@@ -77,7 +74,7 @@ class CategorySelectionActivity : AppCompatActivity() {
         user["users_name"] = usersName
 
         db.collection("users")
-            .add(user)
+            .add(user) // passing the hashmap to friestore , it will extract key-value pair from it
             .addOnSuccessListener {
                 binding.categorySelectionProgressBar.visibility= View.GONE
                 Toast.makeText(applicationContext, "Added Successfully", Toast.LENGTH_SHORT).show()

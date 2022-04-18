@@ -10,7 +10,6 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +19,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.newsappusingkotlin.databinding.FragmentSignUpBinding
 import com.example.newsappusingkotlin.other.Constants
+import com.example.newsappusingkotlin.ui.fragments.LoginFragment
 import com.google.firebase.auth.FirebaseAuth
 import java.util.regex.Pattern
 
@@ -35,7 +35,6 @@ class SignUpFragment(myFragmentContainer: FrameLayout) : Fragment() {
     private var fragmentContainer: FrameLayout =
         myFragmentContainer// passed fragmentContainer as constructor  which is present in "Authentication activity" because we need it here to replace the fragment when use clicks on "Already Have an Account.."
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,17 +43,22 @@ class SignUpFragment(myFragmentContainer: FrameLayout) : Fragment() {
         return binding.root
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        makePartOfTextClickable()
+
         binding.signUpPageCircularProgressBar.visibility = View.GONE
+
+        makePartOfTextClickable()
+
         mAuth = FirebaseAuth.getInstance()
+
         binding.buttonSignUp.setOnClickListener {
-            createUser()
+            validateUserInputs()
         }
     }
 
-    private fun createUser() {
+    private fun validateUserInputs() {
         // checking If user entered correct data or not
         var nameET: String = binding.editTextTextPersonName.text.toString().trim()
         var emailET: String = binding.editTextTextEmailAddress.text.toString().trim()
@@ -93,12 +97,21 @@ class SignUpFragment(myFragmentContainer: FrameLayout) : Fragment() {
             return // ie. if password do not follow all norms then don't proceed further
         }
 
-
-
         // If we reached here means user inserted correct email and password following all the norms
+        createUser(nameET, emailET, createPasswordEt, confirmPasswordET)// create user
+    }
+
+    private fun createUser(
+        nameET: String,
+        emailET: String,
+        createPasswordEt: String,
+        confirmPasswordET: String
+    ) {
 
         // Creating new user
-        val parentActivityReference = host as AuthenticationActivity // host simply returns the reference of the host activity , "as" is used to type cast
+
+        val parentActivityReference =
+            host as AuthenticationActivity // host simply returns the reference of the host activity , "as" is used to type cast
 
         binding.signUpPageCircularProgressBar.visibility = View.VISIBLE
 
@@ -106,51 +119,66 @@ class SignUpFragment(myFragmentContainer: FrameLayout) : Fragment() {
             .addOnCompleteListener(parentActivityReference) { task ->
                 if (task.isSuccessful) {
 
-                    //saving users details so that user dont have to login again and again
-                    val sharedPreferences: SharedPreferences? =
-                        activity?.getSharedPreferences(Constants.authSharedPrefKey, Context.MODE_PRIVATE)
+                    //saving users details so that user dont have to login again and again and we can send it to firestore
+                    saveUserDetailsInSharedPref(emailET, confirmPasswordET, nameET)
 
-                    val editor: SharedPreferences.Editor? = sharedPreferences?.edit()
-                    editor?.apply {
-                        putString(Constants.userEmailSharedPrefKey,emailET)
-                        putString(Constants.userPasswordSharedPrefKey,confirmPasswordET)
-                    }?.apply()
-
-                    val sharedPreferencesUser: SharedPreferences? =
-                        activity?.getSharedPreferences(Constants.userDetailInputPrefKey, Context.MODE_PRIVATE)
-                    val editorForUser: SharedPreferences.Editor? = sharedPreferencesUser?.edit()
-                    editorForUser?.apply {
-                        putString(Constants.usersNamePrefKey,nameET)
-                        putString(Constants.userEmailSharedPrefKey,emailET)
-                    }?.apply()
-
-
-
-                    binding.signUpPageCircularProgressBar.visibility = View.GONE
-                    Toast.makeText(
-                        context, "Sign up successful",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    val user = mAuth.currentUser
-                    // save the user to the database (remote and local)
-                    var intent=Intent(parentActivityReference,DetailsInputActivity::class.java)
+                    //navigating to next screen
+                    var intent = Intent(parentActivityReference, DetailsInputActivity::class.java)
                     intent.addFlags(
                         Intent.FLAG_ACTIVITY_CLEAR_TOP or
                                 Intent.FLAG_ACTIVITY_CLEAR_TASK or
                                 Intent.FLAG_ACTIVITY_NEW_TASK
                     )// this makes sure that user cannot go back to the Log In activity when back button is pressed
                     startActivity(intent) // navigating to main activity
-                    //updateUI(user)
+
                 } else {
-                    binding.signUpPageCircularProgressBar.visibility=View.GONE
+                    binding.signUpPageCircularProgressBar.visibility = View.GONE
                     Toast.makeText(
                         context, "Sign Up failed ${task.exception?.message} ",
                         Toast.LENGTH_LONG
                     ).show()
-                    //updateUI(null)
                 }
             }
 
+    }
+
+    private fun saveUserDetailsInSharedPref(
+        emailET: String,
+        confirmPasswordET: String,
+        nameET: String
+    ) {
+
+        val sharedPreferencesAuth: SharedPreferences? =
+            activity?.getSharedPreferences(
+                Constants.authSharedPrefKey,
+                Context.MODE_PRIVATE
+            )
+
+        val editorAuth: SharedPreferences.Editor? = sharedPreferencesAuth?.edit()
+
+        editorAuth?.apply {
+            putString(Constants.userEmailSharedPrefKey, emailET)
+            putString(Constants.userPasswordSharedPrefKey, confirmPasswordET)
+        }?.apply()
+
+        val sharedPreferencesUser: SharedPreferences? =
+            activity?.getSharedPreferences(
+                Constants.userDetailInputPrefKey,
+                Context.MODE_PRIVATE
+            )
+        val editorForUser: SharedPreferences.Editor? = sharedPreferencesUser?.edit()
+        editorForUser?.apply {
+            putString(Constants.usersNamePrefKey, nameET)
+            putString(Constants.userEmailSharedPrefKey, emailET)
+        }?.apply()
+
+
+        binding.signUpPageCircularProgressBar.visibility = View.GONE
+
+        Toast.makeText(
+            context, "Sign up successful",
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     private fun checkPassword(password: String): Boolean { // just using regex to check if password follows all the norms or not
@@ -175,19 +203,15 @@ class SignUpFragment(myFragmentContainer: FrameLayout) : Fragment() {
                     pAtleast6Characters +
                     "$" // checks if contains $
         )
-        //Log.i("Debug", pattern.matcher(password).matches().toString())
-        //Log.i("Debug", "Password = $password")
 
         if (!pattern.matcher(password).matches()) {
-            //Toast.makeText(context, "Password is not following all the norms", Toast.LENGTH_LONG)
-            //  .show()
+
             binding.editTextTextCreatePassword.setError("Password is not following all the norms")
             return false;
         }
 
         return true;// ie. if we reached till here means password is fine
     }
-
 
     private fun makePartOfTextClickable() {
         val ss = SpannableString("Already Have An Account? Login")

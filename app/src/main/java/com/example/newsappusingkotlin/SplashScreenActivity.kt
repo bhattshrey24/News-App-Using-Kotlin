@@ -39,7 +39,7 @@ class SplashScreenActivity : AppCompatActivity() {
             ) // logging In the user
         } else {
             Handler().postDelayed({
-                // Just cleaning the sharedPreference
+                // Just cleaning/removing data from the sharedPreference
                 val editor: SharedPreferences.Editor? = sharedPreferences?.edit()
                 editor?.clear()?.commit()
 
@@ -55,7 +55,6 @@ class SplashScreenActivity : AppCompatActivity() {
         mAuth.signInWithEmailAndPassword(savedEmailString, savedPasswordString)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    //val user = mAuth.currentUser
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     finish()// so that user cannot comeback to this screen by pressing back
@@ -64,7 +63,6 @@ class SplashScreenActivity : AppCompatActivity() {
                         applicationContext, "Log In unsuccessful ${task.exception?.message}",
                         Toast.LENGTH_LONG
                     ).show()
-
                     val intent = Intent(this, AuthenticationActivity::class.java)
                     startActivity(intent)
                     finish()
