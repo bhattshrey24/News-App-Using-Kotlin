@@ -12,13 +12,19 @@ import kotlinx.coroutines.launch
 
 class ViewModelForCache(application: Application) :
     AndroidViewModel(application) { // AndroidViewModel is different from normal View model because it contains application reference
+
     private val getAllNewsArticles: LiveData<List<SavedNewsEntity>>
     private val repository: LocalRepository
 
     init {
-        val savedArticlesDAO = MyDatabase.getDatabase(application).savedNewsArticlesDao() // we are getting our DAO from our Database class
+        val savedArticlesDAO = MyDatabase.getDatabase(application)
+            .savedNewsArticlesDao() // we are getting our DAO from our Database class
         repository = LocalRepository(savedArticlesDAO)
         getAllNewsArticles = repository.getAllSavedNewsArticles
+    }
+
+    fun getAllArticles(): LiveData<List<SavedNewsEntity>> {
+        return getAllNewsArticles
     }
 
     fun addNewsArticle(newsArticle: SavedNewsEntity) {

@@ -10,12 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsAppUsingKotlin">
         <activity
+            android:name=".BookMarkActivity"
+            android:exported="false" />
+        <activity
             android:name=".CategorySelectionActivity"
             android:exported="false" />
         <activity
             android:name=".DetailsInputActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".SplashScreenActivity"
             android:exported="true">

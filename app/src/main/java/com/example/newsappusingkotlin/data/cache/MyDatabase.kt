@@ -27,6 +27,7 @@ abstract class MyDatabase :
                         "saved_news_articles_db"
                     ).build()
                 }
+                // THE NAME MENTIONED HERE IS THE NAME OF THE WHOLE DATABSE I.E"NEWS_APP_DATABASE"
             }
             return INSTANCE!! // we are sure that this will never be null , ie. if it was null then above if will be executed and it will get the database object and if its already filled then simply return it
         }

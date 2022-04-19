@@ -41,8 +41,10 @@ class MainActivity : AppCompatActivity() {
     //  complete the articles tab functionality ie. add swipe left to change tab feature like whatsapp(ie. by using tablayout and view pager I guess)
     //  Today:-
     //  add room ie. cache your news articles , user details etc and complete bookmark feature
+    //  add users bookmarked items to firestore
     //  based on user interests show news based on users nationality and interest on home page
-
+    //  complete the articles tab functionality ie. add swipe left to change tab feature like whatsapp(ie. by using tablayout and view pager I guess)
+    //  add Home fragment Functionality (where I get news based on users interests)
 
     //Todo(future)
     // save users email and password more securely by using some encryption algo or use EncryptedSharedPreferences
@@ -61,6 +63,8 @@ class MainActivity : AppCompatActivity() {
         val myBottomNav = findViewById<BottomNavigationView>(R.id.my_bottom_nav)
         val navController = findNavController(R.id.my_nav_host_fragment)
         myBottomNav.setupWithNavController(navController)
+
+        supportActionBar?.hide()
 
         registerForContextMenu(menu_vertical_button) //Right now u have to hold and press the button in order to open the menu ,  this sort of custom menu that opens when u click a view is called ContextMenu , menu_vertical_button is the id of the view on the click of which we want to show the menu
         navDrawerSetup()
@@ -153,11 +157,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.bookmark -> Toast.makeText(
-                applicationContext,
-                "Bookmark Clicked",
-                Toast.LENGTH_SHORT
-            ).show()
+            R.id.bookmark -> {
+                Toast.makeText(
+                    applicationContext,
+                    "Bookmark Clicked",
+                    Toast.LENGTH_SHORT
+                ).show()
+                startActivity(Intent(this, BookMarkActivity::class.java))
+            }
             R.id.language_preference -> Toast.makeText(
                 applicationContext,
                 "Language Preference Clicked",
