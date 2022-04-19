@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     // Todo CURRENT:-
     //  complete the articles tab functionality ie. add swipe left to change tab feature like whatsapp(ie. by using tablayout and view pager I guess)
     //  Today:-
-    //  add room ie. cache your news articles , user details etc and complete bookmark feature
+    //  add room ie. cache your news articles , user details etc and complete bookmark feature(Done)
     //  add users bookmarked items to firestore
     //  based on user interests show news based on users nationality and interest on home page
     //  complete the articles tab functionality ie. add swipe left to change tab feature like whatsapp(ie. by using tablayout and view pager I guess)
@@ -51,6 +51,8 @@ class MainActivity : AppCompatActivity() {
     // update firestore rules to private database from test database within 30 days otherwise it will stop working
     // Ensure that the listener mechanism I implemented is not creating any memory leaks
     // use navgraph to navigate instead of Intent
+    // currently Im combining all 3 category articles in one list and showing it in Home page but it looks shabby so instead show different category articles in different tab(like whatsapp tabs)
+
     private val binding: ActivityMainBinding by lazy {//this is lazy initialization
         ActivityMainBinding.inflate(layoutInflater, null, false)
     }

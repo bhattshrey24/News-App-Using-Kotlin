@@ -37,12 +37,12 @@ class BookMarkActivity : AppCompatActivity(),
         title = "Bookmarked Articles"
         setupRecyclerView()
         getNewsArticlesFromCache()
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_my_back_button)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true); // this is enabling the back button in actionBar
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_my_back_button) // this changes the icon of back button
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean { // use navigation component instead
-        finish()//simply finishing the current activity ie. going back
+        finish()//simply finishing the current activity ie. going back when user presses the back button in actionBar
         return true
         //return super.onOptionsItemSelected(item)
     }
