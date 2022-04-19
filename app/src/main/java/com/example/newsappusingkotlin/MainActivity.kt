@@ -35,24 +35,20 @@ class MainActivity : AppCompatActivity() {
     //  add Custom Login
     //  add google and facebook login
     //  add forgot password functionality
+    //  change myCity tab with my account Tab
 
     // Todo CURRENT:-
-    //  Develop Ui to take inputs from user about users interest,mobile number(maybe later add Otp functionality), age, nationality,language-preference and text size text
-    //  add user functionality ie. user data stored in firebase firestore having its username , interests , saved/bookmarked news articles
-    //  based on user interests show news based on users nationality and interest on home page
     //  complete the articles tab functionality ie. add swipe left to change tab feature like whatsapp(ie. by using tablayout and view pager I guess)
-    //  add room ie. cache your news articles , user details etc and complete bookmark feature
     //  Today:-
-    //   Add Nationality Page(Recycler View)
-    //   Add Interest Page(Recycler View , when user clicks on one item it remains highlighted , maybe add a checklist or radio button in front)
-    //   Add user Language Preference(Recycler View Again) or maybe make a details input page where user can fill language preference , profile pic , mobile number and nationality in one page by simply opening a drop down menu and selecting
-    //   Add users Mobile Phone text Field in SignUp Page
-    //   Save this data on firestore
+    //  add room ie. cache your news articles , user details etc and complete bookmark feature
+    //  based on user interests show news based on users nationality and interest on home page
 
 
     //Todo(future)
     // save users email and password more securely by using some encryption algo or use EncryptedSharedPreferences
     // update firestore rules to private database from test database within 30 days otherwise it will stop working
+    // Ensure that the listener mechanism I implemented is not creating any memory leaks
+    // use navgraph to navigate instead of Intent
     private val binding: ActivityMainBinding by lazy {//this is lazy initialization
         ActivityMainBinding.inflate(layoutInflater, null, false)
     }

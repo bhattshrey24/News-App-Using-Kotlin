@@ -14,7 +14,10 @@ import com.example.newsappusingkotlin.R
 import com.example.newsappusingkotlin.data.models.News
 import java.text.SimpleDateFormat
 
-class NewsListRecyclerAdapter(var parentContext: Context) :
+class NewsListRecyclerAdapter(
+    var parentContext: Context,
+    var onBookMarkBtnListener: NewsListRecyclerAdapter.OnBookmarkButtonListener
+) :
     RecyclerView.Adapter<NewsListRecyclerAdapter.ViewHolder>() {
 
     private var totalNumberOfArticles: Int = 0;
@@ -79,5 +82,20 @@ class NewsListRecyclerAdapter(var parentContext: Context) :
         var articleImage: ImageView = itemView.findViewById(R.id.articles_image_view)
         var timeTv: TextView = itemView.findViewById(R.id.Tv_timeOfArticle)
         var titleTV: TextView = itemView.findViewById(R.id.Tv_title)
+        var btnBookmark: ImageView = itemView.findViewById(R.id.btn_bookmark)
+
+
+        init {
+            btnBookmark.setOnClickListener {
+                val pos = adapterPosition
+                onBookMarkBtnListener.onBookmarkButtonClick(pos) // this is my listener method , ie. im using listener mechanism to communicate with fragment
+            }
+        }
+
     }
+
+    interface OnBookmarkButtonListener {
+        fun onBookmarkButtonClick(position: Int)
+    }
+
 }

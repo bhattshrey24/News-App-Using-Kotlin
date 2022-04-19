@@ -1,10 +1,17 @@
-package com.example.newsappusingkotlin.data.models
+package com.example.newsappusingkotlin.data.cache
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.example.newsappusingkotlin.data.models.Source
 import com.google.gson.annotations.SerializedName
 
-data class News(
+@Entity(tableName = "saved_news_table")
+data class SavedNewsEntity(
 
-    var source:Source,
+    @PrimaryKey(autoGenerate = true)
+    var id: Int,
+
+//   var source: Source, // no need of this
 
     var author: String,// the names here should be same as the json response keys
 

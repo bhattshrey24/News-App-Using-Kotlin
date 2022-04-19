@@ -86,8 +86,6 @@ class CategorySelectionRecyclerAdapter(var parentContext: Context) :
                         notifyItemChanged(pos)
                     }
                 }
-
-
             }
         }
     }
