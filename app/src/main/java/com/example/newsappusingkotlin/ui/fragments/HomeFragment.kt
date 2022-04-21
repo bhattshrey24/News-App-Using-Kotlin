@@ -51,6 +51,22 @@ class HomeFragment : Fragment() {
             ViewModelProvider(requireActivity(), viewModelFactory).get(MainViewModel::class.java)
 
 
+        var favCategories = gettingListOfFavCategoriesFromSharedPref()
+       // Log.d("Debug Homee", "${favCategories[0]} nd ${favCategories[1]} nd ${favCategories[2]}")
+
+        viewModel.getPostForHomePage("in", favCategories[0]) // in viewmodel I have added logic that after each call the new list of articles will be added to previous one hence we get all three categories articles
+        viewModel.getPostForHomePage("in", favCategories[1])
+        viewModel.getPostForHomePage("in", favCategories[2])
+
+        viewModel.homePageResponse.observe(viewLifecycleOwner, Observer { response ->
+            //Log.d("Response ", "Response is : $response")
+            adapter?.setNews(response.articles)
+            binding.circularProgressBarHomePage.visibility = View.GONE
+        })
+
+    }
+
+    private fun gettingListOfFavCategoriesFromSharedPref():List<String> {
         val sharedPreferences: SharedPreferences? =
             context?.getSharedPreferences(Constants.userDetailInputPrefKey, Context.MODE_PRIVATE)
 
@@ -58,19 +74,7 @@ class HomeFragment : Fragment() {
             Constants.usersSelectedCategories,
             ""
         )
-        var favCategories = convertFromJsonToList(usersSelectedCategoryJson)
-        Log.d("Debug Homee", "${favCategories[0]} nd ${favCategories[1]} nd ${favCategories[2]}")
-
-        viewModel.getPostForHomePage("in", favCategories[0]) // in viewmodel I have added logic that after each call the new list of articles will be added to previous one hence we get all three categories articles
-        viewModel.getPostForHomePage("in", favCategories[1])
-        viewModel.getPostForHomePage("in", favCategories[2])
-
-        viewModel.homePageResponse.observe(viewLifecycleOwner, Observer { response ->
-            Log.d("Response ", "Response is : $response")
-            adapter?.setNews(response.articles)
-            binding.circularProgressBarHomePage.visibility = View.GONE
-        })
-
+        return convertFromJsonToList(usersSelectedCategoryJson)
     }
 
     private fun convertFromJsonToList(json: String?): ArrayList<String> {
@@ -91,5 +95,4 @@ class HomeFragment : Fragment() {
             } // sending context to adapter so that Glide can use it
         binding.recyclerViewHomePage.adapter = adapter
     }
-
 }

@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
     // Ensure that the listener mechanism I implemented is not creating any memory leaks
     // use navgraph to navigate instead of Intent
     // currently Im combining all 3 category articles in one list and showing it in Home page but it looks shabby so instead show different category articles in different tab(like whatsapp tabs)
+    // add a "i" button on actionBar which tells user what each tabs shows , like home tab shows top news of your selected category etc
 
     private val binding: ActivityMainBinding by lazy {//this is lazy initialization
         ActivityMainBinding.inflate(layoutInflater, null, false)
