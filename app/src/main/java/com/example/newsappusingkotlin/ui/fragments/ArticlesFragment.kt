@@ -33,6 +33,14 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
     private lateinit var viewModel: MainViewModel
     private lateinit var viewModelForCache: ViewModelForCache
     private lateinit var listOfNewsArticle: List<News>
+    private var category: String = "business"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        val cat = arguments?.getString("category", "business")
+        category = cat ?: "business"
+        Log.d("Zoo Check", "$category")
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView( // Observe It's not OnCreate It's "OnCreateView" , here we bind the layout of the fragment
         inflater: LayoutInflater,

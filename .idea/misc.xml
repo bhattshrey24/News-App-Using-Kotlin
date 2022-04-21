@@ -14,13 +14,15 @@
         <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/activity_book_mark.xml" value="0.22010869565217392" />
         <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/activity_category_selection.xml" value="0.19972826086956522" />
         <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/activity_details_input.xml" value="0.264" />
-        <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/activity_main.xml" value="0.152" />
+        <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/activity_splash_screen.xml" value="0.16799999999999998" />
         <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/category_list_item.xml" value="0.2171875" />
         <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/content_authentication.xml" value="0.12360688956433637" />
         <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/drawer_header.xml" value="0.4" />
         <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/dropdown_menu_item_for_lang.xml" value="0.2296195652173913" />
+        <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/fragment_article_container.xml" value="0.17708333333333334" />
         <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/fragment_articles.xml" value="0.24087591240875914" />
+        <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/fragment_articles_container.xml" value="0.1875" />
         <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/fragment_first.xml" value="0.12360688956433637" />
         <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
         <entry key="..\:/Android Studio Projects Folder 2/NewsAppUsingKotlin/app/src/main/res/layout/fragment_live.xml" value="0.25416666666666665" />
