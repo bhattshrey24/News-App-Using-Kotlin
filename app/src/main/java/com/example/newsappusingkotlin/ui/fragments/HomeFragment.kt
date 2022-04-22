@@ -3,7 +3,6 @@ package com.example.newsappusingkotlin.ui.fragments
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +15,8 @@ import com.example.newsappusingkotlin.adapters.HomeFragmentNewsListAdapter
 import com.example.newsappusingkotlin.data.remote.repository.MyRepository
 import com.example.newsappusingkotlin.databinding.FragmentHomeBinding
 import com.example.newsappusingkotlin.other.Constants
-import com.example.newsappusingkotlin.ui.viewmodels.MainViewModel
-import com.example.newsappusingkotlin.ui.viewmodels.MainViewModelFactory
+import com.example.newsappusingkotlin.ui.viewmodels.HomePageViewModel
+import com.example.newsappusingkotlin.ui.viewmodels.HomePageViewModelFactory
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -28,7 +27,7 @@ class HomeFragment : Fragment() {
     }
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: HomeFragmentNewsListAdapter? = null
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: HomePageViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,10 +45,9 @@ class HomeFragment : Fragment() {
 
     private fun setupViewModelAndCallingForNewsArticles() {
         val repository = MyRepository()
-        val viewModelFactory = MainViewModelFactory(repository)
+        val viewModelFactory = HomePageViewModelFactory(repository)
         viewModel =
-            ViewModelProvider(requireActivity(), viewModelFactory).get(MainViewModel::class.java)
-
+            ViewModelProvider(requireActivity(), viewModelFactory).get(HomePageViewModel::class.java)
 
         var favCategories = gettingListOfFavCategoriesFromSharedPref()
        // Log.d("Debug Homee", "${favCategories[0]} nd ${favCategories[1]} nd ${favCategories[2]}")
@@ -59,7 +57,6 @@ class HomeFragment : Fragment() {
         viewModel.getPostForHomePage("in", favCategories[2])
 
         viewModel.homePageResponse.observe(viewLifecycleOwner, Observer { response ->
-            //Log.d("Response ", "Response is : $response")
             adapter?.setNews(response.articles)
             binding.circularProgressBarHomePage.visibility = View.GONE
         })
@@ -69,18 +66,11 @@ class HomeFragment : Fragment() {
     private fun gettingListOfFavCategoriesFromSharedPref():List<String> {
         val sharedPreferences: SharedPreferences? =
             context?.getSharedPreferences(Constants.userDetailInputPrefKey, Context.MODE_PRIVATE)
-
         val usersSelectedCategoryJson = sharedPreferences?.getString(
             Constants.usersSelectedCategories,
             ""
         )
-        return convertFromJsonToList(usersSelectedCategoryJson)
-    }
-
-    private fun convertFromJsonToList(json: String?): ArrayList<String> {
-        var gson: Gson = Gson()
-        val type = object : TypeToken<ArrayList<String?>>() {}.type
-        return gson.fromJson(json, type);
+        return viewModel.convertFromJsonToList(usersSelectedCategoryJson)
     }
 
     private fun setupRecyclerView() {

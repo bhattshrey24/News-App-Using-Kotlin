@@ -6,41 +6,20 @@ import androidx.lifecycle.viewModelScope
 import com.example.newsappusingkotlin.data.models.News
 import com.example.newsappusingkotlin.data.models.NewsJsonReceiver
 import com.example.newsappusingkotlin.data.remote.repository.MyRepository
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val repository: MyRepository) : ViewModel() {
-
-    val myResponse: MutableLiveData<NewsJsonReceiver> =
-        MutableLiveData() // livedata so that our activity gets refreshed when couroutine is done with fetching
-
+class HomePageViewModel(private val repository: MyRepository) : ViewModel() {
     val homePageResponse: MutableLiveData<NewsJsonReceiver> =
         MutableLiveData()
-
-    val articlesPageResponse: MutableLiveData<NewsJsonReceiver> =
-        MutableLiveData()
-
     var combinedListOfArticles: MutableList<News> = ArrayList()
-
-    fun getPost(country: String) {
-        viewModelScope.launch { // this will automatically do async call
-            val response: NewsJsonReceiver = repository.getPost(country)
-            myResponse.value =
-                response // this will automatically update the UI because myReponse is LiveData
-        }
-    }
 
     fun getPostForHomePage(country: String, category: String) {
         viewModelScope.launch { // this will automatically do async call
             val response: NewsJsonReceiver = repository.getPostForHomePage(country, category)
             homePageResponse.value =
                 combiningResults(response) // this will automatically update the UI because myReponse is LiveData
-        }
-    }
-
-    fun getPostForArticlesPage(category: String) {
-        viewModelScope.launch { // this will automatically do async call
-            val response: NewsJsonReceiver = repository.getPostForArticlesPage(category)
-            articlesPageResponse.value = response
         }
     }
 
@@ -51,5 +30,10 @@ class MainViewModel(private val repository: MyRepository) : ViewModel() {
         return NewsJsonReceiver("ok", 0, combinedListOfArticles) // shuffle the list later
     }
 
+     fun convertFromJsonToList(json: String?): ArrayList<String> {
+        var gson: Gson = Gson()
+        val type = object : TypeToken<ArrayList<String?>>() {}.type
+        return gson.fromJson(json, type);
+    }
 
 }

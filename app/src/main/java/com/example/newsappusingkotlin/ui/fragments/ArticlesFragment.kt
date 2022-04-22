@@ -12,13 +12,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsappusingkotlin.adapters.NewsListRecyclerAdapter
-import com.example.newsappusingkotlin.data.cache.SavedNewsEntity
 import com.example.newsappusingkotlin.data.models.News
 import com.example.newsappusingkotlin.data.remote.repository.MyRepository
 import com.example.newsappusingkotlin.databinding.FragmentArticlesBinding
 import com.example.newsappusingkotlin.other.Constants
-import com.example.newsappusingkotlin.ui.viewmodels.MainViewModel
-import com.example.newsappusingkotlin.ui.viewmodels.MainViewModelFactory
+import com.example.newsappusingkotlin.ui.viewmodels.ArticlesPageViewModel
+import com.example.newsappusingkotlin.ui.viewmodels.ArticlesPageViewModelFactory
 import com.example.newsappusingkotlin.ui.viewmodels.ViewModelForCache
 import com.example.newsappusingkotlin.ui.viewmodels.ViewModelForCacheFactory
 
@@ -28,22 +27,15 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
     private val binding: FragmentArticlesBinding by lazy { // so that layout binding only happens when need , It improves performance
         FragmentArticlesBinding.inflate(layoutInflater, null, false)
     }
-
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: NewsListRecyclerAdapter? = null
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: ArticlesPageViewModel
     private lateinit var viewModelForCache: ViewModelForCache
-    private lateinit var listOfNewsArticle: List<News>
+   // private lateinit var listOfNewsArticle: List<News>
     private val repository = MyRepository()
 
     private var category: String = "business"
-    override fun onCreate(savedInstanceState: Bundle?) {
-        val cat = arguments?.getString("category", "business")
-        val categoryFromArgs = cat ?: "business"
-        category = getCategoryStringForApi(categoryFromArgs)
-        Log.d("ZOOO", "inside on create of Article Frag with category $category")
-        super.onCreate(savedInstanceState)
-    }
+
 
     override fun onResume() { // because On resume is called everytime tab changes and not onCreate
         Log.d("ZOOO", "inside on Resume of Article Frag with category $category")
@@ -51,92 +43,48 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
         super.onResume()
     }
 
-    private fun getCategoryStringForApi(categoryFromArgs: String): String {
-        val listOfCategory = listOf(Constants.category1, Constants.category2, Constants.category3)
-        var ansStr = "business"
-        for (cat in listOfCategory) {
-            if (Constants.category1 == categoryFromArgs) {
-                ansStr = "india" //pass the users nationality here
-                break
-            } else if (Constants.category2 == categoryFromArgs) {
-                ansStr = "covid"
-                break
-            } else if (Constants.category3 == categoryFromArgs) {
-                ansStr = "stocks"
-                break
-            }
-            else if (Constants.category4 == categoryFromArgs) {
-                ansStr = "business"
-                break
-            }
-            else if (Constants.category5 == categoryFromArgs) {
-                ansStr = "entertainment"
-                break
-            }
-            else if (Constants.category6 == categoryFromArgs) {
-                ansStr = "general"
-                break
-            }
-            else if (Constants.category7 == categoryFromArgs) {
-                ansStr = "health"
-                break
-            }
-            else if (Constants.category8 == categoryFromArgs) {
-                ansStr = "science"
-                break
-            }
-            else if (Constants.category9 == categoryFromArgs) {
-                ansStr = "sports"
-                break
-            }
-            else if (Constants.category10 == categoryFromArgs) {
-                ansStr = "technology"
-                break
-            }
-            else {
-                ansStr = "sports"
-                break
-            }
-        }
-        return ansStr
-    }
-
     override fun onCreateView( // Observe It's not OnCreate It's "OnCreateView" , here we bind the layout of the fragment
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         binding.circularProgressBarArticlesPage.visibility = View.VISIBLE
+
         setupRecyclerView()
         setupViewModel()
 
-        val viewModelCacheFactory = ViewModelForCacheFactory(requireActivity().application)
+        val cat = arguments?.getString("category", "business")
+        val categoryFromArgs = cat ?: "business"
+        category = viewModel.getCategoryStringForApi(categoryFromArgs)
 
+        val viewModelCacheFactory = ViewModelForCacheFactory(requireActivity().application)
         viewModelForCache = ViewModelProvider(
             requireActivity(),
             viewModelCacheFactory
         ).get(ViewModelForCache::class.java)
 
-
         return binding.root
     }
 
     private fun setupViewModel() {
-        // repository = MyRepository()
-        val viewModelFactory = MainViewModelFactory(repository)
+        val viewModelFactory = ArticlesPageViewModelFactory(repository)
         viewModel =
-            ViewModelProvider(requireActivity(), viewModelFactory).get(MainViewModel::class.java)
+            ViewModelProvider(
+                requireActivity(),
+                viewModelFactory
+            ).get(ArticlesPageViewModel::class.java)
+
         callingForNewsArticles()
-        // viewModel.getPost("in") // in is the code for "India"
     }
 
     private fun callingForNewsArticles() {
-        binding.circularProgressBarArticlesPage.visibility=View.VISIBLE
+        binding.circularProgressBarArticlesPage.visibility = View.VISIBLE
         viewModel.getPostForArticlesPage(category)
         viewModel.articlesPageResponse.observe(viewLifecycleOwner, Observer { response ->
-            Log.d("Response ", "Response is : $response")
+           // Log.d("Response ", "Response is : $response")
             adapter?.setNews(response.articles)
-            listOfNewsArticle = response.articles
+            viewModel.listOfNewsArticle = response.articles
             binding.circularProgressBarArticlesPage.visibility = View.GONE
         })
     }
@@ -156,27 +104,12 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
     }
 
     override fun onBookmarkButtonClick(position: Int) {
-        val article = listOfNewsArticle[position]
-        var author = if (article.author != null) article.author else ""
-        var title = if (article.title != null) article.title else ""
-        var description = if (article.description != null) article.description else ""
-        var urlToArticle = if (article.urlToArticle != null) article.urlToArticle else ""
-        var urlToImage = if (article.urlToImage != null) article.urlToImage else ""
-        var publishedAt = if (article.publishedAt != null) article.publishedAt else ""
-        var content = if (article.content != null) article.content else ""
-
-        val newsArticle: SavedNewsEntity =
-            SavedNewsEntity(
-                0, // we have to pas 0 here , dont worry room library will change it since its the primary key
-                author,
-                title,
-                description,
-                urlToArticle,
-                urlToImage,
-                publishedAt,
-                content
+        viewModelForCache.addNewsArticle(
+            viewModel.onBookMarkButtonClickedCode(
+                viewModel.listOfNewsArticle,
+                position
             )
-        viewModelForCache.addNewsArticle(newsArticle)
+        )
         Toast.makeText(context, "YO Inside On Bookmark $position  END", Toast.LENGTH_SHORT).show()
     }
 
