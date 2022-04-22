@@ -10,6 +10,10 @@ class MyRepository {
     }
 
     suspend fun getPostForHomePage(country: String, category: String): NewsJsonReceiver {
-        return RetrofitInstance.api.getPostsForHomePage(country,category ,Constants.newsApiKey)
+        return RetrofitInstance.api.getPostsForHomePage(country, category, Constants.newsApiKey)
+    }
+
+    suspend fun getPostForArticlesPage(category: String): NewsJsonReceiver {
+        return RetrofitInstance.api.getPostsForArticlesPage(category, Constants.newsApiKey)
     }
 }

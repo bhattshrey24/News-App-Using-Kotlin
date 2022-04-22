@@ -12,6 +12,7 @@ android:layout_margin="5dp">
     android:id="@+id/articles_image_view"
     android:layout_width="match_parent"
     android:layout_height="160dp"
+    android:src="@drawable/article_image_placeholder"
     android:layout_marginBottom="50dp"/>
     <TextView
         android:id="@+id/Tv_title"

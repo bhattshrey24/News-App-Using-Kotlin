@@ -1,6 +1,7 @@
 package com.example.newsappusingkotlin.adapters
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -16,6 +17,7 @@ class ArticlesPageViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: 
     }
 
     override fun createFragment(position: Int): Fragment {
+       Log.d("ZOOOO ", "inside createFrag with $position")
         return when (position) {
             0 -> {
                 setUpFragWithArgument(Constants.category1)

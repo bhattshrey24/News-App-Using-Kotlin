@@ -24,17 +24,25 @@ class NewsListRecyclerAdapter(
     private var articles: List<News>? = listOf()
 
     fun setNews(articles: List<News>) {
+        this.articles= listOf() // clearing the data
         this.articles = articles
         this.totalNumberOfArticles = articles.size
         notifyDataSetChanged()
     }
 
-    private fun timeZoneToTimeConverter(timeStamp: String?): String { // converts timestamp to normal time
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-        val outputFormat = SimpleDateFormat("hh:mm a")
-        val parsedDate = inputFormat.parse(timeStamp)
-        return outputFormat.format(parsedDate) // returning the formatted date
-    }
+//    private fun timeZoneToTimeConverter(timeStamp: String?): String { // converts timestamp to normal time
+////         var inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+'ss:ss")
+////        if (timeStamp!!.contains("+")) {
+////            inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+'ss:ss")
+////        } else {
+////            inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+////        }
+//       // val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+////2022-04-21T11:07:25Z
+//        val outputFormat = SimpleDateFormat("hh:mm a")
+//        val parsedDate = inputFormat.parse(timeStamp)
+//        return outputFormat.format(parsedDate) // returning the formatted date
+//    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -50,8 +58,8 @@ class NewsListRecyclerAdapter(
         if (articles?.get(position)?.publishedAt == null) {
             holder.timeTv.text = "no time"
         } else {
-            val time = timeZoneToTimeConverter(articles?.get(position)?.publishedAt)
-            holder.timeTv.text = time
+          //  val time = timeZoneToTimeConverter(articles?.get(position)?.publishedAt)
+            holder.timeTv.text = articles?.get(position)?.publishedAt
         }
         if (articles?.get(position)?.title == null) {
             holder.titleTV.text = "No Title"

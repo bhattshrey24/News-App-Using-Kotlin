@@ -1,6 +1,7 @@
 package com.example.newsappusingkotlin.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,10 @@ class ArticlesContainerFragment : Fragment() {
         FragmentArticlesContainerBinding.inflate(layoutInflater, null, false)
     }
 
+    override fun onResume() {
+        Log.d("ZOOO","inside OnResume() Of ArticlesContainerFragment")
+        super.onResume()
+    }
     override fun onCreateView( // Observe It's not OnCreate It's "OnCreateView" , here we bind the layout of the fragment
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,6 +31,7 @@ class ArticlesContainerFragment : Fragment() {
         val myViewPager = binding.articlesContainerViewPager
         myTabLayout.tabMode = TabLayout.MODE_SCROLLABLE // this makes the above tab bar scrollable
 
+        Log.d("ZOOO","inside OnCreateView Of ArticlesContainerFragment")
         //val myAdapter = MyViewPagerAdapter(supportFragmentManager, lifecycle)
         val myAdapter =
             ArticlesPageViewPagerAdapter(parentFragmentManager, lifecycle)

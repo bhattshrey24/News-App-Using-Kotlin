@@ -54,6 +54,11 @@ class MainActivity : AppCompatActivity() {
     // currently Im combining all 3 category articles in one list and showing it in Home page but it looks shabby so instead show different category articles in different tab(like whatsapp tabs)
     // add a "i" button on actionBar which tells user what each tabs shows , like home tab shows top news of your selected category etc
 
+    //Todo(fix)
+    // code is messy
+    // list of news is not being cleared before new data arrives I guess
+    // viewpager doesnot call already made HomeFragments frequently so fix it , either make separate fragment for all tabs or make your own recyclerview(horzontal with static fragment in which just data changes(but in this data will be called again and again) or find a way to do it with tab layot )
+    // when the number of articles are less then 5 articles then articles page layout gets messed up
     private val binding: ActivityMainBinding by lazy {//this is lazy initialization
         ActivityMainBinding.inflate(layoutInflater, null, false)
     }

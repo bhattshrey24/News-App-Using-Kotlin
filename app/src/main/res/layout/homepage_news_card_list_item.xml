@@ -13,6 +13,7 @@
         <ImageView
             android:id="@+id/IVHome_article_image"
             android:layout_width="90dp"
+            android:src="@drawable/article_image_placeholder"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
