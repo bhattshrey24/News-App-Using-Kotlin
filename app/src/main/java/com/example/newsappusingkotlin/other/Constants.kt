@@ -2,8 +2,8 @@ package com.example.newsappusingkotlin.other
 
 object Constants {
     const val baseUrl: String = "https://newsapi.org/v2/"
-    const val newsApiKey: String = "1e1164c809f34f4b821d4f1ac6443eb3"
-
+   // Previous Key =  const val newsApiKey: String = "1e1164c809f34f4b821d4f1ac6443eb3"
+   const val newsApiKey: String = "13b5b1293fb24d32847415be78d77ae5"
 
     //Shared Pref keys
     const val authSharedPrefKey = "Auth_shared_preference"
@@ -30,5 +30,9 @@ object Constants {
     const val category9 = "Sports"
     const val category10 = "Technology"
     const val numberOfCategories = 10
+
+    //Tags For debug
+    const val currentDebugTag = "Current Debug"
+    const val permanentDebugTag = "Permanent Debug"
 
 }

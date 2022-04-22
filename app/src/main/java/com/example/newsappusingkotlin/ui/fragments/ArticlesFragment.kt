@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsappusingkotlin.adapters.NewsListRecyclerAdapter
-import com.example.newsappusingkotlin.data.models.News
 import com.example.newsappusingkotlin.data.remote.repository.MyRepository
 import com.example.newsappusingkotlin.databinding.FragmentArticlesBinding
 import com.example.newsappusingkotlin.other.Constants
@@ -31,15 +30,20 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
     private var adapter: NewsListRecyclerAdapter? = null
     private lateinit var viewModel: ArticlesPageViewModel
     private lateinit var viewModelForCache: ViewModelForCache
-   // private lateinit var listOfNewsArticle: List<News>
     private val repository = MyRepository()
 
     private var category: String = "business"
 
 
     override fun onResume() { // because On resume is called everytime tab changes and not onCreate
-        Log.d("ZOOO", "inside on Resume of Article Frag with category $category")
-        callingForNewsArticles()
+        Log.d(
+            Constants.currentDebugTag,
+            "inside onResume() of Article Frag with category $category"
+        )
+        callingForNewsArticles() //Fix This , Here only Update RecyclerView , Don't Call Api for Response
+//        adapter.let {
+//            it?.setNews(viewModel.listOfNewsArticle)
+//        }
         super.onResume()
     }
 
@@ -50,7 +54,6 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
     ): View {
 
         binding.circularProgressBarArticlesPage.visibility = View.VISIBLE
-
         setupRecyclerView()
         setupViewModel()
 
@@ -58,11 +61,13 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
         val categoryFromArgs = cat ?: "business"
         category = viewModel.getCategoryStringForApi(categoryFromArgs)
 
+       // callingForNewsArticles()
+
         val viewModelCacheFactory = ViewModelForCacheFactory(requireActivity().application)
         viewModelForCache = ViewModelProvider(
             requireActivity(),
             viewModelCacheFactory
-        ).get(ViewModelForCache::class.java)
+        )[ViewModelForCache::class.java]
 
         return binding.root
     }
@@ -73,16 +78,14 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
             ViewModelProvider(
                 requireActivity(),
                 viewModelFactory
-            ).get(ArticlesPageViewModel::class.java)
-
-        callingForNewsArticles()
+            )[ArticlesPageViewModel::class.java]
     }
 
     private fun callingForNewsArticles() {
         binding.circularProgressBarArticlesPage.visibility = View.VISIBLE
         viewModel.getPostForArticlesPage(category)
         viewModel.articlesPageResponse.observe(viewLifecycleOwner, Observer { response ->
-           // Log.d("Response ", "Response is : $response")
+            Log.d(Constants.permanentDebugTag, "Response in Articles Frag is , articles List Size: ${response.articles.size}")
             adapter?.setNews(response.articles)
             viewModel.listOfNewsArticle = response.articles
             binding.circularProgressBarArticlesPage.visibility = View.GONE

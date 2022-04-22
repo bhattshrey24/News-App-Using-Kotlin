@@ -1,5 +1,6 @@
 package com.example.newsappusingkotlin.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,12 +12,14 @@ import com.example.newsappusingkotlin.other.Constants
 import kotlinx.coroutines.launch
 
 class ArticlesPageViewModel(private val repository: MyRepository): ViewModel() {
-      lateinit var listOfNewsArticle: List<News>
+     lateinit var listOfNewsArticle: List<News>
      val articlesPageResponse: MutableLiveData<NewsJsonReceiver> =
         MutableLiveData()
+
     fun getPostForArticlesPage(category: String) {
         viewModelScope.launch { // this will automatically do async call
             val response: NewsJsonReceiver = repository.getPostForArticlesPage(category)
+            Log.d(Constants.permanentDebugTag , "Response From Api in ArticlesViewModel Articled List Size: ${response.articles.size}")
             articlesPageResponse.value = response
         }
     }

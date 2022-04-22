@@ -3,6 +3,7 @@ package com.example.newsappusingkotlin.ui.fragments
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // activity?.title="My Home" // U can use this to change actionBar Title from Fragment
+
         binding.circularProgressBarHomePage.visibility = View.VISIBLE
 
         setupRecyclerView()
@@ -52,6 +53,7 @@ class HomeFragment : Fragment() {
         var favCategories = gettingListOfFavCategoriesFromSharedPref()
        // Log.d("Debug Homee", "${favCategories[0]} nd ${favCategories[1]} nd ${favCategories[2]}")
 
+        Log.d(Constants.currentDebugTag, "Inside setupViewModelAndCallingForNewsArticles() of Home Fragment , Doing 3 parallel calls ")
         viewModel.getPostForHomePage("in", favCategories[0]) // in viewmodel I have added logic that after each call the new list of articles will be added to previous one hence we get all three categories articles
         viewModel.getPostForHomePage("in", favCategories[1])
         viewModel.getPostForHomePage("in", favCategories[2])

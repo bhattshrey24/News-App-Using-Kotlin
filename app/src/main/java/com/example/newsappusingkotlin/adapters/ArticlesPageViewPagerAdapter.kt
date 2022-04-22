@@ -18,7 +18,6 @@ class ArticlesPageViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: 
     }
 
     override fun createFragment(position: Int): Fragment {
-       Log.d("ZOOOO ", "inside createFrag of ArticlesPageViewPagerAdapter with $position")
         return when (position) {
             0 -> {
                 setUpFragWithArgument(Constants.category1)
