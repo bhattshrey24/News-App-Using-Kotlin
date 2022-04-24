@@ -9,20 +9,33 @@ import com.example.newsappusingkotlin.data.models.News
 import com.example.newsappusingkotlin.data.models.NewsJsonReceiver
 import com.example.newsappusingkotlin.data.remote.repository.MyRepository
 import com.example.newsappusingkotlin.other.Constants
+import com.example.newsappusingkotlin.other.HolderClass
 import kotlinx.coroutines.launch
 
-class ArticlesPageViewModel(private val repository: MyRepository): ViewModel() {
-     lateinit var listOfNewsArticle: List<News>
-     val articlesPageResponse: MutableLiveData<NewsJsonReceiver> =
+class ArticlesPageViewModel(private val repository: MyRepository) : ViewModel() {
+    var listOfNewsArticle: MutableList<News> = mutableListOf()
+
+    var listOfNewsArticleCat1: MutableList<News> = mutableListOf()
+    var listOfNewsArticleCat2: MutableList<News> = mutableListOf()
+
+    val articlesPageResponse: MutableLiveData<HolderClass> =
         MutableLiveData()
 
     fun getPostForArticlesPage(category: String) {
         viewModelScope.launch { // this will automatically do async call
             val response: NewsJsonReceiver = repository.getPostForArticlesPage(category)
-            Log.d(Constants.permanentDebugTag , "Response From Api in ArticlesViewModel Articled List Size: ${response.articles.size}")
-            articlesPageResponse.value = response
+            Log.d(
+                Constants.permanentDebugTag,
+                "Response From Api in ArticlesViewModel Articled List Size: ${response.articles.size}"
+            )
+            Log.d(
+                Constants.currentDebugTag,
+                "Response From Api in ArticlesViewModel 1st ele Title :  ${response.articles[0].title}"
+            )
+            articlesPageResponse.value = HolderClass(response, category)
         }
     }
+
     fun getCategoryStringForApi(categoryFromArgs: String): String {
         val listOfCategory = listOf(Constants.category1, Constants.category2, Constants.category3)
         var ansStr = "business"
@@ -64,29 +77,30 @@ class ArticlesPageViewModel(private val repository: MyRepository): ViewModel() {
         }
         return ansStr
     }
-    fun onBookMarkButtonClickedCode(listOfNewsArticle : List<News>,position:Int):SavedNewsEntity{
-       val article = listOfNewsArticle[position]
-       var author = if (article.author != null) article.author else ""
-       var title = if (article.title != null) article.title else ""
-       var description = if (article.description != null) article.description else ""
-       var urlToArticle = if (article.urlToArticle != null) article.urlToArticle else ""
-       var urlToImage = if (article.urlToImage != null) article.urlToImage else ""
-       var publishedAt = if (article.publishedAt != null) article.publishedAt else ""
-       var content = if (article.content != null) article.content else ""
 
-       val newsArticle: SavedNewsEntity =
-           SavedNewsEntity(
-               0, // we have to pas 0 here , dont worry room library will change it since its the primary key
-               author,
-               title,
-               description,
-               urlToArticle,
-               urlToImage,
-               publishedAt,
-               content
-           )
-       return newsArticle
-   }
+    fun onBookMarkButtonClickedCode(listOfNewsArticle: List<News>, position: Int): SavedNewsEntity {
+        val article = listOfNewsArticle[position]
+        var author = if (article.author != null) article.author else ""
+        var title = if (article.title != null) article.title else ""
+        var description = if (article.description != null) article.description else ""
+        var urlToArticle = if (article.urlToArticle != null) article.urlToArticle else ""
+        var urlToImage = if (article.urlToImage != null) article.urlToImage else ""
+        var publishedAt = if (article.publishedAt != null) article.publishedAt else ""
+        var content = if (article.content != null) article.content else ""
+
+        val newsArticle: SavedNewsEntity =
+            SavedNewsEntity(
+                0, // we have to pas 0 here , dont worry room library will change it since its the primary key
+                author,
+                title,
+                description,
+                urlToArticle,
+                urlToImage,
+                publishedAt,
+                content
+            )
+        return newsArticle
+    }
 
 
 }

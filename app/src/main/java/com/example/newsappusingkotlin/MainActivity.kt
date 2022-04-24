@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     // Todo CURRENT:-
     //  complete the articles tab functionality ie. add swipe left to change tab feature like whatsapp(ie. by using tablayout and view pager I guess)
+    //  Make Home Page like Whatsapp Tab so that I dont do many Api Calls Simultaneously
     //  Today:-
     //  add room ie. cache your news articles , user details etc and complete bookmark feature(Done)
     //  add users bookmarked items to firestore

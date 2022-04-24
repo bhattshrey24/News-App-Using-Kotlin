@@ -3,13 +3,13 @@ package com.example.newsappusingkotlin.other
 object Constants {
     const val baseUrl: String = "https://newsapi.org/v2/"
    // Previous Key =  const val newsApiKey: String = "1e1164c809f34f4b821d4f1ac6443eb3"
-   const val newsApiKey: String = "13b5b1293fb24d32847415be78d77ae5"
+ //   New Key = const val newsApiKey: String = "13b5b1293fb24d32847415be78d77ae5"
+    const val newsApiKey: String ="1e1164c809f34f4b821d4f1ac6443eb3"
 
     //Shared Pref keys
     const val authSharedPrefKey = "Auth_shared_preference"
     const val userDetailInputPrefKey = "user_detail_input"
-    const val userEmailSharedPrefKey =
-        "users_email" // this is present in both shared prefs ie. auth and user detail input
+    const val userEmailSharedPrefKey = "users_email" // this is present in both shared prefs ie. auth and user detail input
     const val userPasswordSharedPrefKey = "users_password"
     const val usersMobileNumberPrefKey = "user_mobile_num"
     const val usersCountryPrefKey = "user_country"

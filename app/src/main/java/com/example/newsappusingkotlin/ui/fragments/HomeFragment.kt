@@ -55,8 +55,9 @@ class HomeFragment : Fragment() {
 
         Log.d(Constants.currentDebugTag, "Inside setupViewModelAndCallingForNewsArticles() of Home Fragment , Doing 3 parallel calls ")
         viewModel.getPostForHomePage("in", favCategories[0]) // in viewmodel I have added logic that after each call the new list of articles will be added to previous one hence we get all three categories articles
-        viewModel.getPostForHomePage("in", favCategories[1])
-        viewModel.getPostForHomePage("in", favCategories[2])
+       // Currently only doing 1 call so that I dont get Http 429 Error
+        // viewModel.getPostForHomePage("in", favCategories[1])
+       // viewModel.getPostForHomePage("in", favCategories[2])
 
         viewModel.homePageResponse.observe(viewLifecycleOwner, Observer { response ->
             adapter?.setNews(response.articles)

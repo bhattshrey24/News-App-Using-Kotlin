@@ -7,9 +7,10 @@ import com.example.newsappusingkotlin.other.Constants
 import retrofit2.HttpException
 
 class MyRepository {
-    suspend fun getPost(country: String): NewsJsonReceiver {
-        return RetrofitInstance.api.getPost(country, Constants.newsApiKey)
-    }
+
+//    suspend fun getPost(country: String): NewsJsonReceiver {
+//        return RetrofitInstance.api.getPost(country, Constants.newsApiKey)
+//    }
 
     suspend fun getPostForHomePage(country: String, category: String): NewsJsonReceiver {
         var apiResponse = NewsJsonReceiver("", 0, listOf()) //making Dummy Object so that I could return it if Api Gives Error
