@@ -17,6 +17,14 @@ class ArticlesPageViewModel(private val repository: MyRepository) : ViewModel() 
 
     var listOfNewsArticleCat1: MutableList<News> = mutableListOf()
     var listOfNewsArticleCat2: MutableList<News> = mutableListOf()
+    var listOfNewsArticleCat3: MutableList<News> = mutableListOf()
+    var listOfNewsArticleCat4: MutableList<News> = mutableListOf()
+    var listOfNewsArticleCat5: MutableList<News> = mutableListOf()
+    var listOfNewsArticleCat6: MutableList<News> = mutableListOf()
+    var listOfNewsArticleCat7: MutableList<News> = mutableListOf()
+    var listOfNewsArticleCat8: MutableList<News> = mutableListOf()
+    var listOfNewsArticleCat9: MutableList<News> = mutableListOf()
+    var listOfNewsArticleCat10: MutableList<News> = mutableListOf()
 
     val articlesPageResponse: MutableLiveData<HolderClass> =
         MutableLiveData()
@@ -27,10 +35,6 @@ class ArticlesPageViewModel(private val repository: MyRepository) : ViewModel() 
             Log.d(
                 Constants.permanentDebugTag,
                 "Response From Api in ArticlesViewModel Articled List Size: ${response.articles.size}"
-            )
-            Log.d(
-                Constants.currentDebugTag,
-                "Response From Api in ArticlesViewModel 1st ele Title :  ${response.articles[0].title}"
             )
             articlesPageResponse.value = HolderClass(response, category)
         }
