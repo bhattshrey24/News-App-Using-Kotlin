@@ -47,11 +47,6 @@ class MainActivity : AppCompatActivity() {
     //  complete the articles tab functionality ie. add swipe left to change tab feature like whatsapp(ie. by using tablayout and view pager I guess)
     //  add Home fragment Functionality (where I get news based on users interests)
 
-    //Todo(Current Fix)
-    // fix number of calls the application is doing to the API else you'll get HTTP Exception 429 again
-    // Save the Data so that user does not do unnecessary calls everytime tab is changes , Call should be done only once during OnCreate and rest when user Pulls down to refresh
-
-
     //Todo(future)
     // save users email and password more securely by using some encryption algo or use EncryptedSharedPreferences
     // update Firestore rules to private database from test database within 30 days otherwise it will stop working
@@ -63,9 +58,8 @@ class MainActivity : AppCompatActivity() {
     //Todo(Future fix)
     // code is messy
     // list of news is not being cleared before new data arrives I guess
-    // viewpager doesnot call already made HomeFragments frequently so fix it , either make separate fragment for all tabs or make your own recyclerview(horzontal with static fragment in which just data changes(but in this data will be called again and again) or find a way to do it with tab layot )
     // when the number of articles are less then 5 articles then articles page layout gets messed up
-
+    // I guess viewpage and tablayout make objects of fragment of tab which is currently showing and its left and right tab , and destroyes the others so this makes recyclerView loose all content and we again have to resent it which creates delay and its not a good UX
     // Todo(Info For Future Errors)
     //  Error HTTP 429 ie too many calls , This is due to NewsApi giving my app penalty for doing lots for calls , so either make new account or find new api or stop for a while till the api removes the ban and fix too many calls error like in home page Im doing 3 calls , and on Resume doing many calls etc
 
