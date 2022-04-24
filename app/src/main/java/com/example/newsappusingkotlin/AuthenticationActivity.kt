@@ -1,15 +1,13 @@
 package com.example.newsappusingkotlin
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.newsappusingkotlin.databinding.ActivityAuthenticationBinding
-import com.google.firebase.auth.FirebaseAuth
+import com.example.newsappusingkotlin.ui.fragments.LoginFragment
 
 
 class AuthenticationActivity : AppCompatActivity() {
+
     private val binding: ActivityAuthenticationBinding by lazy {
         ActivityAuthenticationBinding.inflate(layoutInflater, null, false)
     }
@@ -26,6 +24,7 @@ class AuthenticationActivity : AppCompatActivity() {
             replace(binding.fragmentContainer.id, loginFragment)
             commit()
         }
+
 
     }
 

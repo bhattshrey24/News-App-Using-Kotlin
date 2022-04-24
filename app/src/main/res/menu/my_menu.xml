@@ -8,7 +8,7 @@
 
     <item android:title="Articles"
         android:icon="@drawable/ic_articles"
-        android:id="@+id/articlesFragment"/>
+        android:id="@+id/articlesContainerFragment"/>
 
     <item android:title="My City"
         android:icon="@drawable/ic_city"

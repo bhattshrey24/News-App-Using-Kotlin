@@ -14,24 +14,35 @@ import com.example.newsappusingkotlin.R
 import com.example.newsappusingkotlin.data.models.News
 import java.text.SimpleDateFormat
 
-class NewsListRecyclerAdapter(var parentContext: Context) :
+class NewsListRecyclerAdapter(
+    var parentContext: Context,
+    var onBookMarkBtnListener: NewsListRecyclerAdapter.OnBookmarkButtonListener
+) :
     RecyclerView.Adapter<NewsListRecyclerAdapter.ViewHolder>() {
 
     private var totalNumberOfArticles: Int = 0;
     private var articles: List<News>? = listOf()
 
     fun setNews(articles: List<News>) {
+        this.articles= listOf() // clearing the data
         this.articles = articles
         this.totalNumberOfArticles = articles.size
         notifyDataSetChanged()
     }
 
-    private fun timeZoneToTimeConverter(timeStamp: String?): String { // converts timestamp to normal time
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-        val outputFormat = SimpleDateFormat("hh:mm a")
-        val parsedDate = inputFormat.parse(timeStamp)
-        return outputFormat.format(parsedDate) // returning the formatted date
-    }
+//    private fun timeZoneToTimeConverter(timeStamp: String?): String { // converts timestamp to normal time
+////         var inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+'ss:ss")
+////        if (timeStamp!!.contains("+")) {
+////            inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+'ss:ss")
+////        } else {
+////            inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+////        }
+//       // val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+////2022-04-21T11:07:25Z
+//        val outputFormat = SimpleDateFormat("hh:mm a")
+//        val parsedDate = inputFormat.parse(timeStamp)
+//        return outputFormat.format(parsedDate) // returning the formatted date
+//    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -44,12 +55,11 @@ class NewsListRecyclerAdapter(var parentContext: Context) :
 
 
     override fun onBindViewHolder(holder: NewsListRecyclerAdapter.ViewHolder, position: Int) {
-
         if (articles?.get(position)?.publishedAt == null) {
             holder.timeTv.text = "no time"
         } else {
-            val time = timeZoneToTimeConverter(articles?.get(position)?.publishedAt)
-            holder.timeTv.text = time
+          //  val time = timeZoneToTimeConverter(articles?.get(position)?.publishedAt)
+            holder.timeTv.text = articles?.get(position)?.publishedAt
         }
         if (articles?.get(position)?.title == null) {
             holder.titleTV.text = "No Title"
@@ -80,5 +90,20 @@ class NewsListRecyclerAdapter(var parentContext: Context) :
         var articleImage: ImageView = itemView.findViewById(R.id.articles_image_view)
         var timeTv: TextView = itemView.findViewById(R.id.Tv_timeOfArticle)
         var titleTV: TextView = itemView.findViewById(R.id.Tv_title)
+        var btnBookmark: ImageView = itemView.findViewById(R.id.btn_bookmark)
+
+
+        init {
+            btnBookmark.setOnClickListener {
+                val pos = adapterPosition
+                onBookMarkBtnListener.onBookmarkButtonClick(pos) // this is my listener method , ie. im using listener mechanism to communicate with fragment
+            }
+        }
+
     }
+
+    interface OnBookmarkButtonListener {
+        fun onBookmarkButtonClick(position: Int)
+    }
+
 }

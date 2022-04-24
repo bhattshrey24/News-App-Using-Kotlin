@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.newsappusingkotlin">
-<uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsAppUsingKotlin">
-
+        <activity
+            android:name=".BookMarkActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CategorySelectionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetailsInputActivity"
+            android:exported="false"></activity>
         <activity
             android:name=".SplashScreenActivity"
             android:exported="true">
@@ -19,13 +27,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".AuthenticationActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

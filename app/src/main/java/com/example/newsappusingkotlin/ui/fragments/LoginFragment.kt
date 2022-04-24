@@ -1,6 +1,8 @@
-package com.example.newsappusingkotlin
+package com.example.newsappusingkotlin.ui.fragments
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
@@ -14,7 +16,11 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.newsappusingkotlin.AuthenticationActivity
+import com.example.newsappusingkotlin.MainActivity
+import com.example.newsappusingkotlin.SignUpFragment
 import com.example.newsappusingkotlin.databinding.FragmentLoginBinding
+import com.example.newsappusingkotlin.other.Constants
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -43,14 +49,14 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
         binding.loginPageCircularProgressBar.visibility = View.GONE
         mAuth = FirebaseAuth.getInstance()
         binding.buttonLogIn.setOnClickListener {
-            logIn(
-                binding.editTextUsersEmail.text.toString(),
-                binding.editTextTextPassword.text.toString()
+            validateUserInputs(
+                binding.editTextUsersEmail.text.toString().trim(),
+                binding.editTextTextPassword.text.toString().trim()
             )
         }
     }
 
-    private fun logIn(usersEmail: String, usersPassword: String) {
+    private fun validateUserInputs(usersEmail: String, usersPassword: String) {
         if (usersEmail == "") {
             binding.editTextUsersEmail.error = "Enter Email"
             binding.editTextUsersEmail.requestFocus()
@@ -62,7 +68,11 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
             return
         }
 
- //       binding.facebookLoginBtn.isClickable=true
+        logIn(usersEmail, usersPassword)
+    }
+
+    private fun logIn(usersEmail: String, usersPassword: String) {
+
         binding.facebookLoginBtn.setOnClickListener {
             facebookLogin()
         }
@@ -71,6 +81,7 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
         }
 
         binding.loginPageCircularProgressBar.visibility = View.VISIBLE
+
         val parentActivityReference =
             host as AuthenticationActivity // host simply returns the reference of the host activity , "as" is used to type cast
 
@@ -79,6 +90,9 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     binding.loginPageCircularProgressBar.visibility = View.GONE
+
+                    //saving users details so that user dont have to login again and again
+                    saveDataInSharedPref(usersEmail,usersPassword)
 
                     Toast.makeText(
                         context, "Log In successful",
@@ -93,10 +107,7 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
                                 Intent.FLAG_ACTIVITY_NEW_TASK
                     )// this makes sure that user cannot go back to the Log In activity when back button is pressed
                     startActivity(intent)
-                    // updateUI(user)
                 } else {
-                    // If sign in fails, display a message to the user.
-                    //  Log.w(TAG, "signInWithEmail:failure", task.exception)
                     binding.loginPageCircularProgressBar.visibility = View.GONE
                     Toast.makeText(
                         context, "Log In unsuccessful ${task.exception?.message}",
@@ -105,6 +116,17 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
                     //  updateUI(null)
                 }
             }
+
+    }
+
+    private fun saveDataInSharedPref(usersEmail: String,usersPassword: String) {
+        val sharedPreferences: SharedPreferences? =
+            activity?.getSharedPreferences(Constants.authSharedPrefKey, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor? = sharedPreferences?.edit()
+        editor?.apply {
+            putString(Constants.userEmailSharedPrefKey,usersEmail)
+            putString(Constants.userPasswordSharedPrefKey,usersPassword)
+        }?.apply()
 
     }
 
