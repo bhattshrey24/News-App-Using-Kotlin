@@ -1,6 +1,5 @@
 package com.example.newsappusingkotlin.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsappusingkotlin.adapters.NewsListRecyclerAdapter
+import com.example.newsappusingkotlin.data.models.News
 import com.example.newsappusingkotlin.data.remote.repository.MyRepository
 import com.example.newsappusingkotlin.databinding.FragmentArticlesBinding
 import com.example.newsappusingkotlin.other.Constants
@@ -227,9 +227,46 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
     }
 
     override fun onBookmarkButtonClick(position: Int) {
+        var listOfNews = mutableListOf<News>()
+        when (category) {
+            "india" -> {
+                listOfNews = viewModel.listOfNewsArticleCat1
+            }
+            "covid" -> {
+                listOfNews = viewModel.listOfNewsArticleCat2
+            }
+            "stocks" -> {
+                listOfNews = viewModel.listOfNewsArticleCat3
+            }
+            "business" -> {
+                listOfNews = viewModel.listOfNewsArticleCat4
+            }
+            "entertainment" -> {
+                listOfNews = viewModel.listOfNewsArticleCat5
+            }
+            "general" -> {
+                listOfNews = viewModel.listOfNewsArticleCat6
+            }
+            "health" -> {
+                listOfNews = viewModel.listOfNewsArticleCat7
+            }
+            "science" -> {
+                listOfNews = viewModel.listOfNewsArticleCat8
+            }
+            "sports" -> {
+                listOfNews = viewModel.listOfNewsArticleCat9
+            }
+            "technology" -> {
+                listOfNews = viewModel.listOfNewsArticleCat10
+            }
+            else -> {//business is default case
+                listOfNews = viewModel.listOfNewsArticleCat4
+            }
+        }
+
         viewModelForCache.addNewsArticle(
             viewModel.onBookMarkButtonClickedCode(
-                viewModel.listOfNewsArticle,
+                listOfNews,
                 position
             )
         )
