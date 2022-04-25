@@ -13,18 +13,18 @@ data class SavedNewsEntity(
 
 //   var source: Source, // no need of this
 
-    var author: String,// the names here should be same as the json response keys
+    var author: String?,// the names here should be same as the json response keys
 
-    var title: String,
+    var title: String?,
 
-    var description: String,
+    var description: String?,
 
     @SerializedName("url")// u can have different name too but then u have to use the @serializedName annotation as shown here
-    var urlToArticle: String,
+    var urlToArticle: String?,
 
-    var urlToImage: String,
+    var urlToImage: String?,
 
-    var publishedAt: String,
+    var publishedAt: String?,
 
-    var content: String,
+    var content: String?,
 )

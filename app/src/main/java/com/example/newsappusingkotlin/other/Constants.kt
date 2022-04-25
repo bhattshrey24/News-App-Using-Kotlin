@@ -35,4 +35,7 @@ object Constants {
     const val currentDebugTag = "Current Debug"
     const val permanentDebugTag = "Permanent Debug"
 
+    //Key for passing custom News object in Intent using Parcelize
+    const val objectPassingThroughIntentKey = "news_object"
+
 }

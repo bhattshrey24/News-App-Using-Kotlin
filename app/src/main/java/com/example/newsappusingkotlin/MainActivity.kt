@@ -60,8 +60,13 @@ class MainActivity : AppCompatActivity() {
     // list of news is not being cleared before new data arrives I guess
     // when the number of articles are less then 5 articles then articles page layout gets messed up
     // I guess viewpage and tablayout make objects of fragment of tab which is currently showing and its left and right tab , and destroyes the others so this makes recyclerView loose all content and we again have to resent it which creates delay and its not a good UX
+    // To show full content you can do web scraping(as shown in udemy course) from the linkToArticle provided by the Api , but this is not full proof because the sites can change their UI and that will mess up the code of web scraping
+
     // Todo(Info For Future Errors)
     //  Error HTTP 429 ie too many calls , This is due to NewsApi giving my app penalty for doing lots for calls , so either make new account or find new api or stop for a while till the api removes the ban and fix too many calls error like in home page Im doing 3 calls , and on Resume doing many calls etc
+
+    //Todo(Important Feature)
+    // Full content of the articles is not visible cause its available in Paid Version of Api , Im using the free "Developer version"
 
     private val binding: ActivityMainBinding by lazy {//this is lazy initialization
         ActivityMainBinding.inflate(layoutInflater, null, false)

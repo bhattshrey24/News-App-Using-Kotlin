@@ -1,5 +1,6 @@
 package com.example.newsappusingkotlin.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.newsappusingkotlin.NewsArticleDisplayActivity
 import com.example.newsappusingkotlin.adapters.NewsListRecyclerAdapter
 import com.example.newsappusingkotlin.data.models.News
 import com.example.newsappusingkotlin.data.remote.repository.MyRepository
@@ -23,7 +25,8 @@ import com.example.newsappusingkotlin.ui.viewmodels.ViewModelForCache
 import com.example.newsappusingkotlin.ui.viewmodels.ViewModelForCacheFactory
 
 
-class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonListener,NewsListRecyclerAdapter.OnNewsArticleClickListener{
+class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonListener,
+    NewsListRecyclerAdapter.OnNewsArticleClickListener {
 
     private val binding: FragmentArticlesBinding by lazy { // so that layout binding only happens when need , It improves performance
         FragmentArticlesBinding.inflate(layoutInflater, null, false)
@@ -34,6 +37,7 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
     private lateinit var viewModelForCache: ViewModelForCache
     private val repository = MyRepository()
     private var category: String = "business"
+    var listOfNews: MutableList<News> = mutableListOf()
 
 
     override fun onResume() { // because On resume is called everytime tab changes and not onCreate
@@ -228,7 +232,26 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
     }
 
     override fun onBookmarkButtonClick(position: Int) {
-        var listOfNews: MutableList<News>
+        //var listOfNews: MutableList<News>
+        setupListOfNewsOfCurrentFragmentInDisplay()
+        viewModelForCache.addNewsArticle(
+            viewModel.onBookMarkButtonClickedCode(
+                listOfNews,
+                position
+            )
+        )
+        Toast.makeText(context, "YO Inside On Bookmark $position  END", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onNewsArticleClick(position: Int) {
+        Toast.makeText(context, "User Clicked $position View", Toast.LENGTH_SHORT).show()
+        var intent = Intent(activity, NewsArticleDisplayActivity::class.java)
+        setupListOfNewsOfCurrentFragmentInDisplay()
+        intent.putExtra(Constants.objectPassingThroughIntentKey, listOfNews[position])
+        activity?.startActivity(intent)
+    }
+
+    private fun setupListOfNewsOfCurrentFragmentInDisplay() {
         when (category) {
             "india" -> {
                 listOfNews = viewModel.listOfNewsArticleCat1
@@ -264,18 +287,6 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
                 listOfNews = viewModel.listOfNewsArticleCat4
             }
         }
-
-        viewModelForCache.addNewsArticle(
-            viewModel.onBookMarkButtonClickedCode(
-                listOfNews,
-                position
-            )
-        )
-        Toast.makeText(context, "YO Inside On Bookmark $position  END", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onNewsArticleClick(position: Int) {
-        Toast.makeText(context, "User Clicked $position View", Toast.LENGTH_SHORT).show()
     }
 
 }

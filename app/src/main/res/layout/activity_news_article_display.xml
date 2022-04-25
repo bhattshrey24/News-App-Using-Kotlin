@@ -10,6 +10,7 @@
         android:id="@+id/Iv_newsArticleDisplay"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Tv_Time_newsArticleDisplay" />
@@ -17,20 +18,26 @@
     <TextView
         android:id="@+id/Tv_Title_newsArticleDisplay"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="25dp"
         android:text="YOOOOOOOOOO"
-        android:textSize="20sp"
-        android:layout_marginBottom="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/Tv_Time_newsArticleDisplay"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="10dp"
         android:text="10:30pm"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Tv_Title_newsArticleDisplay" />
 
@@ -38,9 +45,12 @@
         android:id="@+id/Tv_Content_newsArticleDisplay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="4dp"
         android:text="ijwoadoawdoaiwdoiawodiahowidh"
-        android:textSize="18sp"
-        android:layout_marginTop="20dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Iv_newsArticleDisplay" />

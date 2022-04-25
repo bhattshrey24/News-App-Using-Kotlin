@@ -1,7 +1,7 @@
 package com.example.newsappusingkotlin
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -15,11 +15,13 @@ import com.example.newsappusingkotlin.data.cache.SavedNewsEntity
 import com.example.newsappusingkotlin.data.models.News
 import com.example.newsappusingkotlin.data.models.Source
 import com.example.newsappusingkotlin.databinding.ActivityBookMarkBinding
+import com.example.newsappusingkotlin.other.Constants
 import com.example.newsappusingkotlin.ui.viewmodels.ViewModelForCache
 import com.example.newsappusingkotlin.ui.viewmodels.ViewModelForCacheFactory
 
 class BookMarkActivity : AppCompatActivity(),
-    NewsListRecyclerAdapter.OnBookmarkButtonListener,NewsListRecyclerAdapter.OnNewsArticleClickListener { // using same adapter that we used in articles Page
+    NewsListRecyclerAdapter.OnBookmarkButtonListener,
+    NewsListRecyclerAdapter.OnNewsArticleClickListener { // using same adapter that we used in articles Page
 
     val binding: ActivityBookMarkBinding by lazy {
         ActivityBookMarkBinding.inflate(layoutInflater, null, false)
@@ -93,7 +95,7 @@ class BookMarkActivity : AppCompatActivity(),
         binding.recyclerViewBookMark.layoutManager = layoutManager
         adapter =
             applicationContext?.let {
-                NewsListRecyclerAdapter(it, this,this)
+                NewsListRecyclerAdapter(it, this, this)
             } // sending context to adapter so that Glide can use it
         binding.recyclerViewBookMark.adapter = adapter
     }
@@ -105,8 +107,28 @@ class BookMarkActivity : AppCompatActivity(),
         listOfNewsArticles?.clear()// This makes sure that when we delete then old data is not written over new data ie. live data will be updated after deleting and then again listOfNewsArticles will again be filled so previous data that was present in list should be removed that is why I used clear()
     }
 
+    private fun convertObjectFromSavedNewsEntityToNews(savedNewsEntity: SavedNewsEntity?): News {
+        return News(
+            Source("", ""),
+            savedNewsEntity?.author,
+            savedNewsEntity?.title,
+            savedNewsEntity?.description,
+            savedNewsEntity?.urlToArticle,
+            savedNewsEntity?.urlToImage,
+            savedNewsEntity?.publishedAt,
+            savedNewsEntity?.content
+        )
+    }
+
     override fun onNewsArticleClick(position: Int) {
-        TODO("Not yet implemented")
+        var intent = Intent(this, NewsArticleDisplayActivity::class.java)
+        val news = convertObjectFromSavedNewsEntityToNews(savedListOfNewsArticles?.get(position))
+
+        intent.putExtra(
+            Constants.objectPassingThroughIntentKey,
+            news
+        )
+        startActivity(intent)
     }
 
 }
