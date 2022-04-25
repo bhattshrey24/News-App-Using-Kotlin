@@ -38,14 +38,17 @@ class MainActivity : AppCompatActivity() {
     //  change myCity tab with my account Tab
 
     // Todo CURRENT:-
-    //  complete the articles tab functionality ie. add swipe left to change tab feature like whatsapp(ie. by using tablayout and view pager I guess)
-    //  Make Home Page like Whatsapp Tab so that I dont do many Api Calls Simultaneously
     //  Today:-
-    //  add news watching page , where user can read the actual news
     //  add room ie. cache your news articles , user details etc and complete bookmark feature(Done)
     //  add users bookmarked items to firestore
     //  make app based on user , ie. when user logs in , get that users data from firestore and show that
-
+    //  Make Home Page like Whatsapp Tab so that I don't do many Api Calls Simultaneously
+    //  add Search Tab Feature
+    //  add the Search Tab functionality
+    //  add user Details Tab (ie. my account , where user can switch account , can upload new picture , can change interests etc)
+    //  add the share News Article Functionality
+    //  Make the theme of app controllable from 1 point
+    //  fix UI like fully fitted Image View , Proper Margins and heights etc
 
     //Todo(future)
     // save users email and password more securely by using some encryption algo or use EncryptedSharedPreferences
@@ -54,10 +57,10 @@ class MainActivity : AppCompatActivity() {
     // use navGraph to navigate instead of Intent
     // currently Im combining all 3 category articles in one list and showing it in Home page but it looks shabby so instead show different category articles in different tab(like whatsapp tabs)
     // add a "i" button on actionBar which tells user what each tabs shows , like home tab shows top news of your selected category etc
+    // add in Users Details Page => add feature in which user can set how many minutes/hours he/she should read daily(this is useful for UPSC aspirants ) , send PushNotification if they do not achieve there daily targets , show weekly graph of how many hours they have read news Paper
 
     //Todo(Future fix)
     // code is messy
-    // list of news is not being cleared before new data arrives I guess
     // when the number of articles are less then 5 articles then articles page layout gets messed up
     // I guess viewpage and tablayout make objects of fragment of tab which is currently showing and its left and right tab , and destroyes the others so this makes recyclerView loose all content and we again have to resent it which creates delay and its not a good UX
     // To show full content you can do web scraping(as shown in udemy course) from the linkToArticle provided by the Api , but this is not full proof because the sites can change their UI and that will mess up the code of web scraping
