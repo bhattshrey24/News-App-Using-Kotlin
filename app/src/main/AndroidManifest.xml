@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsAppUsingKotlin">
         <activity
+            android:name=".NewsArticleDisplayActivity"
+            android:exported="false" />
+        <activity
             android:name=".BookMarkActivity"
             android:exported="false" />
         <activity
@@ -17,7 +20,7 @@
             android:exported="false" />
         <activity
             android:name=".DetailsInputActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".SplashScreenActivity"
             android:exported="true">

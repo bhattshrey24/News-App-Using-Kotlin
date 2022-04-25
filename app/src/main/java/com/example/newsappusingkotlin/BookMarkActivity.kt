@@ -19,7 +19,7 @@ import com.example.newsappusingkotlin.ui.viewmodels.ViewModelForCache
 import com.example.newsappusingkotlin.ui.viewmodels.ViewModelForCacheFactory
 
 class BookMarkActivity : AppCompatActivity(),
-    NewsListRecyclerAdapter.OnBookmarkButtonListener { // using same adapter that we used in articles Page
+    NewsListRecyclerAdapter.OnBookmarkButtonListener,NewsListRecyclerAdapter.OnNewsArticleClickListener { // using same adapter that we used in articles Page
 
     val binding: ActivityBookMarkBinding by lazy {
         ActivityBookMarkBinding.inflate(layoutInflater, null, false)
@@ -93,7 +93,7 @@ class BookMarkActivity : AppCompatActivity(),
         binding.recyclerViewBookMark.layoutManager = layoutManager
         adapter =
             applicationContext?.let {
-                NewsListRecyclerAdapter(it, this)
+                NewsListRecyclerAdapter(it, this,this)
             } // sending context to adapter so that Glide can use it
         binding.recyclerViewBookMark.adapter = adapter
     }
@@ -103,6 +103,10 @@ class BookMarkActivity : AppCompatActivity(),
             .show()
         viewModelForCache.deleteNewsArticle(savedListOfNewsArticles!!.get(position))
         listOfNewsArticles?.clear()// This makes sure that when we delete then old data is not written over new data ie. live data will be updated after deleting and then again listOfNewsArticles will again be filled so previous data that was present in list should be removed that is why I used clear()
+    }
+
+    override fun onNewsArticleClick(position: Int) {
+        TODO("Not yet implemented")
     }
 
 }

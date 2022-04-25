@@ -7,16 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.newsappusingkotlin.R
 import com.example.newsappusingkotlin.data.models.News
-import java.text.SimpleDateFormat
 
 class NewsListRecyclerAdapter(
     var parentContext: Context,
-    var onBookMarkBtnListener: NewsListRecyclerAdapter.OnBookmarkButtonListener
+    var onBookMarkBtnListener: NewsListRecyclerAdapter.OnBookmarkButtonListener,
+    var onNewsArticleClickListener: OnNewsArticleClickListener
 ) :
     RecyclerView.Adapter<NewsListRecyclerAdapter.ViewHolder>() {
 
@@ -24,7 +25,7 @@ class NewsListRecyclerAdapter(
     private var articles: List<News>? = listOf()
 
     fun setNews(articles: List<News>) {
-        this.articles= listOf() // clearing the data
+        this.articles = listOf() // clearing the data
         this.articles = articles
         this.totalNumberOfArticles = articles.size
         notifyDataSetChanged()
@@ -58,7 +59,7 @@ class NewsListRecyclerAdapter(
         if (articles?.get(position)?.publishedAt == null) {
             holder.timeTv.text = "no time"
         } else {
-          //  val time = timeZoneToTimeConverter(articles?.get(position)?.publishedAt)
+            //  val time = timeZoneToTimeConverter(articles?.get(position)?.publishedAt)
             holder.timeTv.text = articles?.get(position)?.publishedAt
         }
         if (articles?.get(position)?.title == null) {
@@ -98,12 +99,20 @@ class NewsListRecyclerAdapter(
                 val pos = adapterPosition
                 onBookMarkBtnListener.onBookmarkButtonClick(pos) // this is my listener method , ie. im using listener mechanism to communicate with fragment
             }
+            itemView.setOnClickListener {
+                val pos = adapterPosition
+                onNewsArticleClickListener.onNewsArticleClick(pos)
+            }
         }
 
     }
 
     interface OnBookmarkButtonListener {
         fun onBookmarkButtonClick(position: Int)
+    }
+
+    interface OnNewsArticleClickListener {
+        fun onNewsArticleClick(position: Int)
     }
 
 }

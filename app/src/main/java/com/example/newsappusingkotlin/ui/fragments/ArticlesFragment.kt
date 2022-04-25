@@ -23,7 +23,7 @@ import com.example.newsappusingkotlin.ui.viewmodels.ViewModelForCache
 import com.example.newsappusingkotlin.ui.viewmodels.ViewModelForCacheFactory
 
 
-class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonListener {
+class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonListener,NewsListRecyclerAdapter.OnNewsArticleClickListener{
 
     private val binding: FragmentArticlesBinding by lazy { // so that layout binding only happens when need , It improves performance
         FragmentArticlesBinding.inflate(layoutInflater, null, false)
@@ -203,6 +203,7 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
             context?.let {
                 NewsListRecyclerAdapter(
                     it,
+                    this,
                     this
                 )
             } // sending context to adapter so that Glide can use it
@@ -227,7 +228,7 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
     }
 
     override fun onBookmarkButtonClick(position: Int) {
-        var listOfNews = mutableListOf<News>()
+        var listOfNews: MutableList<News>
         when (category) {
             "india" -> {
                 listOfNews = viewModel.listOfNewsArticleCat1
@@ -271,6 +272,10 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
             )
         )
         Toast.makeText(context, "YO Inside On Bookmark $position  END", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onNewsArticleClick(position: Int) {
+        Toast.makeText(context, "User Clicked $position View", Toast.LENGTH_SHORT).show()
     }
 
 }

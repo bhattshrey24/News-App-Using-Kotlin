@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewsArticleDisplayActivity">
+
+    <ImageView
+        android:id="@+id/Iv_newsArticleDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Tv_Time_newsArticleDisplay" />
+
+    <TextView
+        android:id="@+id/Tv_Title_newsArticleDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:text="YOOOOOOOOOO"
+        android:textSize="20sp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/Tv_Time_newsArticleDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="10:30pm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Tv_Title_newsArticleDisplay" />
+
+    <TextView
+        android:id="@+id/Tv_Content_newsArticleDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ijwoadoawdoaiwdoiawodiahowidh"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Iv_newsArticleDisplay" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

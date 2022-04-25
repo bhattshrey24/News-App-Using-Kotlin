@@ -41,11 +41,11 @@ class MainActivity : AppCompatActivity() {
     //  complete the articles tab functionality ie. add swipe left to change tab feature like whatsapp(ie. by using tablayout and view pager I guess)
     //  Make Home Page like Whatsapp Tab so that I dont do many Api Calls Simultaneously
     //  Today:-
+    //  add news watching page , where user can read the actual news
     //  add room ie. cache your news articles , user details etc and complete bookmark feature(Done)
     //  add users bookmarked items to firestore
-    //  based on user interests show news based on users nationality and interest on home page
-    //  complete the articles tab functionality ie. add swipe left to change tab feature like whatsapp(ie. by using tablayout and view pager I guess)
-    //  add Home fragment Functionality (where I get news based on users interests)
+    //  make app based on user , ie. when user logs in , get that users data from firestore and show that
+
 
     //Todo(future)
     // save users email and password more securely by using some encryption algo or use EncryptedSharedPreferences

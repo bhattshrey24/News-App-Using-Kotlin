@@ -13,7 +13,6 @@ import com.example.newsappusingkotlin.other.HolderClass
 import kotlinx.coroutines.launch
 
 class ArticlesPageViewModel(private val repository: MyRepository) : ViewModel() {
-    var listOfNewsArticle: MutableList<News> = mutableListOf()
 
     var listOfNewsArticleCat1: MutableList<News> = mutableListOf()
     var listOfNewsArticleCat2: MutableList<News> = mutableListOf()
