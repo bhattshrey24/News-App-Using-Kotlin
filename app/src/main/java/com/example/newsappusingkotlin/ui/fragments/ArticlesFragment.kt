@@ -23,8 +23,6 @@ import com.example.newsappusingkotlin.ui.viewmodels.ArticlesPageViewModel
 import com.example.newsappusingkotlin.ui.viewmodels.ArticlesPageViewModelFactory
 import com.example.newsappusingkotlin.ui.viewmodels.ViewModelForCache
 import com.example.newsappusingkotlin.ui.viewmodels.ViewModelForCacheFactory
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 
 class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonListener,
@@ -236,39 +234,18 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
     override fun onBookmarkButtonClick(position: Int) {
         //var listOfNews: MutableList<News>
         setupListOfNewsOfCurrentFragmentInDisplay()
-        sendNewsToFireStore(position)
-        viewModelForCache.addNewsArticle(
-            viewModel.onBookMarkButtonClickedCode(
-                listOfNews,
-                position
-            )
+        //sendNewsToFireStore(position,newsArticleId)
+        var convertedNewsArticle = viewModel.onBookMarkButtonClickedCode(
+            listOfNews,
+            position
         )
+        viewModelForCache.addNewsArticle(
+            convertedNewsArticle
+        )
+        // sendNewsToFireStore(position,newsArticleId)
         Toast.makeText(context, "YO Inside On Bookmark $position  END", Toast.LENGTH_SHORT).show()
     }
 
-    private fun sendNewsToFireStore(position: Int) {
-        val db = FirebaseFirestore.getInstance()
-
-        val news: News = listOfNews[position]
-        val newsHM: MutableMap<String, Any?> =
-            HashMap() // Any? means it can be any datatype and can be null too
-
-        newsHM[Constants.newsSourceFSKey] = news.source
-        newsHM[Constants.newsAuthorFSKey] = news.author
-        newsHM[Constants.newsTitleFSKey] = news.title
-        newsHM[Constants.newsDescriptionFSKey] = news.description
-        newsHM[Constants.newsUrlToArticleFSKey] = news.urlToArticle
-        newsHM[Constants.newsUrlToImageFSKey] = news.urlToImage
-        newsHM[Constants.newsPublishedAtFSKey] = news.publishedAt
-        newsHM[Constants.newsContentFSKey] = news.content
-
-        val docId=FirebaseAuth.getInstance().currentUser?.uid
-
-        // here make the document Id same as the Id given by Room Database , so first save data in room then using the ID save data in Firestore , this way we can delete data from both database easily since evey article will have same id in room as in firestore
-        db.collection("users").document(docId!!).collection("articles").document("1").set(newsHM)
-//        Log.d(Constants.currentDebugTag," FS users ID ${db.collection("user").id} , FA curred User ${auth.currentUser} , UID : ${auth.currentUser?.uid}")
-
-    }
 
     override fun onNewsArticleClick(position: Int) {
         Toast.makeText(context, "User Clicked $position View", Toast.LENGTH_SHORT).show()

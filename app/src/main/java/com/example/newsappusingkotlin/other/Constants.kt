@@ -40,6 +40,8 @@ object Constants {
 
  //firestore collections and document keys
  const val userCollectionFSKey="users"
+ const val userArticleDocumentFSKey="articles"
+
 
  //keys for firestore(User Details)
  const val usersMobileNumberFSKey = "mobile_number"

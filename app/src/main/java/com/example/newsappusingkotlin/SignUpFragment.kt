@@ -121,7 +121,6 @@ class SignUpFragment(myFragmentContainer: FrameLayout) : Fragment() {
 
                     //saving users details so that user dont have to login again and again and we can send it to firestore
                     saveUserDetailsInSharedPref(emailET, confirmPasswordET, nameET)
-
                     //navigating to next screen
                     var intent = Intent(parentActivityReference, DetailsInputActivity::class.java)
                     intent.addFlags(

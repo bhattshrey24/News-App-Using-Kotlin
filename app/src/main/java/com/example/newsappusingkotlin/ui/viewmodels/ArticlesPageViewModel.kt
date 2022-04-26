@@ -81,7 +81,11 @@ class ArticlesPageViewModel(private val repository: MyRepository) : ViewModel() 
         return ansStr
     }
 
-    fun onBookMarkButtonClickedCode(listOfNewsArticle: List<News>, position: Int): SavedNewsEntity {
+    fun onBookMarkButtonClickedCode(
+        listOfNewsArticle: List<News>,
+        position: Int
+    ): SavedNewsEntity {// here I'm converting News into SavedNewsArticle
+
         val article = listOfNewsArticle[position]
         var author = if (article.author != null) article.author else ""
         var title = if (article.title != null) article.title else ""
@@ -91,18 +95,16 @@ class ArticlesPageViewModel(private val repository: MyRepository) : ViewModel() 
         var publishedAt = if (article.publishedAt != null) article.publishedAt else ""
         var content = if (article.content != null) article.content else ""
 
-        val newsArticle: SavedNewsEntity =
-            SavedNewsEntity(
-                0, // we have to pas 0 here , dont worry room library will change it since its the primary key
-                author,
-                title,
-                description,
-                urlToArticle,
-                urlToImage,
-                publishedAt,
-                content
-            )
-        return newsArticle
+        return SavedNewsEntity(
+            0, // we have to passed 0 here , dont worry room library will change it since its the primary key
+            author,
+            title,
+            description,
+            urlToArticle,
+            urlToImage,
+            publishedAt,
+            content
+        )
     }
 
 

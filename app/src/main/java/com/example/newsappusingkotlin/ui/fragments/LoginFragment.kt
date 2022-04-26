@@ -94,6 +94,8 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
                     //saving users details so that user dont have to login again and again
                     saveDataInSharedPref(usersEmail,usersPassword)
 
+                  //  setUsersData()
+
                     Toast.makeText(
                         context, "Log In successful",
                         Toast.LENGTH_LONG
@@ -118,6 +120,10 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
             }
 
     }
+
+//    private fun setUsersData() {
+//
+//    }
 
     private fun saveDataInSharedPref(usersEmail: String,usersPassword: String) {
         val sharedPreferences: SharedPreferences? =
