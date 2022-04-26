@@ -38,4 +38,30 @@ object Constants {
     //Key for passing custom News object in Intent using Parcelize
     const val objectPassingThroughIntentKey = "news_object"
 
+ //firestore collections and document keys
+ const val userCollectionFSKey="users"
+
+ //keys for firestore(User Details)
+ const val usersMobileNumberFSKey = "mobile_number"
+ const val usersCountryFSKey = "users_country"
+ const val usersSelectedLangFSKey = "users_language"
+ const val usersSelectedCategoriesListFSKey = "users_fav_categories"
+ const val usersEmailFSKey = "users_email_address"
+ const val usersNameFSKey = "users_name"
+
+ //keys for firestore(User Bookmarked Articles)
+ const val newsAuthorFSKey = "news_author"
+ const val newsDescriptionFSKey = "news_description"
+ const val newsContentFSKey = "news_content"
+ const val newsPublishedAtFSKey = "news_publishedAt"
+ const val newsUrlToArticleFSKey = "news_urlToArticle"
+ const val newsUrlToImageFSKey = "news_urlToImage"
+ const val newsSourceFSKey = "news_source"
+ const val newsTitleFSKey = "news_title"
+
+
+
+
+
+
 }

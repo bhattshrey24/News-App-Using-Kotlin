@@ -38,10 +38,10 @@ class MainActivity : AppCompatActivity() {
     //  change myCity tab with my account Tab
 
     // Todo CURRENT:-
-    //  Today:-
-    //  add room ie. cache your news articles , user details etc and complete bookmark feature(Done)
+    //  Today :-
     //  add users bookmarked items to firestore
     //  make app based on user , ie. when user logs in , get that users data from firestore and show that
+    //  Soon :-
     //  Make Home Page like Whatsapp Tab so that I don't do many Api Calls Simultaneously
     //  add Search Tab Feature
     //  add the Search Tab functionality
