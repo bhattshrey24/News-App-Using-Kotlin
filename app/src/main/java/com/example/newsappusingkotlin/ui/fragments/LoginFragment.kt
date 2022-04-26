@@ -10,6 +10,7 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,9 +20,11 @@ import androidx.fragment.app.Fragment
 import com.example.newsappusingkotlin.AuthenticationActivity
 import com.example.newsappusingkotlin.MainActivity
 import com.example.newsappusingkotlin.SignUpFragment
+import com.example.newsappusingkotlin.data.cache.SavedNewsEntity
 import com.example.newsappusingkotlin.databinding.FragmentLoginBinding
 import com.example.newsappusingkotlin.other.Constants
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
@@ -92,15 +95,15 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
                     binding.loginPageCircularProgressBar.visibility = View.GONE
 
                     //saving users details so that user dont have to login again and again
-                    saveDataInSharedPref(usersEmail,usersPassword)
+                    saveDataInSharedPref(usersEmail, usersPassword)
 
-                  //  setUsersData()
+                    setUsersData(mAuth.currentUser?.uid)
 
                     Toast.makeText(
                         context, "Log In successful",
                         Toast.LENGTH_LONG
                     ).show()
-                    val user = mAuth.currentUser
+                    //val user = mAuth.currentUser
 
                     var intent = Intent(parentActivityReference, MainActivity::class.java)
                     intent.addFlags(
@@ -121,17 +124,80 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
 
     }
 
-//    private fun setUsersData() {
-//
-//    }
+    private fun setUsersData(userId: String?) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection(Constants.userCollectionFSKey).document(userId!!).get()
+            .addOnCompleteListener {
+                val mobileNumber = it.result.get(Constants.usersMobileNumberFSKey)
+                val language = it.result.get(Constants.usersSelectedLangFSKey)
+                val usersCountry = it.result.get(Constants.usersCountryFSKey)
+                val usersSelectedCategories =
+                    it.result.get(Constants.usersSelectedCategoriesListFSKey)
+                val userEmail = it.result.get(Constants.usersEmailFSKey)
+                val userName = it.result.get(Constants.usersNameFSKey)
 
-    private fun saveDataInSharedPref(usersEmail: String,usersPassword: String) {
+     // save this data in sharedPred
+
+            }.addOnFailureListener {
+                Log.d(
+                    Constants.currentDebugTag,
+                    "ERROR while RETRIEVING data from FIRESTORE for User Details"
+                )
+            }
+        db.collection(Constants.userCollectionFSKey).document(userId)
+            .collection(Constants.userArticleDocumentFSKey).get().addOnCompleteListener {
+                //Todo(current todo and problem)
+                // in 'logout' add the code for deleting the Room database table and sharedPref data cause both of these will be repopulated during login for existing user and during Signup for new User
+                // save data in SavedNewsEntity object and then pass it to Room
+
+                for (document in it.result) {
+                    val title = document.get(Constants.newsTitleFSKey).toString()
+                    val author = document.get(Constants.newsAuthorFSKey).toString()
+                    val content = document.get(Constants.newsContentFSKey).toString()
+                    val description = document.get(Constants.newsDescriptionFSKey).toString()
+                    val publishedAt = document.get(Constants.newsPublishedAtFSKey).toString()
+                    val urlToArticle = document.get(Constants.newsUrlToArticleFSKey).toString()
+                    val urlToImage = document.get(Constants.newsUrlToImageFSKey).toString()
+
+                    val news = SavedNewsEntity(
+                        0,
+                        author,
+                        title,
+                        description,
+                        urlToArticle,
+                        urlToImage,
+                        publishedAt,
+                        content
+                    )
+
+                    // Save it in room but theres a problem , that room might save this with new
+                    // Id cause I did 'autogenerate' in PrimaryKey , so Solution That
+                    // I think are :- 1)Maybe If we give id other than 0 then it will save it with the
+                    // id we give , 2)Or maybe add new feild where u add fireStore id which will be given
+                    // default value of -1 which means its not set yet in which case ill delete from database
+                    // using the id provided by room only and if its something then ill use that id to
+                    // delete from firestore(this something else is basically id given by room previously) ,
+                    // 3) or simply delete based On title cause this way id kuch bhi ho it wont matter
+
+                    //Log.d(Constants.currentDebugTag,"Data from FIRESTORE is $title")
+                }
+
+            }.addOnFailureListener {
+                Log.d(
+                    Constants.currentDebugTag,
+                    "ERROR while RETRIEVING data from FIRESTORE for users saved Articles"
+                )
+            }
+    }
+
+
+    private fun saveDataInSharedPref(usersEmail: String, usersPassword: String) {
         val sharedPreferences: SharedPreferences? =
             activity?.getSharedPreferences(Constants.authSharedPrefKey, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor? = sharedPreferences?.edit()
         editor?.apply {
-            putString(Constants.userEmailSharedPrefKey,usersEmail)
-            putString(Constants.userPasswordSharedPrefKey,usersPassword)
+            putString(Constants.userEmailSharedPrefKey, usersEmail)
+            putString(Constants.userPasswordSharedPrefKey, usersPassword)
         }?.apply()
 
     }
@@ -164,7 +230,7 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
                 ds.isUnderlineText = false // if it's true then it will underline the text
             }
         }
-        ss.setSpan(clickableSpan, 23, ss.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(clickableSpan, 23, ss.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.TextViewDontHaveAccount.movementMethod = LinkMovementMethod.getInstance()
         binding.TextViewDontHaveAccount.text = ss
         binding.TextViewDontHaveAccount.highlightColor = Color.TRANSPARENT
