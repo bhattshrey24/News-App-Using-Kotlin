@@ -9,7 +9,9 @@ import com.example.newsappusingkotlin.data.cache.MyDatabase
 import com.example.newsappusingkotlin.data.cache.SavedNewsEntity
 import com.example.newsappusingkotlin.data.remote.repository.LocalRepository
 import com.example.newsappusingkotlin.other.Constants
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,12 +36,11 @@ class ViewModelForCache(application: Application) :
 
     fun addNewsArticle(newsArticle: SavedNewsEntity) { // this sends data to Room as well as FireStore
         viewModelScope.launch(Dispatchers.IO) {
-            var id = repository.addArticle(newsArticle) // the Insert Annotation returns the Id with which it is saved in Database
-              sendNewsToFireStore(newsArticle, id)
+            repository.addArticle(newsArticle) // the Insert Annotation returns the Id with which it is saved in Database
         }
     }
 
-    private fun sendNewsToFireStore(news: SavedNewsEntity, newsArticleId: Long) {
+     fun sendNewsToFireStore(news: SavedNewsEntity) : Task<DocumentReference> {
         val newsHM: MutableMap<String, Any?> =
             HashMap() // Any? means it can be any datatype and can be null too
 
@@ -53,12 +54,11 @@ class ViewModelForCache(application: Application) :
         newsHM[Constants.newsContentFSKey] = news.content
 
         val docId = FirebaseAuth.getInstance().currentUser?.uid
-        val newsArticleIdString=newsArticleId.toString()
         //  val docReference=
-        // here make the document Id same as the Id given by Room Database , so first save data in room then using the ID save data in Firestore , this way we can delete data from both database easily since evey article will have same id in room as in firestore
-        db.collection(Constants.userCollectionFSKey).document(docId!!).collection(Constants.userArticleDocumentFSKey)
-            .document(newsArticleIdString).set(newsHM)
 
+        // here make the document Id same as the Id given by Room Database , so first save data in room then using the ID save data in Firestore , this way we can delete data from both database easily since evey article will have same id in room as in firestore
+       return db.collection(Constants.userCollectionFSKey).document(docId!!).collection(Constants.userArticleDocumentFSKey)
+            .add(newsHM)
     }
 
 

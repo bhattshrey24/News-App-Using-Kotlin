@@ -96,7 +96,7 @@ class ArticlesPageViewModel(private val repository: MyRepository) : ViewModel() 
         var content = if (article.content != null) article.content else ""
 
         return SavedNewsEntity(
-            0, // we have to passed 0 here , dont worry room library will change it since its the primary key
+            "", // we have to passed 0 here , dont worry room library will change it since its the primary key
             author,
             title,
             description,

@@ -60,6 +60,7 @@ object Constants {
  const val newsUrlToImageFSKey = "news_urlToImage"
  const val newsSourceFSKey = "news_source"
  const val newsTitleFSKey = "news_title"
+ const val newsIDFSKey = "news_id"
 
 
 

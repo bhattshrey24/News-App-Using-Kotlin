@@ -239,9 +239,13 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
             listOfNews,
             position
         )
-        viewModelForCache.addNewsArticle(
-            convertedNewsArticle
-        )
+        viewModelForCache.sendNewsToFireStore(convertedNewsArticle).addOnCompleteListener{
+            val docId=it.result.id
+            convertedNewsArticle.id=docId
+            viewModelForCache.addNewsArticle(
+                convertedNewsArticle
+            )
+        }
         // sendNewsToFireStore(position,newsArticleId)
         Toast.makeText(context, "YO Inside On Bookmark $position  END", Toast.LENGTH_SHORT).show()
     }

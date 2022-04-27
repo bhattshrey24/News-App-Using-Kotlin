@@ -7,9 +7,10 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "saved_news_table")
 data class SavedNewsEntity(
+   // @PrimaryKey(autoGenerate = true)
 
-    @PrimaryKey(autoGenerate = true)
-    var id: Int,
+    @PrimaryKey
+    var id: String,
 
 //   var source: Source, // no need of this
 

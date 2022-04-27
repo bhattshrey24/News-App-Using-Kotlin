@@ -97,7 +97,7 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
                     //saving users details so that user dont have to login again and again
                     saveDataInSharedPref(usersEmail, usersPassword)
 
-                    setUsersData(mAuth.currentUser?.uid)
+                    //setUsersData(mAuth.currentUser?.uid)
 
                     Toast.makeText(
                         context, "Log In successful",
@@ -144,6 +144,8 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
                     "ERROR while RETRIEVING data from FIRESTORE for User Details"
                 )
             }
+
+
         db.collection(Constants.userCollectionFSKey).document(userId)
             .collection(Constants.userArticleDocumentFSKey).get().addOnCompleteListener {
                 //Todo(current todo and problem)
@@ -151,6 +153,7 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
                 // save data in SavedNewsEntity object and then pass it to Room
 
                 for (document in it.result) {
+                    val id =document.get(Constants.newsIDFSKey).toString()
                     val title = document.get(Constants.newsTitleFSKey).toString()
                     val author = document.get(Constants.newsAuthorFSKey).toString()
                     val content = document.get(Constants.newsContentFSKey).toString()
@@ -160,7 +163,7 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
                     val urlToImage = document.get(Constants.newsUrlToImageFSKey).toString()
 
                     val news = SavedNewsEntity(
-                        0,
+                        id,
                         author,
                         title,
                         description,
