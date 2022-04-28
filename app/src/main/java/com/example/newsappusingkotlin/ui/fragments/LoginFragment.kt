@@ -23,11 +23,15 @@ import com.example.newsappusingkotlin.MainActivity
 import com.example.newsappusingkotlin.SignUpFragment
 import com.example.newsappusingkotlin.data.cache.SavedNewsEntity
 import com.example.newsappusingkotlin.databinding.FragmentLoginBinding
+import com.example.newsappusingkotlin.other.CommonFunctions
 import com.example.newsappusingkotlin.other.Constants
 import com.example.newsappusingkotlin.ui.viewmodels.ViewModelForCache
 import com.example.newsappusingkotlin.ui.viewmodels.ViewModelForCacheFactory
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.gson.Gson
 
 
@@ -81,7 +85,6 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
             binding.editTextTextPassword.requestFocus()
             return
         }
-
         logIn(usersEmail, usersPassword)
     }
 
@@ -130,37 +133,17 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
     private fun setUsersData(userId: String?) {
         val parentActivityReference =
             host as AuthenticationActivity // host simply returns the reference of the host activity , "as" is used to type cast
+
         val db = FirebaseFirestore.getInstance()
+
         db.collection(Constants.userCollectionFSKey).document(userId!!).get()
             .addOnCompleteListener {
 
                 binding.loginPageCircularProgressBar.visibility = View.GONE
 
-                val usersMobileNumber = it.result.get(Constants.usersMobileNumberFSKey).toString()
-                val usersSelectedLanguage = it.result.get(Constants.usersSelectedLangFSKey).toString()
-                val usersCountry = it.result.get(Constants.usersCountryFSKey).toString()
+                saveUsersRetrievedDataInSharedPref(it)
 
-                val usersSelectedCategoriesArrayList =
-                    it.result.get(Constants.usersSelectedCategoriesListFSKey) as ArrayList<String>
-
-                val usersSelectedCategoryJson=convertArrayListToGson(usersSelectedCategoriesArrayList)
-
-                val userEmail = it.result.get(Constants.usersEmailFSKey).toString()
-                val userName = it.result.get(Constants.usersNameFSKey).toString()
-
-                val sharedPreferences: SharedPreferences? =
-                    activity?.getSharedPreferences(Constants.userDetailInputPrefKey, Context.MODE_PRIVATE)
-                val editorForUser: SharedPreferences.Editor? = sharedPreferences?.edit()
-                editorForUser?.apply {
-                    putString(Constants.usersNamePrefKey, userName)
-                    putString(Constants.usersCountryPrefKey, usersCountry)
-                    putString(Constants.usersLanguagePrefKey, usersSelectedLanguage)
-                    putString(Constants.usersMobileNumberPrefKey, usersMobileNumber)
-                    putString(Constants.userEmailSharedPrefKey, userEmail)
-                    putString(Constants.usersSelectedCategories, usersSelectedCategoryJson)
-                }?.apply()
-
-
+                // navigating to next screen
                 var intent = Intent(parentActivityReference, MainActivity::class.java)
                 intent.addFlags(
                     Intent.FLAG_ACTIVITY_CLEAR_TOP or
@@ -169,7 +152,6 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
                 )// this makes sure that user cannot go back to the Log In activity when back button is pressed
                 startActivity(intent)
 
-
             }.addOnFailureListener {
                 Log.d(
                     Constants.currentDebugTag,
@@ -177,46 +159,10 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
                 )
             }
 
-
         db.collection(Constants.userCollectionFSKey).document(userId)
             .collection(Constants.userArticleDocumentFSKey).get().addOnCompleteListener {
-                //Todo(current todo and problem)
-                // in 'logout' add the code for deleting the Room database table and sharedPref data cause both of these will be repopulated during login for existing user and during Signup for new User
-                // save data in SavedNewsEntity object and then pass it to Room
 
-
-                for (document in it.result) {
-                    val title = document.get(Constants.newsTitleFSKey).toString()
-                    val author = document.get(Constants.newsAuthorFSKey).toString()
-                    val content = document.get(Constants.newsContentFSKey).toString()
-                    val description = document.get(Constants.newsDescriptionFSKey).toString()
-                    val publishedAt = document.get(Constants.newsPublishedAtFSKey).toString()
-                    val urlToArticle = document.get(Constants.newsUrlToArticleFSKey).toString()
-                    val urlToImage = document.get(Constants.newsUrlToImageFSKey).toString()
-
-                    val news = SavedNewsEntity(
-                        document.id,
-                        author,
-                        title,
-                        description,
-                        urlToArticle,
-                        urlToImage,
-                        publishedAt,
-                        content
-                    )
-
-                    viewModelForCache.addNewsArticle(news)
-                    // Save it in room but theres a problem , that room might save this with new
-                    // Id cause I did 'autogenerate' in PrimaryKey , so Solution That
-                    // I think are :- 1)Maybe If we give id other than 0 then it will save it with the
-                    // id we give , 2)Or maybe add new feild where u add fireStore id which will be given
-                    // default value of -1 which means its not set yet in which case ill delete from database
-                    // using the id provided by room only and if its something then ill use that id to
-                    // delete from firestore(this something else is basically id given by room previously) ,
-                    // 3) or simply delete based On title cause this way id kuch bhi ho it wont matter
-
-                    //Log.d(Constants.currentDebugTag,"Data from FIRESTORE is $title")
-                }
+                saveRetrievedNewsArticlesInRoom(it)
 
             }.addOnFailureListener {
                 Log.d(
@@ -225,10 +171,57 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
                 )
             }
     }
-    private fun convertArrayListToGson(selectedCategoriesList: MutableList<String>): String {
-        val gson = Gson()
-        return gson.toJson(selectedCategoriesList)
+
+    private fun saveRetrievedNewsArticlesInRoom(it: Task<QuerySnapshot>) {
+        for (document in it.result) {
+            val title = document.get(Constants.newsTitleFSKey).toString()
+            val author = document.get(Constants.newsAuthorFSKey).toString()
+            val content = document.get(Constants.newsContentFSKey).toString()
+            val description = document.get(Constants.newsDescriptionFSKey).toString()
+            val publishedAt = document.get(Constants.newsPublishedAtFSKey).toString()
+            val urlToArticle = document.get(Constants.newsUrlToArticleFSKey).toString()
+            val urlToImage = document.get(Constants.newsUrlToImageFSKey).toString()
+
+            val news = SavedNewsEntity(
+                document.id,
+                author,
+                title,
+                description,
+                urlToArticle,
+                urlToImage,
+                publishedAt,
+                content
+            )
+            viewModelForCache.addNewsArticle(news)
+        }
     }
+
+    private fun saveUsersRetrievedDataInSharedPref(it: Task<DocumentSnapshot>) {
+        val usersMobileNumber = it.result.get(Constants.usersMobileNumberFSKey).toString()
+        val usersSelectedLanguage = it.result.get(Constants.usersSelectedLangFSKey).toString()
+        val usersCountry = it.result.get(Constants.usersCountryFSKey).toString()
+
+        val usersSelectedCategoriesArrayList =
+            it.result.get(Constants.usersSelectedCategoriesListFSKey) as ArrayList<String>
+
+        val usersSelectedCategoryJson= CommonFunctions.convertArrayListToGson(usersSelectedCategoriesArrayList)
+
+        val userEmail = it.result.get(Constants.usersEmailFSKey).toString()
+        val userName = it.result.get(Constants.usersNameFSKey).toString()
+
+        val sharedPreferences: SharedPreferences? =
+            activity?.getSharedPreferences(Constants.userDetailInputPrefKey, Context.MODE_PRIVATE)
+        val editorForUser: SharedPreferences.Editor? = sharedPreferences?.edit()
+        editorForUser?.apply {
+            putString(Constants.usersNamePrefKey, userName)
+            putString(Constants.usersCountryPrefKey, usersCountry)
+            putString(Constants.usersLanguagePrefKey, usersSelectedLanguage)
+            putString(Constants.usersMobileNumberPrefKey, usersMobileNumber)
+            putString(Constants.userEmailSharedPrefKey, userEmail)
+            putString(Constants.usersSelectedCategories, usersSelectedCategoryJson)
+        }?.apply()
+    }
+
 
     private fun setupViewModelForCache() {
         val viewModelCacheFactory = ViewModelForCacheFactory(requireActivity().application)

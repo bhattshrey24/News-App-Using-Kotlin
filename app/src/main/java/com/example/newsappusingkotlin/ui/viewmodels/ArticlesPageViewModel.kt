@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.newsappusingkotlin.adapters.NewsListRecyclerAdapter
 import com.example.newsappusingkotlin.data.cache.SavedNewsEntity
 import com.example.newsappusingkotlin.data.models.News
 import com.example.newsappusingkotlin.data.models.NewsJsonReceiver
@@ -25,8 +26,12 @@ class ArticlesPageViewModel(private val repository: MyRepository) : ViewModel() 
     var listOfNewsArticleCat9: MutableList<News> = mutableListOf()
     var listOfNewsArticleCat10: MutableList<News> = mutableListOf()
 
-    val articlesPageResponse: MutableLiveData<HolderClass> =
+    private val articlesPageResponse: MutableLiveData<HolderClass> =
         MutableLiveData()
+
+     fun getArticlePageResponseLiveData():MutableLiveData<HolderClass>{
+       return articlesPageResponse
+    }
 
     fun getPostForArticlesPage(category: String) {
         viewModelScope.launch { // this will automatically do async call
@@ -81,6 +86,91 @@ class ArticlesPageViewModel(private val repository: MyRepository) : ViewModel() 
         return ansStr
     }
 
+    fun setupListOfNewsOfCurrentFragmentInDisplay(category:String):MutableList<News> {
+        when (category) {
+            "india" -> {
+                return listOfNewsArticleCat1
+            }
+            "covid" -> {
+                return listOfNewsArticleCat2
+            }
+            "stocks" -> {
+                return  listOfNewsArticleCat3
+            }
+            "business" -> {
+                return listOfNewsArticleCat4
+            }
+            "entertainment" -> {
+                return listOfNewsArticleCat5
+            }
+            "general" -> {
+                return listOfNewsArticleCat6
+            }
+            "health" -> {
+                return listOfNewsArticleCat7
+            }
+            "science" -> {
+                return listOfNewsArticleCat8
+            }
+            "sports" -> {
+                return listOfNewsArticleCat9
+            }
+            "technology" -> {
+                return listOfNewsArticleCat10
+            }
+            else -> {//business is default case
+                return listOfNewsArticleCat4
+            }
+        }
+    }
+
+     fun saveData(holderObject: HolderClass) {
+        when (holderObject.category) {
+            "india" -> {
+                listOfNewsArticleCat1 = holderObject.newsReceiver.articles.toMutableList()
+            }
+            "covid" -> {
+                listOfNewsArticleCat2 = holderObject.newsReceiver.articles.toMutableList()
+            }
+            "stocks" -> {
+                listOfNewsArticleCat3 = holderObject.newsReceiver.articles.toMutableList()
+            }
+            "business" -> {
+                listOfNewsArticleCat4 = holderObject.newsReceiver.articles.toMutableList()
+
+            }
+            "entertainment" -> {
+               listOfNewsArticleCat5 = holderObject.newsReceiver.articles.toMutableList()
+
+            }
+            "general" -> {
+                listOfNewsArticleCat6 = holderObject.newsReceiver.articles.toMutableList()
+
+            }
+            "health" -> {
+               listOfNewsArticleCat7 = holderObject.newsReceiver.articles.toMutableList()
+
+            }
+            "science" -> {
+                listOfNewsArticleCat8 = holderObject.newsReceiver.articles.toMutableList()
+
+            }
+            "sports" -> {
+                listOfNewsArticleCat9 = holderObject.newsReceiver.articles.toMutableList()
+
+            }
+            "technology" -> {
+                listOfNewsArticleCat10 =
+                    holderObject.newsReceiver.articles.toMutableList()
+
+            }
+            else -> {//business is default case
+                listOfNewsArticleCat4 = holderObject.newsReceiver.articles.toMutableList()
+
+            }
+        }
+    }
+
     fun onBookMarkButtonClickedCode(
         listOfNewsArticle: List<News>,
         position: Int
@@ -107,5 +197,63 @@ class ArticlesPageViewModel(private val repository: MyRepository) : ViewModel() 
         )
     }
 
-
+    fun loadSavedDataInRecyclerView(category: String,adapter: NewsListRecyclerAdapter?){
+        when (category) {
+            "india" -> {
+                adapter.let {
+                    it?.setNews(listOfNewsArticleCat1) // I guess ismei latest Data is store hota hai
+                }
+            }
+            "covid" -> {
+                adapter.let {
+                    it?.setNews(listOfNewsArticleCat2) // I guess ismei latest Data is store hota hai
+                }
+            }
+            "stocks" -> {
+                adapter.let {
+                    it?.setNews(listOfNewsArticleCat3) // I guess ismei latest Data is store hota hai
+                }
+            }
+            "business" -> {
+                adapter.let {
+                    it?.setNews(listOfNewsArticleCat4) // I guess ismei latest Data is store hota hai
+                }
+            }
+            "entertainment" -> {
+                adapter.let {
+                    it?.setNews(listOfNewsArticleCat5) // I guess ismei latest Data is store hota hai
+                }
+            }
+            "general" -> {
+                adapter.let {
+                    it?.setNews(listOfNewsArticleCat6) // I guess ismei latest Data is store hota hai
+                }
+            }
+            "health" -> {
+                adapter.let {
+                    it?.setNews(listOfNewsArticleCat7) // I guess ismei latest Data is store hota hai
+                }
+            }
+            "science" -> {
+                adapter.let {
+                    it?.setNews(listOfNewsArticleCat8) // I guess ismei latest Data is store hota hai
+                }
+            }
+            "sports" -> {
+                adapter.let {
+                    it?.setNews(listOfNewsArticleCat9) // I guess ismei latest Data is store hota hai
+                }
+            }
+            "technology" -> {
+                adapter.let {
+                    it?.setNews(listOfNewsArticleCat10) // I guess ismei latest Data is store hota hai
+                }
+            }
+            else -> {//business is default case
+                adapter.let {
+                    it?.setNews(listOfNewsArticleCat4) // I guess ismei latest Data is store hota hai
+                }
+            }
+        }
+    }
 }

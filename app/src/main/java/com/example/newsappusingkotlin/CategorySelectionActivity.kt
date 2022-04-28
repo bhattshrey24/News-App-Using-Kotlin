@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsappusingkotlin.adapters.CategorySelectionRecyclerAdapter
 import com.example.newsappusingkotlin.databinding.ActivityCategorySelectionBinding
+import com.example.newsappusingkotlin.other.CommonFunctions
 import com.example.newsappusingkotlin.other.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -51,7 +52,7 @@ class CategorySelectionActivity : AppCompatActivity() {
             getSharedPreferences(Constants.userDetailInputPrefKey, Context.MODE_PRIVATE)
 
         var arrayListConvertedToJson: String =
-            convertArrayListToGson(selectedCategoriesList)//since we cannot save arrayList directly in sharedPref therefore we have to convert it in a form that can be saved in shared pref ,  this function converts the arrayList in string using "Gson" converter , basically Gson converts arrayList into Json which is nothing but a string
+            CommonFunctions.convertArrayListToGson(selectedCategoriesList)//since we cannot save arrayList directly in sharedPref therefore we have to convert it in a form that can be saved in shared pref ,  this function converts the arrayList in string using "Gson" converter , basically Gson converts arrayList into Json which is nothing but a string
 
         val editorForUser: SharedPreferences.Editor? = sharedPreferences?.edit()
 
@@ -111,11 +112,4 @@ class CategorySelectionActivity : AppCompatActivity() {
             }
 
     }
-
-    private fun convertArrayListToGson(selectedCategoriesList: MutableList<String>): String {
-        val gson = Gson()
-        val json: String = gson.toJson(selectedCategoriesList)
-        return json
-    }
-
 }

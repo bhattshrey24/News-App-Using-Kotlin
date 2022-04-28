@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.newsappusingkotlin.adapters.HomeFragmentNewsListAdapter
 import com.example.newsappusingkotlin.data.remote.repository.MyRepository
 import com.example.newsappusingkotlin.databinding.FragmentHomeBinding
+import com.example.newsappusingkotlin.other.CommonFunctions
 import com.example.newsappusingkotlin.other.Constants
 import com.example.newsappusingkotlin.ui.viewmodels.HomePageViewModel
 import com.example.newsappusingkotlin.ui.viewmodels.HomePageViewModelFactory
@@ -59,7 +60,7 @@ class HomeFragment : Fragment() {
         // viewModel.getPostForHomePage("in", favCategories[1])
        // viewModel.getPostForHomePage("in", favCategories[2])
 
-        viewModel.homePageResponse.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.getHomePageResponseLiveData().observe(viewLifecycleOwner, Observer { response ->
             adapter?.setNews(response.articles)
             binding.circularProgressBarHomePage.visibility = View.GONE
         })
@@ -73,7 +74,7 @@ class HomeFragment : Fragment() {
             Constants.usersSelectedCategories,
             ""
         )
-        return viewModel.convertFromJsonToList(usersSelectedCategoryJson)
+        return CommonFunctions.convertFromJsonToList(usersSelectedCategoryJson)
     }
 
     private fun setupRecyclerView() {

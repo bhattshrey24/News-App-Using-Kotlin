@@ -37,7 +37,7 @@ class ViewModelForCache(application: Application) :
 
     fun addNewsArticle(newsArticle: SavedNewsEntity) { // this sends data to Room as well as FireStore
       viewModelScope.launch(Dispatchers.IO) {
-            repository.addArticle(newsArticle) // the Insert Annotation returns the Id with which it is saved in Database
+            repository.addArticle(newsArticle) // Instead of auto generating id in room , we using Id that we got from firestore when we saved article there
         }
     }
 
@@ -55,9 +55,7 @@ class ViewModelForCache(application: Application) :
 
         val docId = FirebaseAuth.getInstance().currentUser?.uid
         //  val docReference=
-
-        // here make the document Id same as the Id given by Room Database , so first save data in room then using the ID save data in Firestore , this way we can delete data from both database easily since evey article will have same id in room as in firestore
-       return db.collection(Constants.userCollectionFSKey).document(docId!!).collection(Constants.userArticleDocumentFSKey)
+         return db.collection(Constants.userCollectionFSKey).document(docId!!).collection(Constants.userArticleDocumentFSKey)
             .add(newsHM)
     }
 

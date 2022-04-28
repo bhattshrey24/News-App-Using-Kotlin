@@ -1,5 +1,7 @@
 package com.example.newsappusingkotlin.other
 
+import com.google.gson.Gson
+
 object Constants {
     const val baseUrl: String = "https://newsapi.org/v2/"
    // Previous Key =  const val newsApiKey: String = "1e1164c809f34f4b821d4f1ac6443eb3"

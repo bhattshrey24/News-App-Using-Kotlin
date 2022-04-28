@@ -6,13 +6,17 @@ import androidx.lifecycle.viewModelScope
 import com.example.newsappusingkotlin.data.models.News
 import com.example.newsappusingkotlin.data.models.NewsJsonReceiver
 import com.example.newsappusingkotlin.data.remote.repository.MyRepository
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
 
 class HomePageViewModel(private val repository: MyRepository) : ViewModel() {
-    val homePageResponse: MutableLiveData<NewsJsonReceiver> =
+
+    private val homePageResponse: MutableLiveData<NewsJsonReceiver> =
         MutableLiveData()
+
+    fun getHomePageResponseLiveData(): MutableLiveData<NewsJsonReceiver> {
+        return homePageResponse
+    }
+
     var combinedListOfArticles: MutableList<News> = ArrayList()
 
     fun getPostForHomePage(country: String, category: String) {
@@ -28,12 +32,6 @@ class HomePageViewModel(private val repository: MyRepository) : ViewModel() {
             combinedListOfArticles.add(news)
         }
         return NewsJsonReceiver("ok", 0, combinedListOfArticles) // shuffle the list later
-    }
-
-     fun convertFromJsonToList(json: String?): ArrayList<String> {
-        var gson: Gson = Gson()
-        val type = object : TypeToken<ArrayList<String?>>() {}.type
-        return gson.fromJson(json, type);
     }
 
 }
