@@ -32,10 +32,8 @@ class MyRepository {
         try {
             apiResponse = RetrofitInstance.api.getPostsForArticlesPage(category, Constants.newsApiKey)
         } catch (e: HttpException) {
-            //this.javaClass.name
             Log.d(Constants.permanentDebugTag, "Http error in ${this.javaClass.name} ${e.message}")
         } catch (e: Exception) {
-            //this.javaClass.name
             Log.d(Constants.permanentDebugTag, "Exception in ${this.javaClass.name} ${e.message}")
         }
         return apiResponse

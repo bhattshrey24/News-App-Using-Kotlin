@@ -11,10 +11,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.newsappusingkotlin.databinding.ActivityMainBinding
 import com.example.newsappusingkotlin.other.Constants
+import com.example.newsappusingkotlin.ui.viewmodels.ViewModelForCache
+import com.example.newsappusingkotlin.ui.viewmodels.ViewModelForCacheFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
@@ -74,7 +77,16 @@ class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {//this is lazy initialization
         ActivityMainBinding.inflate(layoutInflater, null, false)
     }
+    private lateinit var viewModelForCache: ViewModelForCache
 
+
+    private fun setupViewModelForCache() {
+        val viewModelCacheFactory = ViewModelForCacheFactory(application)
+        viewModelForCache = ViewModelProvider(
+            this,
+            viewModelCacheFactory
+        )[ViewModelForCache::class.java]
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +95,8 @@ class MainActivity : AppCompatActivity() {
         val myBottomNav = findViewById<BottomNavigationView>(R.id.my_bottom_nav)
         val navController = findNavController(R.id.my_nav_host_fragment)
         myBottomNav.setupWithNavController(navController)
+
+        setupViewModelForCache()
 
         supportActionBar?.hide()
 
@@ -156,6 +170,9 @@ class MainActivity : AppCompatActivity() {
             getSharedPreferences(Constants.authSharedPrefKey, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor? = sharedPreferences?.edit()
         editor?.clear()?.commit() // deletes the data present in sharedPreference
+
+        //deleting room table of news articles
+        viewModelForCache.deleteNewsArticleTable()
 
         val intent = Intent(this, AuthenticationActivity::class.java)
         intent.addFlags(

@@ -17,19 +17,24 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.newsappusingkotlin.AuthenticationActivity
 import com.example.newsappusingkotlin.MainActivity
 import com.example.newsappusingkotlin.SignUpFragment
 import com.example.newsappusingkotlin.data.cache.SavedNewsEntity
 import com.example.newsappusingkotlin.databinding.FragmentLoginBinding
 import com.example.newsappusingkotlin.other.Constants
+import com.example.newsappusingkotlin.ui.viewmodels.ViewModelForCache
+import com.example.newsappusingkotlin.ui.viewmodels.ViewModelForCacheFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 
 
 class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
 
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var viewModelForCache: ViewModelForCache
 
     private val binding: FragmentLoginBinding by lazy {
         FragmentLoginBinding.inflate(layoutInflater, null, false)
@@ -50,13 +55,19 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
         super.onCreate(savedInstanceState)
         makePartOfTextClickable()// This method basically makes a part of Text clickable Like in "Dont have an account already?Login" here we can precisely make just "Login" part clickable
         binding.loginPageCircularProgressBar.visibility = View.GONE
+
         mAuth = FirebaseAuth.getInstance()
+
+        setupViewModelForCache()
+
         binding.buttonLogIn.setOnClickListener {
             validateUserInputs(
                 binding.editTextUsersEmail.text.toString().trim(),
                 binding.editTextTextPassword.text.toString().trim()
             )
         }
+
+
     }
 
     private fun validateUserInputs(usersEmail: String, usersPassword: String) {
@@ -92,51 +103,72 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
             .addOnCompleteListener(parentActivityReference) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    binding.loginPageCircularProgressBar.visibility = View.GONE
+                   // binding.loginPageCircularProgressBar.visibility = View.GONE
 
                     //saving users details so that user dont have to login again and again
                     saveDataInSharedPref(usersEmail, usersPassword)
 
-                    //setUsersData(mAuth.currentUser?.uid)
+                    setUsersData(mAuth.currentUser?.uid)
 
                     Toast.makeText(
                         context, "Log In successful",
                         Toast.LENGTH_LONG
                     ).show()
-                    //val user = mAuth.currentUser
 
-                    var intent = Intent(parentActivityReference, MainActivity::class.java)
-                    intent.addFlags(
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP or
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK or
-                                Intent.FLAG_ACTIVITY_NEW_TASK
-                    )// this makes sure that user cannot go back to the Log In activity when back button is pressed
-                    startActivity(intent)
                 } else {
                     binding.loginPageCircularProgressBar.visibility = View.GONE
                     Toast.makeText(
                         context, "Log In unsuccessful ${task.exception?.message}",
                         Toast.LENGTH_LONG
                     ).show()
-                    //  updateUI(null)
+
                 }
             }
 
     }
 
     private fun setUsersData(userId: String?) {
+        val parentActivityReference =
+            host as AuthenticationActivity // host simply returns the reference of the host activity , "as" is used to type cast
         val db = FirebaseFirestore.getInstance()
         db.collection(Constants.userCollectionFSKey).document(userId!!).get()
             .addOnCompleteListener {
-                val mobileNumber = it.result.get(Constants.usersMobileNumberFSKey)
-                val language = it.result.get(Constants.usersSelectedLangFSKey)
-                val usersCountry = it.result.get(Constants.usersCountryFSKey)
-                val usersSelectedCategories =
-                    it.result.get(Constants.usersSelectedCategoriesListFSKey)
-                val userEmail = it.result.get(Constants.usersEmailFSKey)
-                val userName = it.result.get(Constants.usersNameFSKey)
 
-     // save this data in sharedPred
+                binding.loginPageCircularProgressBar.visibility = View.GONE
+
+                val usersMobileNumber = it.result.get(Constants.usersMobileNumberFSKey).toString()
+                val usersSelectedLanguage = it.result.get(Constants.usersSelectedLangFSKey).toString()
+                val usersCountry = it.result.get(Constants.usersCountryFSKey).toString()
+
+                val usersSelectedCategoriesArrayList =
+                    it.result.get(Constants.usersSelectedCategoriesListFSKey) as ArrayList<String>
+
+                val usersSelectedCategoryJson=convertArrayListToGson(usersSelectedCategoriesArrayList)
+
+                val userEmail = it.result.get(Constants.usersEmailFSKey).toString()
+                val userName = it.result.get(Constants.usersNameFSKey).toString()
+
+                val sharedPreferences: SharedPreferences? =
+                    activity?.getSharedPreferences(Constants.userDetailInputPrefKey, Context.MODE_PRIVATE)
+                val editorForUser: SharedPreferences.Editor? = sharedPreferences?.edit()
+                editorForUser?.apply {
+                    putString(Constants.usersNamePrefKey, userName)
+                    putString(Constants.usersCountryPrefKey, usersCountry)
+                    putString(Constants.usersLanguagePrefKey, usersSelectedLanguage)
+                    putString(Constants.usersMobileNumberPrefKey, usersMobileNumber)
+                    putString(Constants.userEmailSharedPrefKey, userEmail)
+                    putString(Constants.usersSelectedCategories, usersSelectedCategoryJson)
+                }?.apply()
+
+
+                var intent = Intent(parentActivityReference, MainActivity::class.java)
+                intent.addFlags(
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                            Intent.FLAG_ACTIVITY_NEW_TASK
+                )// this makes sure that user cannot go back to the Log In activity when back button is pressed
+                startActivity(intent)
+
 
             }.addOnFailureListener {
                 Log.d(
@@ -152,8 +184,8 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
                 // in 'logout' add the code for deleting the Room database table and sharedPref data cause both of these will be repopulated during login for existing user and during Signup for new User
                 // save data in SavedNewsEntity object and then pass it to Room
 
+
                 for (document in it.result) {
-                    val id =document.get(Constants.newsIDFSKey).toString()
                     val title = document.get(Constants.newsTitleFSKey).toString()
                     val author = document.get(Constants.newsAuthorFSKey).toString()
                     val content = document.get(Constants.newsContentFSKey).toString()
@@ -163,7 +195,7 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
                     val urlToImage = document.get(Constants.newsUrlToImageFSKey).toString()
 
                     val news = SavedNewsEntity(
-                        id,
+                        document.id,
                         author,
                         title,
                         description,
@@ -173,6 +205,7 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
                         content
                     )
 
+                    viewModelForCache.addNewsArticle(news)
                     // Save it in room but theres a problem , that room might save this with new
                     // Id cause I did 'autogenerate' in PrimaryKey , so Solution That
                     // I think are :- 1)Maybe If we give id other than 0 then it will save it with the
@@ -191,6 +224,18 @@ class LoginFragment(myFragmentContainer: FrameLayout) : Fragment() {
                     "ERROR while RETRIEVING data from FIRESTORE for users saved Articles"
                 )
             }
+    }
+    private fun convertArrayListToGson(selectedCategoriesList: MutableList<String>): String {
+        val gson = Gson()
+        return gson.toJson(selectedCategoriesList)
+    }
+
+    private fun setupViewModelForCache() {
+        val viewModelCacheFactory = ViewModelForCacheFactory(requireActivity().application)
+        viewModelForCache = ViewModelProvider(
+            requireActivity(),
+            viewModelCacheFactory
+        )[ViewModelForCache::class.java]
     }
 
 

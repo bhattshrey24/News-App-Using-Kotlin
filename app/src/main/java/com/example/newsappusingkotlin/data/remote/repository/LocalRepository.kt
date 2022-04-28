@@ -18,4 +18,8 @@ class LocalRepository(private val savedArticlesDao: SavedArticlesDAO) {
         return savedArticlesDao.deleteArticle(savedNewsArticle)
     }
 
+    suspend fun deleteNewsArticleTable() {
+        savedArticlesDao.deleteNewsArticleTable()
+    }
+
 }

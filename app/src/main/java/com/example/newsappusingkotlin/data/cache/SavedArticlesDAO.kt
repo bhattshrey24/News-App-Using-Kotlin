@@ -17,5 +17,8 @@ interface SavedArticlesDAO {
     @Query("SELECT * FROM saved_news_table ORDER BY id DESC ")
     fun getAllSavedNewsArticles(): LiveData<List<SavedNewsEntity>> // this returns all the saved news objects from the table and convert them to list as well
 
+    @Query("DELETE FROM saved_news_table")
+    fun deleteNewsArticleTable()// this returns all the saved news objects from the table and convert them to list as well
+
 
 }

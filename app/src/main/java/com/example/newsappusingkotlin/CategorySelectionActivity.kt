@@ -56,7 +56,7 @@ class CategorySelectionActivity : AppCompatActivity() {
         val editorForUser: SharedPreferences.Editor? = sharedPreferences?.edit()
 
         editorForUser?.apply {
-            putString(Constants.usersNamePrefKey, "nameET")
+            //putString(Constants.usersNamePrefKey, "nameET")
             putString(Constants.usersSelectedCategories, arrayListConvertedToJson)
         }?.apply()
 

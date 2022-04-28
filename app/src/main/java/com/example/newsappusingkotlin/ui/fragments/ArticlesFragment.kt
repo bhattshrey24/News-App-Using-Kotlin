@@ -232,7 +232,7 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
     }
 
     override fun onBookmarkButtonClick(position: Int) {
-        //var listOfNews: MutableList<News>
+
         setupListOfNewsOfCurrentFragmentInDisplay()
         //sendNewsToFireStore(position,newsArticleId)
         var convertedNewsArticle = viewModel.onBookMarkButtonClickedCode(

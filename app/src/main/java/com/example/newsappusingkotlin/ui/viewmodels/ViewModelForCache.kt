@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -35,7 +36,7 @@ class ViewModelForCache(application: Application) :
     }
 
     fun addNewsArticle(newsArticle: SavedNewsEntity) { // this sends data to Room as well as FireStore
-        viewModelScope.launch(Dispatchers.IO) {
+      viewModelScope.launch(Dispatchers.IO) {
             repository.addArticle(newsArticle) // the Insert Annotation returns the Id with which it is saved in Database
         }
     }
@@ -44,7 +45,6 @@ class ViewModelForCache(application: Application) :
         val newsHM: MutableMap<String, Any?> =
             HashMap() // Any? means it can be any datatype and can be null too
 
-        // newsHM[Constants.newsSourceFSKey] = news.source
         newsHM[Constants.newsAuthorFSKey] = news.author
         newsHM[Constants.newsTitleFSKey] = news.title
         newsHM[Constants.newsDescriptionFSKey] = news.description
@@ -66,8 +66,13 @@ class ViewModelForCache(application: Application) :
         viewModelScope.launch(Dispatchers.IO) {
            repository.deleteArticle(newsArticle)
             val docId = FirebaseAuth.getInstance().currentUser?.uid
-            val articleIdString=newsArticle.id.toString()
+            val articleIdString=newsArticle.id
             db.collection(Constants.userCollectionFSKey).document(docId!!).collection(Constants.userArticleDocumentFSKey).document(articleIdString).delete()
+        }
+    }
+    fun deleteNewsArticleTable(){
+        viewModelScope.launch (Dispatchers.IO){
+            repository.deleteNewsArticleTable()
         }
     }
 
