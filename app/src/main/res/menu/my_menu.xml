@@ -10,9 +10,9 @@
         android:icon="@drawable/ic_articles"
         android:id="@+id/articlesContainerFragment"/>
 
-    <item android:title="My City"
-        android:icon="@drawable/ic_city"
-        android:id="@+id/myCityFragment"/>
+    <item android:title="Search"
+        android:icon="@drawable/ic_search"
+        android:id="@+id/searchArticleTabFragment"/>
 
     <item android:title="Live"
         android:icon="@drawable/ic_live"

@@ -35,7 +35,7 @@ class ArticlesPageViewModel(private val repository: MyRepository) : ViewModel() 
 
     fun getPostForArticlesPage(category: String) {
         viewModelScope.launch { // this will automatically do async call
-            val response: NewsJsonReceiver = repository.getPostForArticlesPage(category)
+            val response: NewsJsonReceiver = repository.getPostBasedOnQuery(category)
             Log.d(
                 Constants.permanentDebugTag,
                 "Response From Api in ArticlesViewModel Articled List Size: ${response.articles.size}"

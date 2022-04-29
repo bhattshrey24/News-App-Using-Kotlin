@@ -13,7 +13,11 @@ class MyRepository {
 //    }
 
     suspend fun getPostForHomePage(country: String, category: String): NewsJsonReceiver {
-        var apiResponse = NewsJsonReceiver("", 0, listOf()) //making Dummy Object so that I could return it if Api Gives Error
+        var apiResponse = NewsJsonReceiver(
+            "",
+            0,
+            listOf()
+        ) //making Dummy Object so that I could return it if Api Gives Error
         try { // Using Try Catch to Handle API Errors
             apiResponse =
                 RetrofitInstance.api.getPostsForHomePage(country, category, Constants.newsApiKey)
@@ -27,10 +31,15 @@ class MyRepository {
         return apiResponse
     }
 
-    suspend fun getPostForArticlesPage(category: String): NewsJsonReceiver {
-        var apiResponse = NewsJsonReceiver("", 0, listOf()) //making Dummy Object so that I could return it if Api Gives Error
+    suspend fun getPostBasedOnQuery(category: String): NewsJsonReceiver {
+        var apiResponse = NewsJsonReceiver(
+            "",
+            0,
+            listOf()
+        ) //making Dummy Object so that I could return it if Api Gives Error
         try {
-            apiResponse = RetrofitInstance.api.getPostsForArticlesPage(category, Constants.newsApiKey)
+            apiResponse =
+                RetrofitInstance.api.getPostsForBasedOnQuery(category, Constants.newsApiKey)
         } catch (e: HttpException) {
             Log.d(Constants.permanentDebugTag, "Http error in ${this.javaClass.name} ${e.message}")
         } catch (e: Exception) {
@@ -38,5 +47,7 @@ class MyRepository {
         }
         return apiResponse
     }
+
+
 
 }

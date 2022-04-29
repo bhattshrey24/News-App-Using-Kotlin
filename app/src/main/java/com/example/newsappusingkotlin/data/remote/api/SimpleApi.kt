@@ -21,7 +21,7 @@ interface SimpleApi {
     ): NewsJsonReceiver // the body will be filled by retrofit
 
     @GET("everything")
-    suspend fun getPostsForArticlesPage(
+    suspend fun getPostsForBasedOnQuery(
         @Query("q") category: String,
         @Query("apiKey") apiKey: String
     ): NewsJsonReceiver

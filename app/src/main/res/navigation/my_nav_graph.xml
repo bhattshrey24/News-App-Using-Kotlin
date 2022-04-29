@@ -16,10 +16,10 @@
         android:label="fragment_live"
         tools:layout="@layout/fragment_live" />
     <fragment
-        android:id="@+id/myCityFragment"
-        android:name="com.example.newsappusingkotlin.ui.fragments.MyCityFragment"
-        android:label="fragment_my_city"
-        tools:layout="@layout/fragment_my_city" />
+        android:id="@+id/searchArticleTabFragment"
+        android:name="com.example.newsappusingkotlin.ui.fragments.SearchArticleTabFragment"
+        android:label="fragment_search_article_tab"
+        tools:layout="@layout/fragment_search_article_tab" />
     <fragment
         android:id="@+id/articlesContainerFragment"
         android:name="com.example.newsappusingkotlin.ui.fragments.ArticlesContainerFragment"
