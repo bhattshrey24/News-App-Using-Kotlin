@@ -42,13 +42,10 @@ class MainActivity : AppCompatActivity() {
 
     // Todo CURRENT:-
     //  Today :-
-    //  add users bookmarked items to firestore
-    //  make app based on user , ie. when user logs in , get that users data from firestore and show that
-    //  Soon :-
-    //  Make Home Page like Whatsapp Tab so that I don't do many Api Calls Simultaneously
-    //  add Search Tab Feature
-    //  add the Search Tab functionality
+    //  when user clicks on the view in homepage , take them to webview showing the full article
+    //  Call next category list from api when user reaches end of recycler view like when in Home page , or make it like inshorts or WA or both
     //  add user Details Tab (ie. my account , where user can switch account , can upload new picture , can change interests etc)
+    //  Soon :-
     //  add the share News Article Functionality
     //  Make the theme of app controllable from 1 point
     //  fix UI like fully fitted Image View , Proper Margins and heights etc

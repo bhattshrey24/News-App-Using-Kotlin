@@ -14,8 +14,8 @@ import com.example.newsappusingkotlin.R
 import com.example.newsappusingkotlin.data.models.News
 import java.text.SimpleDateFormat
 
-class HomeFragmentNewsListAdapter(var parentContext: Context) :
-    RecyclerView.Adapter<HomeFragmentNewsListAdapter.ViewHolder>() {
+class SearchFragmentNewsListAdapter(var parentContext: Context) :
+    RecyclerView.Adapter<SearchFragmentNewsListAdapter.ViewHolder>() {
 
     private var totalNumberOfArticles: Int = 0;
     private var articles: List<News>? = listOf()
@@ -29,13 +29,12 @@ class HomeFragmentNewsListAdapter(var parentContext: Context) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): HomeFragmentNewsListAdapter.ViewHolder {
+    ): SearchFragmentNewsListAdapter.ViewHolder {
         val view =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.homepage_inshorts_style_list_item, parent, false)
+                .inflate(R.layout.searchpage_news_card_list_item, parent, false)
         return ViewHolder(view);
     }
-
     private fun timeZoneToTimeConverter(timeStamp: String?): String { // converts timestamp to normal time
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
         val outputFormat = SimpleDateFormat("hh:mm a")
@@ -43,35 +42,17 @@ class HomeFragmentNewsListAdapter(var parentContext: Context) :
         return outputFormat.format(parsedDate) // returning the formatted date
     }
 
-
-    override fun getItemCount(): Int {
-        return totalNumberOfArticles
-    }
-
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var articleImage: ImageView = itemView.findViewById(R.id.IV_homepage_inShort_Style)
-        var articleTitle: TextView = itemView.findViewById(R.id.TV_title_homepage_inShorts_Style)
-        var articleDescription: TextView = itemView.findViewById(R.id.TV_description_inShorts_Style)
-
-        // var articleTime: TextView = itemView.findViewById(R.id.TVHome_time)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        if (articles?.get(position)?.publishedAt == null) {
-//            holder.articleTime.text = "no time"
-//        } else {
-//            val time = timeZoneToTimeConverter(articles?.get(position)?.publishedAt)
-//            holder.articleTime.text = time
-//        }
+    override fun onBindViewHolder(holder: SearchFragmentNewsListAdapter.ViewHolder, position: Int) {
+        if (articles?.get(position)?.publishedAt == null) {
+            holder.articleTime.text = "no time"
+        } else {
+            val time = timeZoneToTimeConverter(articles?.get(position)?.publishedAt)
+            holder.articleTime.text = time
+        }
         if (articles?.get(position)?.title == null) {
             holder.articleTitle.text = "No Title"
         } else {
             holder.articleTitle.text = articles?.get(position)?.title
-        }
-        if (articles?.get(position)?.description == null) {
-            holder.articleDescription.text = "No Description Available"
-        } else {
-            holder.articleDescription.text = articles?.get(position)?.description
         }
 
         if (articles?.get(position)?.urlToArticle == null) { // ie. if no url is given by api then show not found wali image
@@ -88,5 +69,15 @@ class HomeFragmentNewsListAdapter(var parentContext: Context) :
                 holder.articleImage.setImageResource(R.drawable.image_not_found)
             }
         }
+    }
+
+    override fun getItemCount(): Int {
+        return totalNumberOfArticles
+    }
+
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var articleImage: ImageView = itemView.findViewById(R.id.IVHome_article_image)
+        var articleTitle: TextView = itemView.findViewById(R.id.TVHome_title)
+        var articleTime: TextView = itemView.findViewById(R.id.TVHome_time)
     }
 }

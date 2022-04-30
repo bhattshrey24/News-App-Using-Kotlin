@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.newsappusingkotlin.adapters.HomeFragmentNewsListAdapter
+import com.example.newsappusingkotlin.adapters.SearchFragmentNewsListAdapter
 import com.example.newsappusingkotlin.data.remote.repository.MyRepository
 import com.example.newsappusingkotlin.databinding.FragmentSearchArticleTabBinding
 import com.example.newsappusingkotlin.ui.viewmodels.SearchPageViewModel
@@ -25,7 +25,7 @@ class SearchArticleTabFragment : Fragment() {
     private lateinit var viewModel: SearchPageViewModel
     private val repository = MyRepository()
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var adapter: HomeFragmentNewsListAdapter? = null
+    private var adapter: SearchFragmentNewsListAdapter? = null
     private var topic: String = "business"
 
     override fun onCreateView(
@@ -59,7 +59,7 @@ class SearchArticleTabFragment : Fragment() {
         binding.recyclerViewSearchArticleTab.layoutManager = layoutManager
         adapter =
             context?.let {
-                HomeFragmentNewsListAdapter(
+                SearchFragmentNewsListAdapter(
                     it
                 )
             } // sending context to adapter so that Glide can use it
@@ -87,5 +87,4 @@ class SearchArticleTabFragment : Fragment() {
             binding.progressBarSearchArticleTab.visibility = View.GONE
         })
     }
-
 }

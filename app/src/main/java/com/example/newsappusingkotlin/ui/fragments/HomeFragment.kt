@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SnapHelper
 import com.example.newsappusingkotlin.adapters.HomeFragmentNewsListAdapter
 import com.example.newsappusingkotlin.data.remote.repository.MyRepository
 import com.example.newsappusingkotlin.databinding.FragmentHomeBinding
@@ -19,8 +21,6 @@ import com.example.newsappusingkotlin.other.CommonFunctions
 import com.example.newsappusingkotlin.other.Constants
 import com.example.newsappusingkotlin.ui.viewmodels.HomePageViewModel
 import com.example.newsappusingkotlin.ui.viewmodels.HomePageViewModelFactory
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 
 class HomeFragment : Fragment() {
@@ -78,15 +78,22 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        layoutManager =
-            LinearLayoutManager(context) // this 2 is basically number of columns u want
+//        layoutManager =
+//            LinearLayoutManager(context) // this 2 is basically number of columns u want
+//        binding.recyclerViewHomePage.layoutManager = layoutManager
+
+        layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        val snapHelper: SnapHelper = PagerSnapHelper() // this makes us enable to switch item views of recycler view like inshort apps
         binding.recyclerViewHomePage.layoutManager = layoutManager
-        adapter =
+        snapHelper.attachToRecyclerView(binding.recyclerViewHomePage)
+
+       adapter =
             context?.let {
                 HomeFragmentNewsListAdapter(
                     it
                 )
             } // sending context to adapter so that Glide can use it
         binding.recyclerViewHomePage.adapter = adapter
+
     }
 }
