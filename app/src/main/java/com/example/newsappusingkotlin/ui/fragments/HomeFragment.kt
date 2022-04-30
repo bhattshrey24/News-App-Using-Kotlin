@@ -49,7 +49,7 @@ class HomeFragment : Fragment() {
         val repository = MyRepository()
         val viewModelFactory = HomePageViewModelFactory(repository)
         viewModel =
-            ViewModelProvider(requireActivity(), viewModelFactory).get(HomePageViewModel::class.java)
+            ViewModelProvider(requireActivity(), viewModelFactory)[HomePageViewModel::class.java]
 
         var favCategories = gettingListOfFavCategoriesFromSharedPref()
        // Log.d("Debug Homee", "${favCategories[0]} nd ${favCategories[1]} nd ${favCategories[2]}")

@@ -19,6 +19,8 @@ class SearchPageViewModel(private val repository: MyRepository): ViewModel()  {
 
     fun getPostForTopic(topic:String){
        val modifiedTopicString=cleanTopicString(topic)
+       Log.d(Constants.currentDebugTag,"modified string is $modifiedTopicString")
+
        viewModelScope.launch {
            val response: NewsJsonReceiver = repository.getPostBasedOnQuery(modifiedTopicString)
            Log.d(
@@ -27,10 +29,12 @@ class SearchPageViewModel(private val repository: MyRepository): ViewModel()  {
            )
            searchPageResponse.value=response
        }
+
     }
     private fun cleanTopicString(topic:String):String{
         // here split the topic based on white space , just take out 1st part and remove others , then convert everything to small case
-        return ""
+        val strArr = topic.split(" ").toTypedArray()
+        return strArr[0].lowercase()
     }
 
 
