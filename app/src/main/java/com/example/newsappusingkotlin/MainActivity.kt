@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.main_app_bar.*
 
 class MainActivity : AppCompatActivity() {
     //Todo
+    // see this for Home Page Functionality http://blog.newsapi.ai/how-to-make-complex-queries/
     // add select language preference feature
     // add search feature
     // add retrofit

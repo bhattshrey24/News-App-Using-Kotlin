@@ -17,7 +17,7 @@ import com.example.newsappusingkotlin.data.models.News
 class NewsListRecyclerAdapter(
     var parentContext: Context,
     var onBookMarkBtnListener: NewsListRecyclerAdapter.OnBookmarkButtonListener,
-    var onNewsArticleClickListener: OnNewsArticleClickListener
+        var onNewsArticleClickListener: OnNewsArticleClickListener
 ) :
     RecyclerView.Adapter<NewsListRecyclerAdapter.ViewHolder>() {
 
