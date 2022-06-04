@@ -7,17 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.newsappusingkotlin.R
 import com.example.newsappusingkotlin.data.models.News
+import com.example.newsappusingkotlin.other.Constants
+import java.text.SimpleDateFormat
 
 class NewsListRecyclerAdapter(
     var parentContext: Context,
     var onBookMarkBtnListener: NewsListRecyclerAdapter.OnBookmarkButtonListener,
-        var onNewsArticleClickListener: OnNewsArticleClickListener
+    var onNewsArticleClickListener: OnNewsArticleClickListener
 ) :
     RecyclerView.Adapter<NewsListRecyclerAdapter.ViewHolder>() {
 
@@ -31,19 +32,19 @@ class NewsListRecyclerAdapter(
         notifyDataSetChanged()
     }
 
-//    private fun timeZoneToTimeConverter(timeStamp: String?): String { // converts timestamp to normal time
-////         var inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+'ss:ss")
-////        if (timeStamp!!.contains("+")) {
-////            inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+'ss:ss")
-////        } else {
-////            inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-////        }
-//       // val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-////2022-04-21T11:07:25Z
+    private fun timeZoneToTimeConverter(ts: String?): String? {
+//        Log.d(Constants.currentDebugTag, " Timestamp is $ts")
+//        val time = ts?.substring(11, 19) // taking out just the 'time' from the timestamp
+//        Log.d(Constants.currentDebugTag, " Time is : $time")
+//        var inputFormat = SimpleDateFormat("HH:mm:ss")
 //        val outputFormat = SimpleDateFormat("hh:mm a")
-//        val parsedDate = inputFormat.parse(timeStamp)
-//        return outputFormat.format(parsedDate) // returning the formatted date
-//    }
+        val time = ts?.substring( 0,10) // taking out just the 'time' from the timestamp
+      //  Log.d(Constants.currentDebugTag, " Time is : $time")
+        var inputFormat = SimpleDateFormat("yyyy-mm-dd")
+        val outputFormat = SimpleDateFormat("dd-mm-yyyy")
+        val parsedDate = inputFormat.parse(time)
+        return outputFormat.format(parsedDate) // returning the formatted date
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -56,18 +57,22 @@ class NewsListRecyclerAdapter(
 
 
     override fun onBindViewHolder(holder: NewsListRecyclerAdapter.ViewHolder, position: Int) {
-        if (articles?.get(position)?.publishedAt == null) {
-            holder.timeTv.text = "no time"
-        } else {
-            //  val time = timeZoneToTimeConverter(articles?.get(position)?.publishedAt)
-            holder.timeTv.text = articles?.get(position)?.publishedAt
+        try {
+            val time = timeZoneToTimeConverter(articles?.get(position)?.publishedAt)
+            holder.timeTv.text = time
+        } catch (e: Exception) {
+            Log.d(
+                Constants.currentDebugTag,
+                "Caught Exception while converting timestamp ${e.message}"
+            )
         }
         if (articles?.get(position)?.title == null) {
             holder.titleTV.text = "No Title"
         } else {
             holder.titleTV.text = articles?.get(position)?.title
         }
-        if (articles?.get(position)?.urlToArticle == null) { // ie. if no url is given by api then show not found wali image
+
+        if (articles?.get(position)?.urlToArticle == null||articles?.get(position)?.urlToArticle.toString().isEmpty()) { // ie. if no url is given by api then show not found wali image
             Log.d("Error", "Inside NewsListAdapter")
             holder.articleImage.setImageResource(R.drawable.image_not_found)
         } else {
