@@ -64,4 +64,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ET_Search_Article_Tab"
         tools:listitem="@layout/searchpage_news_card_list_item" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

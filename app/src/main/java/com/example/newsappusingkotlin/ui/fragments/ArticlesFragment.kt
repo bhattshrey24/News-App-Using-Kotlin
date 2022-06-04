@@ -17,6 +17,7 @@ import com.example.newsappusingkotlin.adapters.NewsListRecyclerAdapter
 import com.example.newsappusingkotlin.data.models.News
 import com.example.newsappusingkotlin.data.remote.repository.MyRepository
 import com.example.newsappusingkotlin.databinding.FragmentArticlesBinding
+import com.example.newsappusingkotlin.other.CommonFunctions
 import com.example.newsappusingkotlin.other.Constants
 import com.example.newsappusingkotlin.other.HolderClass
 import com.example.newsappusingkotlin.ui.viewmodels.ArticlesPageViewModel
@@ -131,7 +132,7 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
 
         listOfNews = viewModel.setupListOfNewsOfCurrentFragmentInDisplay(category)
 
-        var convertedNewsArticle = viewModel.onBookMarkButtonClickedCode(
+        var convertedNewsArticle = CommonFunctions.onBookMarkButtonClickedCode(
             listOfNews,
             position
         )
@@ -152,8 +153,5 @@ class ArticlesFragment : Fragment(), NewsListRecyclerAdapter.OnBookmarkButtonLis
         intent.putExtra(Constants.objectPassingThroughIntentKey, listOfNews[position])
         activity?.startActivity(intent)
     }
-
-
-
 
 }

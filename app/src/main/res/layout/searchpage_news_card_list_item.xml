@@ -11,10 +11,32 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:id="@+id/search_page_btn_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/ic_save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/search_page_share_button" />
+
+        <ImageView
+            android:id="@+id/search_page_share_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ic_share"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <ImageView
             android:id="@+id/IVHome_article_image"
             android:layout_width="90dp"
-            android:src="@drawable/article_image_placeholder"
             android:layout_height="match_parent"
+            android:src="@drawable/article_image_placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,10 +56,10 @@
             android:id="@+id/TVHome_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
             android:text="10:50 am"
             android:textColor="@color/white"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="30dp"
             app:layout_constraintStart_toEndOf="@+id/IVHome_article_image"
             app:layout_constraintTop_toBottomOf="@+id/TVHome_title" />
 

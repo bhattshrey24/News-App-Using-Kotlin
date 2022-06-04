@@ -14,7 +14,11 @@ import com.example.newsappusingkotlin.R
 import com.example.newsappusingkotlin.data.models.News
 import java.text.SimpleDateFormat
 
-class SearchFragmentNewsListAdapter(var parentContext: Context) :
+class SearchFragmentNewsListAdapter(
+    var parentContext: Context,
+    var onBookMarkBtnListener: SearchFragmentNewsListAdapter.OnBookmarkButtonListener,
+    var onNewsArticleClickListener: SearchFragmentNewsListAdapter.OnNewsArticleClickListener
+) :
     RecyclerView.Adapter<SearchFragmentNewsListAdapter.ViewHolder>() {
 
     private var totalNumberOfArticles: Int = 0;
@@ -35,6 +39,7 @@ class SearchFragmentNewsListAdapter(var parentContext: Context) :
                 .inflate(R.layout.searchpage_news_card_list_item, parent, false)
         return ViewHolder(view);
     }
+
     private fun timeZoneToTimeConverter(timeStamp: String?): String { // converts timestamp to normal time
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
         val outputFormat = SimpleDateFormat("hh:mm a")
@@ -79,5 +84,26 @@ class SearchFragmentNewsListAdapter(var parentContext: Context) :
         var articleImage: ImageView = itemView.findViewById(R.id.IVHome_article_image)
         var articleTitle: TextView = itemView.findViewById(R.id.TVHome_title)
         var articleTime: TextView = itemView.findViewById(R.id.TVHome_time)
+        var btnBookmark: ImageView = itemView.findViewById(R.id.search_page_btn_bookmark)
+
+        init {
+            btnBookmark.setOnClickListener {
+                val pos = adapterPosition
+                onBookMarkBtnListener.onBookmarkButtonClick(pos) // this is my listener method , ie. im using listener mechanism to communicate with fragment
+            }
+            itemView.setOnClickListener {
+                val pos = adapterPosition
+                onNewsArticleClickListener.onNewsArticleClick(pos)
+            }
+        }
+
+    }
+
+    interface OnBookmarkButtonListener {
+        fun onBookmarkButtonClick(position: Int)
+    }
+
+    interface OnNewsArticleClickListener {
+        fun onNewsArticleClick(position: Int)
     }
 }
