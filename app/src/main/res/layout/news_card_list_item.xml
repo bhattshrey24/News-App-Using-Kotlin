@@ -4,7 +4,7 @@ android:layout_width="match_parent"
 android:layout_height="wrap_content"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 android:id="@+id/news_card_list_item"
-android:backgroundTint="@color/Primary1"
+android:backgroundTint="@color/Primary2"
 app:cardCornerRadius="15dp"
 android:layout_margin="5dp">
 
@@ -29,7 +29,7 @@ android:layout_margin="5dp">
     android:layout_gravity="bottom"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:backgroundTint="@color/design_default_color_error">
+    android:backgroundTint="@color/Primary1">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
