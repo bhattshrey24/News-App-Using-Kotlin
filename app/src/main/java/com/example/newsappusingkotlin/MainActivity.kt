@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
     // currently Im combining all 3 category articles in one list and showing it in Home page but it looks shabby so instead show different category articles in different tab(like whatsapp tabs)
     // add a "i" button on actionBar which tells user what each tabs shows , like home tab shows top news of your selected category etc
     // add in Users Details Page => add feature in which user can set how many minutes/hours he/she should read daily(this is useful for UPSC aspirants ) , send PushNotification if they do not achieve there daily targets , show weekly graph of how many hours they have read news Paper
-
+    // using WebView currently because I don't know a good video api for news yet , Find a good api and integrate it
     //Todo(Future fix)
     // code is messy
     // when the number of articles are less then 5 articles then articles page layout gets messed up
