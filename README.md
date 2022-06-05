@@ -1,8 +1,5 @@
 # News App Using Kotlin!
-
-![0](https://user-images.githubusercontent.com/53301200/172053433-fc4a22cc-47b7-4778-8eed-19728fad1c93.jpg)
-![1](https://user-images.githubusercontent.com/53301200/172053438-c31ac03a-8566-4523-bc57-052d503a9a1a.jpg)
-![3](https://user-images.githubusercontent.com/53301200/172053441-d346d77a-22e1-4156-8aa1-62bc8a4005d6.jpg)
-![4](https://user-images.githubusercontent.com/53301200/172053442-bc838d1c-ad8f-469d-9d43-356a258f0579.jpg)
-![5](https://user-images.githubusercontent.com/53301200/172053446-7dfa6c1b-57f3-4fcb-82b5-037270c56120.jpg)
-![6](https://user-images.githubusercontent.com/53301200/172053449-553c9d97-4a43-4b5d-b6dc-058cbcbdcb35.jpg)
+![0](https://user-images.githubusercontent.com/53301200/172053564-4e87cddd-6e0c-4a25-9f41-2c6870c6317e.jpg)
+![1](https://user-images.githubusercontent.com/53301200/172053566-a93ef7e0-5e5c-4037-abeb-1efc72d65429.jpg)
+![2](https://user-images.githubusercontent.com/53301200/172053569-52490a0a-5ed0-4a66-9f62-3c0f22332e43.jpg)
+![3](https://user-images.githubusercontent.com/53301200/172053571-3f3c04e7-97de-4ce7-b6b8-c7dfd7fea340.jpg)
