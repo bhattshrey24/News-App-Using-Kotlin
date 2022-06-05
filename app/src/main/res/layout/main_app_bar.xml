@@ -19,15 +19,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/search_button"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@drawable/ic_search"
-            android:layout_margin="10dp"
-            app:layout_constraintEnd_toStartOf="@+id/menu_vertical_button"
-            app:layout_constraintTop_toTopOf="parent" />
-
+     
 
         <ImageView
             android:id="@+id/menu_vertical_button"
